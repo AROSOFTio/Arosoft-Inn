@@ -1,0 +1,193 @@
+Refine the AROSOFT Innovations website again.
+
+The current direction is closer, but I want these important corrections applied.
+
+OVERALL DESIGN RULE
+- Keep the design clean, premium, mostly white, and professional.
+- The site must feel organized, mature, and high-end.
+- Avoid unnecessary decorative elements.
+- Use the current uploaded AROSOFT Innovations Ltd logo as the temporary official logo.
+- Do NOT use the fake placeholder “A” icon logo.
+- Do NOT use a text-only logo as the main brand mark.
+- Use the uploaded logo image properly in the navbar, footer, and favicon/app icon areas where appropriate.
+- Later we may rebrand the logo colors, but for now use the uploaded logo properly and neatly.
+
+HEADER STRUCTURE
+Create TWO header levels:
+
+1) TOP SECONDARY BAR
+A very thin, light, subtle top bar above the main navbar.
+This bar should be clean and not too bold.
+Use a very light background like #F8FAFC or white with bottom border.
+
+The secondary top bar should include:
+- Contact
+- About
+- Privacy
+- Social media icons
+
+Possible layout:
+Left side:
+- Email or “Contact Us”
+Right side:
+- About
+- Privacy Policy
+- Facebook icon
+- X/Twitter icon
+- LinkedIn icon
+- Instagram icon
+
+This top bar should look faint, elegant, and organized — not loud.
+
+2) MAIN NAVBAR
+The main navbar should contain:
+- Logo on the left (use the real uploaded logo asset)
+- Main navigation links in the center/right
+- CTA buttons on the far right
+
+PUBLIC WEBSITE MENU
+Keep the public menu simple.
+
+Use:
+- Home
+- Systems
+- Scripts
+- Academy
+- Portfolio
+- Contact
+
+Optional:
+- About
+
+Remove:
+- Workflows from the public menu
+
+IMPORTANT:
+“Workflows” is not a public-facing main navigation item.
+Workflows are internal platform features for project assignment, staff task management, admin review, and team operations.
+That belongs inside staff/admin/client dashboard areas, not the public site menu.
+
+Instead:
+- Keep workflows as a section inside the homepage if needed
+- Or place it inside internal dashboard pages
+- Or reference it under “How it works”
+But do NOT show “Workflows” as a top public menu item.
+
+INTERNAL WORKFLOW POSITIONING
+Workflows should be represented as internal system capability:
+- Admin assigns tasks
+- Staff are assigned roles
+- Developers track progress
+- Projects move through stages
+- Support/admin manage activity
+
+This should live inside:
+- Admin dashboard
+- Staff dashboard
+- Developer dashboard
+- Client project portal
+Not on the public top menu.
+
+LOGO USAGE
+Use the uploaded AROSOFT Innovations Ltd logo asset.
+
+Requirements:
+- Use the full proper logo in the navbar
+- Make it nicely sized and aligned
+- Do not distort it
+- Do not replace it with a random “A” icon
+- Do not create a placeholder geometric lettermark unless explicitly asked
+- Keep it neat, balanced, and premium
+- In mobile view, if needed, use the icon version from the uploaded logo sheet
+- Use proper favicon/app icon from the uploaded brand sheet
+
+HOMEPAGE ADJUSTMENT
+Keep the homepage premium and clean.
+Do not overcrowd it.
+
+Sections can include:
+- Hero
+- What We Offer
+- Featured Systems
+- Premium Scripts
+- Academy
+- How It Works
+- CTA
+- Footer
+
+If “How It Works” includes request → analyze → assign → build → deliver, that is okay.
+But again, do not put “Workflows” in public nav.
+
+CONTACT / ABOUT / PRIVACY / SOCIAL
+Make these visible in the secondary menu and footer.
+
+Footer should include:
+- About
+- Contact
+- Privacy Policy
+- Terms
+- Social links
+- Company info
+
+ADMIN / INTERNAL AREAS
+Create separate internal pages or routes for:
+- Admin Dashboard
+- Staff Dashboard
+- Developer Dashboard
+- Client Portal
+- Support Inbox
+- Internal Workflow / Tasks
+
+Suggested internal menu for admin/staff side:
+- Dashboard
+- Requests
+- Projects
+- Tasks
+- Team
+- Support Inbox
+- Invoices
+- Compliance
+- Settings
+
+This internal navigation can include workflow/task features.
+
+VISUAL RULES
+- Mostly white layout
+- Very light gray sections okay
+- Thin borders
+- Soft shadows
+- Dark text
+- Blue as main action color
+- Small violet accent if needed
+- No green-heavy design
+- No fake startup neon style
+- No clutter
+- No oversized text logo replacements
+
+FINAL NAV STRUCTURE
+Top thin bar:
+- Contact
+- About
+- Privacy
+- Social icons
+
+Main nav:
+- Home
+- Systems
+- Scripts
+- Academy
+- Portfolio
+- Contact
+- Login
+- Get Started / Request Project
+
+Do not include “Workflows” in this main public navigation.
+
+FINAL CHECK
+Before finishing:
+- Remove the fake letter A logo
+- Replace it with the uploaded real AROSOFT Innovations Ltd logo
+- Add a light secondary top bar
+- Remove workflows from public nav
+- Keep workflows only in internal/staff/admin platform areas
+- Ensure everything still looks premium, clean, and well organized

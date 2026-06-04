@@ -8,9 +8,10 @@ import Home from "@/pages/Home";
 import Systems from "@/pages/Systems";
 import Scripts from "@/pages/Scripts";
 import Academy from "@/pages/Academy";
-import Workflows from "@/pages/Workflows";
 import Portfolio from "@/pages/Portfolio";
 import Contact from "@/pages/Contact";
+import About from "@/pages/About";
+import Privacy from "@/pages/Privacy";
 import AdminInbox from "@/pages/AdminInbox";
 import Login from "@/pages/Login";
 import DashboardPreview from "@/pages/DashboardPreview";
@@ -24,9 +25,10 @@ function Router() {
       <Route path="/systems" component={Systems} />
       <Route path="/scripts" component={Scripts} />
       <Route path="/academy" component={Academy} />
-      <Route path="/workflows" component={Workflows} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/contact" component={Contact} />
+      <Route path="/about" component={About} />
+      <Route path="/privacy" component={Privacy} />
       <Route path="/admin/inbox" component={AdminInbox} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard-preview" component={DashboardPreview} />

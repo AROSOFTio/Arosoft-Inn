@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { desc, eq } from "drizzle-orm";
 import { db, projectsTable, tasksTable } from "@workspace/db";
+import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -26,11 +27,17 @@ router.get(
   requireAuth,
   requireRoles(["CLIENT"]),
   async (req, res) => {
+    const projectId = getRouteParam(req.params.id);
+    if (!projectId) {
+      res.status(404).json({ message: "Project not found." });
+      return;
+    }
+
     const user = (req as AuthenticatedRequest).user;
     const [project] = await db
       .select()
       .from(projectsTable)
-      .where(eq(projectsTable.id, req.params.id))
+      .where(eq(projectsTable.id, projectId))
       .limit(1);
 
     if (!project || project.clientId !== user.id) {

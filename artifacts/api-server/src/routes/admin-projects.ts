@@ -10,6 +10,7 @@ import {
   usersTable,
   type UserRole,
 } from "@workspace/db";
+import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -78,10 +79,16 @@ router.get(
   requireAuth,
   requireRoles(adminRoles),
   async (req, res) => {
+    const projectId = getRouteParam(req.params.id);
+    if (!projectId) {
+      res.status(404).json({ message: "Project not found." });
+      return;
+    }
+
     const [project] = await db
       .select()
       .from(projectsTable)
-      .where(eq(projectsTable.id, req.params.id))
+      .where(eq(projectsTable.id, projectId))
       .limit(1);
 
     if (!project) {
@@ -104,6 +111,12 @@ router.patch(
   requireAuth,
   requireRoles(adminRoles),
   async (req, res) => {
+    const projectId = getRouteParam(req.params.id);
+    if (!projectId) {
+      res.status(404).json({ message: "Project not found." });
+      return;
+    }
+
     const parsed = projectUpdateSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -124,7 +137,7 @@ router.patch(
     const [project] = await db
       .update(projectsTable)
       .set(update)
-      .where(eq(projectsTable.id, req.params.id))
+      .where(eq(projectsTable.id, projectId))
       .returning();
 
     if (!project) {
@@ -141,10 +154,16 @@ router.post(
   requireAuth,
   requireRoles(adminRoles),
   async (req, res) => {
+    const requestId = getRouteParam(req.params.id);
+    if (!requestId) {
+      res.status(404).json({ message: "Client request not found." });
+      return;
+    }
+
     const [request] = await db
       .select()
       .from(clientRequestsTable)
-      .where(eq(clientRequestsTable.id, req.params.id))
+      .where(eq(clientRequestsTable.id, requestId))
       .limit(1);
 
     if (!request) {

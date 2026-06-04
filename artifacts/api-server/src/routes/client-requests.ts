@@ -7,6 +7,7 @@ import {
   db,
 } from "@workspace/db";
 import { analyzeClientRequest } from "../lib/ai";
+import { getRouteParam } from "../lib/params";
 import { createUpload, fileToUrl } from "../lib/uploads";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
@@ -77,11 +78,17 @@ router.get(
   requireAuth,
   requireRoles(["CLIENT"]),
   async (req, res) => {
+    const requestId = getRouteParam(req.params.id);
+    if (!requestId) {
+      res.status(404).json({ message: "Client request not found." });
+      return;
+    }
+
     const user = (req as AuthenticatedRequest).user;
     const [request] = await db
       .select()
       .from(clientRequestsTable)
-      .where(eq(clientRequestsTable.id, req.params.id))
+      .where(eq(clientRequestsTable.id, requestId))
       .limit(1);
 
     if (!request || request.clientId !== user.id) {

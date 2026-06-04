@@ -8,6 +8,7 @@ import {
   db,
 } from "@workspace/db";
 import { sendSupportReplyEmail } from "../lib/email";
+import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -39,10 +40,16 @@ router.get(
   requireAuth,
   requireRoles([...supportRoles]),
   async (req, res) => {
+    const messageId = getRouteParam(req.params.id);
+    if (!messageId) {
+      res.status(404).json({ message: "Contact message not found." });
+      return;
+    }
+
     const [message] = await db
       .select()
       .from(contactMessagesTable)
-      .where(eq(contactMessagesTable.id, req.params.id))
+      .where(eq(contactMessagesTable.id, messageId))
       .limit(1);
 
     if (!message) {
@@ -61,7 +68,7 @@ router.get(
     const replies = await db
       .select()
       .from(contactRepliesTable)
-      .where(eq(contactRepliesTable.messageId, req.params.id))
+      .where(eq(contactRepliesTable.messageId, messageId))
       .orderBy(contactRepliesTable.createdAt);
 
     res.json({ message, replies });
@@ -73,6 +80,12 @@ router.post(
   requireAuth,
   requireRoles([...supportRoles]),
   async (req, res) => {
+    const messageId = getRouteParam(req.params.id);
+    if (!messageId) {
+      res.status(404).json({ message: "Contact message not found." });
+      return;
+    }
+
     const parsed = replySchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -83,7 +96,7 @@ router.post(
     const [message] = await db
       .select()
       .from(contactMessagesTable)
-      .where(eq(contactMessagesTable.id, req.params.id))
+      .where(eq(contactMessagesTable.id, messageId))
       .limit(1);
 
     if (!message) {
@@ -133,6 +146,12 @@ router.patch(
   requireAuth,
   requireRoles([...supportRoles]),
   async (req, res) => {
+    const messageId = getRouteParam(req.params.id);
+    if (!messageId) {
+      res.status(404).json({ message: "Contact message not found." });
+      return;
+    }
+
     const parsed = statusSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -143,7 +162,7 @@ router.patch(
     const [message] = await db
       .update(contactMessagesTable)
       .set({ status: parsed.data.status, updatedAt: new Date() })
-      .where(eq(contactMessagesTable.id, req.params.id))
+      .where(eq(contactMessagesTable.id, messageId))
       .returning();
 
     if (!message) {

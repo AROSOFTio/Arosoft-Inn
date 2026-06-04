@@ -6,6 +6,7 @@ import {
   clientRequestsTable,
   db,
 } from "@workspace/db";
+import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -34,10 +35,16 @@ router.get(
   requireAuth,
   requireRoles([...adminRoles]),
   async (req, res) => {
+    const requestId = getRouteParam(req.params.id);
+    if (!requestId) {
+      res.status(404).json({ message: "Client request not found." });
+      return;
+    }
+
     const [request] = await db
       .select()
       .from(clientRequestsTable)
-      .where(eq(clientRequestsTable.id, req.params.id))
+      .where(eq(clientRequestsTable.id, requestId))
       .limit(1);
 
     if (!request) {
@@ -54,6 +61,12 @@ router.patch(
   requireAuth,
   requireRoles([...adminRoles]),
   async (req, res) => {
+    const requestId = getRouteParam(req.params.id);
+    if (!requestId) {
+      res.status(404).json({ message: "Client request not found." });
+      return;
+    }
+
     const parsed = statusSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -64,7 +77,7 @@ router.patch(
     const [request] = await db
       .update(clientRequestsTable)
       .set({ status: parsed.data.status, updatedAt: new Date() })
-      .where(eq(clientRequestsTable.id, req.params.id))
+      .where(eq(clientRequestsTable.id, requestId))
       .returning();
 
     if (!request) {

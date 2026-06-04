@@ -9,6 +9,7 @@ import {
   taskStatusSchema,
   type UserRole,
 } from "@workspace/db";
+import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -57,11 +58,17 @@ router.get(
   requireAuth,
   requireRoles(internalRoles),
   async (req, res) => {
+    const taskId = getRouteParam(req.params.id);
+    if (!taskId) {
+      res.status(404).json({ message: "Task not found." });
+      return;
+    }
+
     const user = (req as AuthenticatedRequest).user;
     const [task] = await db
       .select()
       .from(tasksTable)
-      .where(eq(tasksTable.id, req.params.id))
+      .where(eq(tasksTable.id, taskId))
       .limit(1);
 
     if (!task || !canAccessTask(user, task)) {
@@ -89,6 +96,12 @@ router.patch(
   requireAuth,
   requireRoles(internalRoles),
   async (req, res) => {
+    const taskId = getRouteParam(req.params.id);
+    if (!taskId) {
+      res.status(404).json({ message: "Task not found." });
+      return;
+    }
+
     const parsed = statusSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -100,7 +113,7 @@ router.patch(
     const [existingTask] = await db
       .select()
       .from(tasksTable)
-      .where(eq(tasksTable.id, req.params.id))
+      .where(eq(tasksTable.id, taskId))
       .limit(1);
 
     if (!existingTask || !canAccessTask(user, existingTask)) {
@@ -123,6 +136,12 @@ router.post(
   requireAuth,
   requireRoles(internalRoles),
   async (req, res) => {
+    const taskId = getRouteParam(req.params.id);
+    if (!taskId) {
+      res.status(404).json({ message: "Task not found." });
+      return;
+    }
+
     const parsed = commentSchema.safeParse(req.body);
 
     if (!parsed.success) {
@@ -134,7 +153,7 @@ router.post(
     const [task] = await db
       .select()
       .from(tasksTable)
-      .where(eq(tasksTable.id, req.params.id))
+      .where(eq(tasksTable.id, taskId))
       .limit(1);
 
     if (!task || !canAccessTask(user, task)) {

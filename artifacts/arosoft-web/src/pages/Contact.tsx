@@ -26,6 +26,7 @@ const contactSchema = z.object({
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
@@ -42,10 +43,29 @@ export default function Contact() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof contactSchema>) => {
-    console.log("Form submitted:", data);
-    // Here we would typically send to backend
-    setIsSubmitted(true);
+  const onSubmit = async (data: z.infer<typeof contactSchema>) => {
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const error = (await response.json()) as { message?: string };
+        setSubmitError(error.message ?? "Unable to send message. Please try again.");
+        return;
+      }
+
+      setIsSubmitted(true);
+      form.reset();
+    } catch {
+      setSubmitError("Unable to reach support. Please try again.");
+    }
   };
 
   return (
@@ -301,8 +321,13 @@ export default function Contact() {
                         />
 
                         <Button type="submit" size="lg" className="w-full text-base h-12 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm">
-                          Send Message
+                          {form.formState.isSubmitting ? "Sending..." : "Send Message"}
                         </Button>
+                        {submitError && (
+                          <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-red-700">
+                            {submitError}
+                          </p>
+                        )}
                       </form>
                     </Form>
                   )}

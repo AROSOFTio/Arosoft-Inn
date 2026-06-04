@@ -24,6 +24,11 @@ import MarketingDashboard from "@/pages/dashboards/MarketingDashboard";
 import VideoDashboard from "@/pages/dashboards/VideoDashboard";
 import FinanceDashboard from "@/pages/dashboards/FinanceDashboard";
 import ComplianceDashboard from "@/pages/dashboards/ComplianceDashboard";
+import SupportInbox from "@/pages/support/SupportInbox";
+import SupportMessageDetail from "@/pages/support/SupportMessageDetail";
+import ClientRequests from "@/pages/client/ClientRequests";
+import AdminRequests from "@/pages/admin/AdminRequests";
+import AdminRequestDetail from "@/pages/admin/AdminRequestDetail";
 
 const queryClient = new QueryClient();
 
@@ -41,8 +46,13 @@ function Router() {
       <Route path="/admin/inbox" component={AdminInbox} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard-preview" component={DashboardPreview} />
+      <Route path="/admin/requests/:id" component={AdminRequestDetail} />
+      <Route path="/admin/requests" component={AdminRequests} />
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/support/messages/:id" component={SupportMessageDetail} />
+      <Route path="/support/messages" component={SupportInbox} />
       <Route path="/support" component={SupportDashboard} />
+      <Route path="/client/requests" component={ClientRequests} />
       <Route path="/client" component={ClientDashboard} />
       <Route path="/student" component={StudentDashboard} />
       <Route path="/developer" component={DeveloperDashboard} />

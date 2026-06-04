@@ -129,6 +129,7 @@ router.patch(
     }
 
     const { deadline, ...projectFields } = parsed.data;
+    const user = (req as AuthenticatedRequest).user;
     const update: Partial<typeof projectsTable.$inferInsert> = {
       ...projectFields,
       updatedAt: new Date(),

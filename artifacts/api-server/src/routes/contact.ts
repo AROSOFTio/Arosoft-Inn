@@ -1,6 +1,7 @@
 import { Router, type IRouter } from "express";
 import { z } from "zod/v4";
 import { db, contactMessagesTable } from "@workspace/db";
+import { sendContactConfirmationEmail } from "../lib/email";
 import { createUpload, fileToUrl } from "../lib/uploads";
 
 const router: IRouter = Router();
@@ -35,7 +36,13 @@ router.post("/contact", upload.single("attachment"), async (req, res) => {
     })
     .returning();
 
-  res.status(201).json({ message });
+  const email = await sendContactConfirmationEmail({
+    to: message.email,
+    name: message.fullName,
+    subject: message.subject,
+  });
+
+  res.status(201).json({ message, email });
 });
 
 export default router;

@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { z } from "zod/v4";
 import {
   db,
@@ -7,7 +7,9 @@ import {
   tasksTable,
   taskStatusSchema,
   type UserRole,
+  usersTable,
 } from "@workspace/db";
+import { sendTaskAssignmentEmail } from "../lib/email";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -52,7 +54,21 @@ router.post(
       })
       .returning();
 
-    res.status(201).json({ task });
+    const [assignee] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, task.assignedToId))
+      .limit(1);
+    const email = assignee
+      ? await sendTaskAssignmentEmail({
+          to: assignee.email,
+          name: assignee.name,
+          title: task.title,
+          priority: task.priority,
+        })
+      : { sent: false, skippedReason: "Assigned user not found." };
+
+    res.status(201).json({ task, email });
   },
 );
 

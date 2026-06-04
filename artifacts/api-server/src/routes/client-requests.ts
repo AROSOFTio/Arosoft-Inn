@@ -7,6 +7,10 @@ import {
   db,
 } from "@workspace/db";
 import { analyzeClientRequest } from "../lib/ai";
+import {
+  sendAdminRequestAlertEmail,
+  sendClientRequestConfirmationEmail,
+} from "../lib/email";
 import { getRouteParam } from "../lib/params";
 import { createUpload, fileToUrl } from "../lib/uploads";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
@@ -53,7 +57,20 @@ router.post(
       })
       .returning();
 
-    res.status(201).json({ request });
+    const [clientEmail, adminEmail] = await Promise.all([
+      sendClientRequestConfirmationEmail({
+        to: user.email,
+        name: user.name,
+        title: request.title,
+      }),
+      sendAdminRequestAlertEmail({
+        clientName: user.name,
+        title: request.title,
+        serviceType: request.serviceType,
+      }),
+    ]);
+
+    res.status(201).json({ request, email: { client: clientEmail, admin: adminEmail } });
   },
 );
 

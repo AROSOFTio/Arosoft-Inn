@@ -16,6 +16,11 @@ export interface AuthTokenPayload extends jwt.JwtPayload {
   role: UserRole;
 }
 
+export interface PasswordResetTokenPayload extends jwt.JwtPayload {
+  sub: string;
+  purpose: "password_reset";
+}
+
 function getJwtSecret() {
   const secret = process.env.JWT_SECRET;
 
@@ -52,4 +57,19 @@ export function signAuthToken(user: AuthUser) {
 
 export function verifyAuthToken(token: string) {
   return jwt.verify(token, getJwtSecret()) as AuthTokenPayload;
+}
+
+export function signPasswordResetToken(userId: string) {
+  return jwt.sign({ purpose: "password_reset" }, getJwtSecret(), {
+    subject: userId,
+    expiresIn: "30m",
+  });
+}
+
+export function verifyPasswordResetToken(token: string) {
+  const payload = jwt.verify(token, getJwtSecret()) as PasswordResetTokenPayload;
+  if (payload.purpose !== "password_reset") {
+    throw new Error("Invalid password reset token.");
+  }
+  return payload;
 }

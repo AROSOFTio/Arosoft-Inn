@@ -28,6 +28,13 @@ services:
       DATABASE_URL: postgres://${POSTGRES_USER:-arosoft}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-arosoft}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:?SEED_USER_PASSWORD is required}
+      FRONTEND_URL: ${FRONTEND_URL:-https://new.arosoft.io}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM_EMAIL: ${SMTP_FROM_EMAIL:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-AROSOFT Innovations}
     ports:
       - "127.0.0.1:${API_PORT:-5001}:5000"
     volumes:

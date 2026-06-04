@@ -17,6 +17,7 @@ import {
   type UserRole,
 } from "@workspace/db";
 import { getRouteParam } from "../lib/params";
+import { sendCourseEnrollmentEmail } from "../lib/email";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -264,7 +265,13 @@ router.post("/student/courses/:id/enroll", requireAuth, requireRoles(["STUDENT"]
     .values({ studentId: user.id, courseId: course.id, status: "ACTIVE" })
     .returning();
 
-  res.status(201).json({ enrollment });
+  const email = await sendCourseEnrollmentEmail({
+    to: user.email,
+    name: user.name,
+    courseTitle: course.title,
+  });
+
+  res.status(201).json({ enrollment, email });
 });
 
 router.get("/student/enrollments", requireAuth, requireRoles(["STUDENT"]), async (req, res) => {

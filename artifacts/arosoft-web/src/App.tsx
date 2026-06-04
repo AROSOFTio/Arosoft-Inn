@@ -15,6 +15,15 @@ import Privacy from "@/pages/Privacy";
 import AdminInbox from "@/pages/AdminInbox";
 import Login from "@/pages/Login";
 import DashboardPreview from "@/pages/DashboardPreview";
+import AdminDashboard from "@/pages/dashboards/AdminDashboard";
+import SupportDashboard from "@/pages/dashboards/SupportDashboard";
+import ClientDashboard from "@/pages/dashboards/ClientDashboard";
+import StudentDashboard from "@/pages/dashboards/StudentDashboard";
+import DeveloperDashboard from "@/pages/dashboards/DeveloperDashboard";
+import MarketingDashboard from "@/pages/dashboards/MarketingDashboard";
+import VideoDashboard from "@/pages/dashboards/VideoDashboard";
+import FinanceDashboard from "@/pages/dashboards/FinanceDashboard";
+import ComplianceDashboard from "@/pages/dashboards/ComplianceDashboard";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +41,15 @@ function Router() {
       <Route path="/admin/inbox" component={AdminInbox} />
       <Route path="/login" component={Login} />
       <Route path="/dashboard-preview" component={DashboardPreview} />
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/support" component={SupportDashboard} />
+      <Route path="/client" component={ClientDashboard} />
+      <Route path="/student" component={StudentDashboard} />
+      <Route path="/developer" component={DeveloperDashboard} />
+      <Route path="/marketing" component={MarketingDashboard} />
+      <Route path="/video" component={VideoDashboard} />
+      <Route path="/finance" component={FinanceDashboard} />
+      <Route path="/compliance" component={ComplianceDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

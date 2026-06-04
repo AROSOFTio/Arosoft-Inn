@@ -2,6 +2,8 @@
 
 # compiled output
 dist
+build
+.vite
 tmp
 out-tsc
 *.tsbuildinfo
@@ -10,6 +12,18 @@ out-tsc
 
 # dependencies
 node_modules
+.pnpm-store
+
+# environment
+.env
+.env.*
+!.env.example
+
+# uploads and local files
+uploads
+public/uploads
+storage/uploads
+artifacts/**/uploads
 
 # IDEs and editors
 /.idea

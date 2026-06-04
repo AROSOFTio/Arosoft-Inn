@@ -14,13 +14,25 @@ ssh deploy@new.arosoft.io
 
 Install Docker and the Compose plugin on the server if they are not already installed. Use `sudo` for system package installation and Docker commands.
 
-Clone the repository:
+Use the existing website directory created in the control panel. Do not create a separate deploy folder.
 
 ```sh
-mkdir -p ~/apps
-cd ~/apps
-git clone https://github.com/AROSOFTio/Arosoft-Inn.git arosoft-inn
-cd arosoft-inn
+cd /www/wwwroot/new.arosoft.io
+```
+
+If the deploy user cannot write to this directory, fix ownership with sudo from the normal deploy user:
+
+```sh
+sudo chown -R "$USER":"$USER" /www/wwwroot/new.arosoft.io
+cd /www/wwwroot/new.arosoft.io
+```
+
+Initialize git in the existing empty directory and pull the repository:
+
+```sh
+git init
+git remote add origin https://github.com/AROSOFTio/Arosoft-Inn.git
+git pull origin main
 ```
 
 Create the environment file:
@@ -39,6 +51,7 @@ Point DNS for `new.arosoft.io` to this server before going live.
 From the repo directory:
 
 ```sh
+cd /www/wwwroot/new.arosoft.io
 git pull origin main
 sudo docker compose up -d --build
 ```
@@ -56,7 +69,7 @@ pnpm --filter @workspace/api-server run start
 Use this whenever new code is pushed:
 
 ```sh
-cd ~/apps/arosoft-inn
+cd /www/wwwroot/new.arosoft.io
 git pull origin main
 sudo docker compose up -d --build
 ```
@@ -83,6 +96,8 @@ All seed users use `SEED_USER_PASSWORD` from `.env`.
 
 - Never deploy as `root`.
 - Use `sudo docker compose ...` from the normal deploy user.
+- Use the existing `/www/wwwroot/new.arosoft.io` directory from the control panel.
+- Do not create a separate deployment directory for this domain.
 - Keep `.env` private and never commit it.
 - Do not delete the `postgres_data` Docker volume unless you intentionally want to remove production data.
 - For HTTPS, place this compose stack behind a TLS reverse proxy, or add a Certbot/Traefik/Caddy layer on the host.

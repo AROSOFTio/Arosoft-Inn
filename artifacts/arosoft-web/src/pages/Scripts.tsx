@@ -8,19 +8,52 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, CheckCircle2, Code2 } from "lucide-react";
 import { Link } from "wouter";
+import { useEffect, useMemo, useState } from "react";
 
-const scripts = [
-  { title: "SaaS Landing Page Pro", category: "Website Templates", price: "$29", desc: "A high-converting, fully responsive landing page template built with React and Tailwind." },
-  { title: "Admin Dashboard UI Kit", category: "Admin Dashboards", price: "$49", desc: "Comprehensive dashboard components, charts, and layouts for your next internal tool." },
-  { title: "Multi-step Form Builder", category: "Business Forms", price: "$15", desc: "Easily create complex, validated multi-step forms with this plug-and-play script." },
-  { title: "Email Automation Script", category: "Automation Scripts", price: "$25", desc: "Node.js script to automate customized email campaigns connected to your database." },
-  { title: "Dynamic Invoice Generator", category: "Invoice Templates", price: "$19", desc: "Generate PDF invoices dynamically from JSON data. Perfect for billing systems." },
-  { title: "Portfolio V2", category: "Portfolio Templates", price: "$15", desc: "A sleek, minimal portfolio template for developers and designers to showcase their work." },
-  { title: "AI Prompt Engineering Pack", category: "AI Prompt Packs", price: "$5", desc: "Over 200 optimized prompts for coding, debugging, and system architecture planning." },
-  { title: "Authentication Starter", category: "Website Templates", price: "$35", desc: "Complete auth flow (login, register, reset, OAuth) ready to drop into your Next.js app." },
-];
+interface ScriptTemplate {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  description: string;
+  price: string;
+  previewUrl?: string | null;
+}
 
 export default function Scripts() {
+  const [scripts, setScripts] = useState<ScriptTemplate[]>([]);
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [error, setError] = useState("");
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(scripts.map((script) => script.category))).filter(Boolean)],
+    [scripts],
+  );
+  const filteredScripts = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+
+    return scripts.filter((script) => {
+      const matchesCategory = category === "All" || script.category === category;
+      const matchesSearch =
+        !normalized ||
+        script.title.toLowerCase().includes(normalized) ||
+        script.category.toLowerCase().includes(normalized) ||
+        script.description.toLowerCase().includes(normalized);
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [category, query, scripts]);
+
+  useEffect(() => {
+    fetch("/api/scripts")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load script templates.");
+        return response.json() as Promise<{ scripts: ScriptTemplate[] }>;
+      })
+      .then((data) => setScripts(data.scripts))
+      .catch((err: Error) => setError(err.message));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
@@ -39,6 +72,8 @@ export default function Scripts() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
               <Input 
                 placeholder="Search for templates, scripts, or packs..." 
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
                 className="h-14 pl-12 bg-white border-gray-200 rounded-xl text-lg focus-visible:ring-blue-500 shadow-sm"
               />
             </div>
@@ -48,16 +83,23 @@ export default function Scripts() {
         <section className="py-16 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <div className="flex flex-wrap gap-2 justify-center mb-12">
-              {["All", "Website Templates", "Admin Dashboards", "Business Forms", "Automation Scripts", "AI Prompt Packs"].map(cat => (
-                <Button key={cat} variant="outline" className={`rounded-full border-gray-200 ${cat === "All" ? "bg-blue-50 text-blue-700 border-blue-200 font-medium" : "bg-white text-slate-600 hover:bg-slate-50"}`}>
+              {categories.map(cat => (
+                <Button
+                  key={cat}
+                  variant="outline"
+                  className={`rounded-full border-gray-200 ${cat === category ? "bg-blue-50 text-blue-700 border-blue-200 font-medium" : "bg-white text-slate-600 hover:bg-slate-50"}`}
+                  onClick={() => setCategory(cat)}
+                >
                   {cat}
                 </Button>
               ))}
             </div>
 
+            {error && <p className="mb-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {scripts.map((script, i) => (
-                <Card key={i} className="bg-white border-gray-200 flex flex-col hover:shadow-md transition-shadow rounded-xl overflow-hidden shadow-sm">
+              {filteredScripts.map((script) => (
+                <Card key={script.id} className="bg-white border-gray-200 flex flex-col hover:shadow-md transition-shadow rounded-xl overflow-hidden shadow-sm">
                   <CardHeader className="p-0">
                     <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center relative">
                        <Code2 size={48} className="text-slate-300" />
@@ -69,15 +111,20 @@ export default function Scripts() {
                       <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold border-none">From {script.price}</Badge>
                     </div>
                     <h3 className="text-lg font-bold mb-2 line-clamp-1">{script.title}</h3>
-                    <p className="text-sm text-slate-600 line-clamp-2">{script.desc}</p>
+                    <p className="text-sm text-slate-600 line-clamp-2">{script.description}</p>
                   </CardContent>
                   <CardFooter className="p-5 pt-0 flex gap-2">
-                    <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 text-sm">Preview</Button>
-                    <Button className="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
+                    <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
+                      <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 text-sm">Preview</Button>
+                    </a>
+                    <Link href="/client/requests" className="w-full">
+                      <Button className="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               ))}
             </div>
+            {filteredScripts.length === 0 && !error && <p className="mt-6 text-center text-sm text-slate-500">Published templates will appear here.</p>}
           </div>
         </section>
 

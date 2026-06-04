@@ -4,6 +4,8 @@ import { getAuthToken } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { adminMenu } from "@/components/dashboard/dashboardData";
 
 interface ClientRequest {
   id: string;
@@ -77,8 +79,13 @@ export default function AdminRequestDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <DashboardPageShell
+      title="Request Details"
+      description="Review a client request and convert it into a project."
+      allowedRoles={["SUPER_ADMIN", "ADMIN"]}
+      menuItems={adminMenu}
+    >
+      <div className="max-w-5xl space-y-6">
         <Link href="/admin/requests" className="text-sm font-semibold text-blue-600">Back to requests</Link>
         {error && <p className="text-sm text-red-700">{error}</p>}
         {notice && <p className="text-sm text-green-700">{notice}</p>}
@@ -118,7 +125,7 @@ export default function AdminRequestDetail() {
           </Card>
         )}
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }
 

@@ -33,6 +33,8 @@ import AdminRequestDetail from "@/pages/admin/AdminRequestDetail";
 import AdminProjects from "@/pages/admin/AdminProjects";
 import AdminTasks from "@/pages/admin/AdminTasks";
 import AdminSystems from "@/pages/admin/AdminSystems";
+import AdminScripts from "@/pages/admin/AdminScripts";
+import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import StaffTasks from "@/pages/staff/StaffTasks";
 import TaskDetail from "@/pages/tasks/TaskDetail";
 
@@ -57,6 +59,13 @@ function Router() {
       <Route path="/admin/projects" component={AdminProjects} />
       <Route path="/admin/tasks" component={AdminTasks} />
       <Route path="/admin/systems" component={AdminSystems} />
+      <Route path="/admin/scripts" component={AdminScripts} />
+      <Route path="/admin/team" component={AdminComingSoon} />
+      <Route path="/admin/courses" component={AdminComingSoon} />
+      <Route path="/admin/portfolio" component={AdminComingSoon} />
+      <Route path="/admin/invoices" component={AdminComingSoon} />
+      <Route path="/admin/compliance" component={AdminComingSoon} />
+      <Route path="/admin/settings" component={AdminComingSoon} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/support/messages/:id" component={SupportMessageDetail} />
       <Route path="/support/messages" component={SupportInbox} />

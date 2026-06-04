@@ -10,14 +10,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
 import { adminMenu } from "@/components/dashboard/dashboardData";
 
-interface SystemItem {
+interface ScriptTemplate {
   id: string;
   title: string;
   slug: string;
   category: string;
   description: string;
-  features: string[];
-  startingPrice?: string | null;
+  price: string;
+  previewUrl?: string | null;
+  downloadUrl?: string | null;
   imageUrl?: string | null;
   status: string;
   featured: boolean;
@@ -33,16 +34,17 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-export default function AdminSystems() {
+export default function AdminScripts() {
   const [, navigate] = useLocation();
-  const [systems, setSystems] = useState<SystemItem[]>([]);
+  const [scripts, setScripts] = useState<ScriptTemplate[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [features, setFeatures] = useState("");
-  const [startingPrice, setStartingPrice] = useState("");
+  const [price, setPrice] = useState("$5");
+  const [previewUrl, setPreviewUrl] = useState("");
+  const [downloadUrl, setDownloadUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [status, setStatus] = useState("DRAFT");
   const [featured, setFeatured] = useState(false);
@@ -56,12 +58,12 @@ export default function AdminSystems() {
       return;
     }
 
-    const response = await fetch("/api/admin/systems", {
+    const response = await fetch("/api/admin/scripts", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    if (!response.ok) throw new Error("Unable to load systems.");
-    const data = (await response.json()) as { systems: SystemItem[] };
-    setSystems(data.systems);
+    if (!response.ok) throw new Error("Unable to load scripts.");
+    const data = (await response.json()) as { scripts: ScriptTemplate[] };
+    setScripts(data.scripts);
   }
 
   useEffect(() => {
@@ -74,24 +76,26 @@ export default function AdminSystems() {
     setSlug("");
     setCategory("");
     setDescription("");
-    setFeatures("");
-    setStartingPrice("");
+    setPrice("$5");
+    setPreviewUrl("");
+    setDownloadUrl("");
     setImageUrl("");
     setStatus("DRAFT");
     setFeatured(false);
   }
 
-  function edit(system: SystemItem) {
-    setEditingId(system.id);
-    setTitle(system.title);
-    setSlug(system.slug);
-    setCategory(system.category);
-    setDescription(system.description);
-    setFeatures(system.features.join("\n"));
-    setStartingPrice(system.startingPrice || "");
-    setImageUrl(system.imageUrl || "");
-    setStatus(system.status);
-    setFeatured(system.featured);
+  function edit(script: ScriptTemplate) {
+    setEditingId(script.id);
+    setTitle(script.title);
+    setSlug(script.slug);
+    setCategory(script.category);
+    setDescription(script.description);
+    setPrice(script.price);
+    setPreviewUrl(script.previewUrl || "");
+    setDownloadUrl(script.downloadUrl || "");
+    setImageUrl(script.imageUrl || "");
+    setStatus(script.status);
+    setFeatured(script.featured);
   }
 
   async function submit(event: FormEvent) {
@@ -106,39 +110,40 @@ export default function AdminSystems() {
       slug: slug || slugify(title),
       category,
       description,
-      features,
-      startingPrice,
+      price,
+      previewUrl,
+      downloadUrl,
       imageUrl,
       status,
       featured,
     };
-    const response = await fetch(editingId ? `/api/admin/systems/${editingId}` : "/api/admin/systems", {
+    const response = await fetch(editingId ? `/api/admin/scripts/${editingId}` : "/api/admin/scripts", {
       method: editingId ? "PATCH" : "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
     const data = (await response.json()) as { message?: string };
     if (!response.ok) {
-      setError(data.message ?? "Unable to save system.");
+      setError(data.message ?? "Unable to save script.");
       return;
     }
 
-    setNotice(editingId ? "System updated." : "System created.");
+    setNotice(editingId ? "Script updated." : "Script created.");
     resetForm();
     await load();
   }
 
-  async function remove(systemId: string) {
-    if (!window.confirm("Delete this system?")) return;
+  async function remove(scriptId: string) {
+    if (!window.confirm("Delete this script template?")) return;
     const token = getAuthToken();
     if (!token) return;
 
-    const response = await fetch(`/api/admin/systems/${systemId}`, {
+    const response = await fetch(`/api/admin/scripts/${scriptId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) {
-      setError("Unable to delete system.");
+      setError("Unable to delete script.");
       return;
     }
     await load();
@@ -146,22 +151,23 @@ export default function AdminSystems() {
 
   return (
     <DashboardPageShell
-      title="Systems"
-      description="Create, publish, hide, and feature public systems."
+      title="Scripts"
+      description="Create, publish, hide, and feature script templates."
       allowedRoles={["SUPER_ADMIN", "ADMIN"]}
       menuItems={adminMenu}
     >
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <Card className="border-slate-200 bg-white">
-          <CardHeader><CardTitle>{editingId ? "Edit System" : "Create System"}</CardTitle></CardHeader>
+          <CardHeader><CardTitle>{editingId ? "Edit Script" : "Create Script"}</CardTitle></CardHeader>
           <CardContent>
             <form className="space-y-4" onSubmit={submit}>
               <Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title" required />
               <Input value={slug} onChange={(event) => setSlug(slugify(event.target.value))} placeholder="slug" />
               <Input value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Category" required />
               <Textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description" className="min-h-28" required />
-              <Textarea value={features} onChange={(event) => setFeatures(event.target.value)} placeholder="Features, one per line" className="min-h-24" />
-              <Input value={startingPrice} onChange={(event) => setStartingPrice(event.target.value)} placeholder="Starting price" />
+              <Input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="Price, e.g. $5" required />
+              <Input value={previewUrl} onChange={(event) => setPreviewUrl(event.target.value)} placeholder="Preview URL" />
+              <Input value={downloadUrl} onChange={(event) => setDownloadUrl(event.target.value)} placeholder="Download URL" />
               <Input value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} placeholder="Image URL" />
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
@@ -172,7 +178,7 @@ export default function AdminSystems() {
                 Featured on homepage
               </label>
               <div className="flex gap-3">
-                <Button>{editingId ? "Update System" : "Create System"}</Button>
+                <Button>{editingId ? "Update Script" : "Create Script"}</Button>
                 {editingId && <Button type="button" variant="outline" onClick={resetForm}>Cancel</Button>}
               </div>
               {notice && <p className="text-sm text-green-700">{notice}</p>}
@@ -182,28 +188,28 @@ export default function AdminSystems() {
         </Card>
 
         <Card className="border-slate-200 bg-white">
-          <CardHeader><CardTitle>Systems</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Script Templates</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            {systems.map((system) => (
-              <div key={system.id} className="rounded-lg border border-slate-200 p-4">
+            {scripts.map((script) => (
+              <div key={script.id} className="rounded-lg border border-slate-200 p-4">
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div>
-                    <p className="font-semibold text-slate-950">{system.title}</p>
-                    <p className="text-sm text-slate-600">{system.category} / {system.slug}</p>
-                    <p className="mt-2 text-sm text-slate-600">{system.description}</p>
+                    <p className="font-semibold text-slate-950">{script.title}</p>
+                    <p className="text-sm text-slate-600">{script.category} / {script.slug} / {script.price}</p>
+                    <p className="mt-2 text-sm text-slate-600">{script.description}</p>
                   </div>
                   <div className="flex shrink-0 flex-col gap-2 md:items-end">
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{system.status}</span>
-                    {system.featured && <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Featured</span>}
+                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{script.status}</span>
+                    {script.featured && <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">Featured</span>}
                   </div>
                 </div>
                 <div className="mt-4 flex gap-2">
-                  <Button type="button" variant="outline" size="sm" onClick={() => edit(system)}>Edit</Button>
-                  <Button type="button" variant="outline" size="sm" onClick={() => remove(system.id)}>Delete</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={() => edit(script)}>Edit</Button>
+                  <Button type="button" variant="outline" size="sm" onClick={() => remove(script.id)}>Delete</Button>
                 </div>
               </div>
             ))}
-            {systems.length === 0 && <p className="text-sm text-slate-500">No systems yet.</p>}
+            {scripts.length === 0 && <p className="text-sm text-slate-500">No script templates yet.</p>}
           </CardContent>
         </Card>
       </div>

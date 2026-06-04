@@ -105,6 +105,11 @@ export const systemStatusEnum = pgEnum("system_status", systemStatuses);
 export const systemStatusSchema = z.enum(systemStatuses);
 export type SystemStatus = z.infer<typeof systemStatusSchema>;
 
+export const scriptTemplateStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
+export const scriptTemplateStatusEnum = pgEnum("script_template_status", scriptTemplateStatuses);
+export const scriptTemplateStatusSchema = z.enum(scriptTemplateStatuses);
+export type ScriptTemplateStatus = z.infer<typeof scriptTemplateStatusSchema>;
+
 export const usersTable = pgTable(
   "users",
   {
@@ -228,6 +233,28 @@ export const systemsTable = pgTable(
   }),
 );
 
+export const scriptTemplatesTable = pgTable(
+  "script_templates",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    title: varchar("title", { length: 220 }).notNull(),
+    slug: varchar("slug", { length: 220 }).notNull(),
+    category: varchar("category", { length: 120 }).notNull(),
+    description: text("description").notNull(),
+    price: varchar("price", { length: 80 }).notNull().default("$5"),
+    previewUrl: text("preview_url"),
+    downloadUrl: text("download_url"),
+    imageUrl: text("image_url"),
+    status: scriptTemplateStatusEnum("status").notNull().default("DRAFT"),
+    featured: boolean("featured").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    slugIdx: uniqueIndex("script_templates_slug_unique").on(table.slug),
+  }),
+);
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -244,3 +271,4 @@ export type Project = typeof projectsTable.$inferSelect;
 export type Task = typeof tasksTable.$inferSelect;
 export type TaskComment = typeof taskCommentsTable.$inferSelect;
 export type System = typeof systemsTable.$inferSelect;
+export type ScriptTemplate = typeof scriptTemplatesTable.$inferSelect;

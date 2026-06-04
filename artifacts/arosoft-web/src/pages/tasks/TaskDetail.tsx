@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { developerMenu } from "@/components/dashboard/dashboardData";
 
 interface Task {
   id: string;
@@ -93,8 +95,13 @@ export default function TaskDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <DashboardPageShell
+      title="Task Detail"
+      description="Update task status and keep internal comments in one place."
+      allowedRoles={["SUPER_ADMIN", "ADMIN", "SUPPORT", "FRONTEND_DEVELOPER", "BACKEND_DEVELOPER", "FULLSTACK_DEVELOPER", "MARKETING", "VIDEO_EDITOR", "FINANCE", "COMPLIANCE"]}
+      menuItems={developerMenu}
+    >
+      <div className="max-w-5xl space-y-6">
         <Link href="/staff/tasks" className="text-sm font-semibold text-blue-600">Back to tasks</Link>
         {error && <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         {task && (
@@ -136,6 +143,6 @@ export default function TaskDetail() {
           </>
         )}
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

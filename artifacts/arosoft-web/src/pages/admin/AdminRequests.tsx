@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { getAuthToken } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { adminMenu } from "@/components/dashboard/dashboardData";
 
 interface ClientRequest {
   id: string;
@@ -36,12 +38,13 @@ export default function AdminRequests() {
   }, [navigate]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-6xl space-y-6">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Admin</p>
-          <h1 className="text-2xl font-bold text-slate-950">Client Requests</h1>
-        </header>
+    <DashboardPageShell
+      title="Client Requests"
+      description="Review client submissions, AI summaries, status, and conversion to projects."
+      allowedRoles={["SUPER_ADMIN", "ADMIN"]}
+      menuItems={adminMenu}
+    >
+      <div className="space-y-6">
         {error && <p className="text-sm text-red-700">{error}</p>}
         <Card className="border-slate-200 bg-white">
           <CardHeader><CardTitle>Requests</CardTitle></CardHeader>
@@ -62,6 +65,6 @@ export default function AdminRequests() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

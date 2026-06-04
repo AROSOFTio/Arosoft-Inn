@@ -3,6 +3,8 @@ import { Link, useLocation } from "wouter";
 import { getAuthToken } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { complianceMenu, developerMenu, financeMenu, marketingMenu, supportMenu, videoMenu } from "@/components/dashboard/dashboardData";
 
 interface Task {
   id: string;
@@ -15,7 +17,7 @@ interface Task {
 }
 
 export default function StaffTasks() {
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState("");
 
@@ -37,9 +39,26 @@ export default function StaffTasks() {
       .catch((err: Error) => setError(err.message));
   }, [navigate]);
 
+  const menuItems = location.startsWith("/support")
+    ? supportMenu
+    : location.startsWith("/marketing")
+      ? marketingMenu
+      : location.startsWith("/video")
+        ? videoMenu
+        : location.startsWith("/finance")
+          ? financeMenu
+          : location.startsWith("/compliance")
+            ? complianceMenu
+            : developerMenu;
+
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <DashboardPageShell
+      title="Assigned Tasks"
+      description="View and open tasks assigned to your staff account."
+      allowedRoles={["SUPPORT", "FRONTEND_DEVELOPER", "BACKEND_DEVELOPER", "FULLSTACK_DEVELOPER", "MARKETING", "VIDEO_EDITOR", "FINANCE", "COMPLIANCE"]}
+      menuItems={menuItems}
+    >
+      <div className="max-w-6xl space-y-6">
         <header className="flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Staff</p>
@@ -67,6 +86,6 @@ export default function StaffTasks() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

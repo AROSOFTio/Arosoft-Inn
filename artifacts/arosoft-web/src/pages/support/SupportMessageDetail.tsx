@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { supportMenu } from "@/components/dashboard/dashboardData";
 
 interface ContactMessage {
   id: string;
@@ -100,8 +102,13 @@ export default function SupportMessageDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <DashboardPageShell
+      title="Support Message"
+      description="View the message thread, update status, and save replies."
+      allowedRoles={["SUPER_ADMIN", "ADMIN", "SUPPORT"]}
+      menuItems={supportMenu}
+    >
+      <div className="max-w-5xl space-y-6">
         <Link href="/support/messages" className="text-sm font-semibold text-blue-600">Back to inbox</Link>
         {error && <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         {notice && <p className="rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-700">{notice}</p>}
@@ -149,6 +156,6 @@ export default function SupportMessageDetail() {
           </>
         )}
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

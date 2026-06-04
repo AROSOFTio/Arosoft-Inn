@@ -32,15 +32,15 @@ export const adminMenu: DashboardMenuItem[] = [
   { label: "Requests", icon: Inbox, href: "/admin/requests" },
   { label: "Projects", icon: BriefcaseBusiness, href: "/admin/projects" },
   { label: "Tasks", icon: ClipboardCheck, href: "/admin/tasks" },
-  { label: "Team", icon: Users, href: "/admin" },
+  { label: "Team", icon: Users, href: "/admin/team" },
   { label: "Support Inbox", icon: MessageSquare, href: "/support/messages" },
   { label: "Systems", icon: Archive, href: "/admin/systems" },
-  { label: "Scripts", icon: Code2, href: "/admin" },
-  { label: "Courses", icon: GraduationCap, href: "/admin" },
-  { label: "Portfolio", icon: FileArchive, href: "/admin" },
-  { label: "Invoices", icon: CreditCard, href: "/admin" },
-  { label: "Compliance", icon: ShieldCheck, href: "/admin" },
-  { label: "Settings", icon: Settings, href: "/admin" },
+  { label: "Scripts", icon: Code2, href: "/admin/scripts" },
+  { label: "Courses", icon: GraduationCap, href: "/admin/courses" },
+  { label: "Portfolio", icon: FileArchive, href: "/admin/portfolio" },
+  { label: "Invoices", icon: CreditCard, href: "/admin/invoices" },
+  { label: "Compliance", icon: ShieldCheck, href: "/admin/compliance" },
+  { label: "Settings", icon: Settings, href: "/admin/settings" },
 ];
 
 export const developerMenu: DashboardMenuItem[] = [

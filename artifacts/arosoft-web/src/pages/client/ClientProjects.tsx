@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { getAuthToken } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { clientMenu } from "@/components/dashboard/dashboardData";
 
 interface Project {
   id: string;
@@ -59,8 +61,13 @@ export default function ClientProjects() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+    <DashboardPageShell
+      title="Client Projects"
+      description="View your project progress and approved status updates."
+      allowedRoles={["CLIENT"]}
+      menuItems={clientMenu}
+    >
+      <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
         <Card className="border-slate-200 bg-white">
           <CardHeader><CardTitle>My Projects</CardTitle></CardHeader>
           <CardContent className="space-y-3">
@@ -107,7 +114,7 @@ export default function ClientProjects() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }
 

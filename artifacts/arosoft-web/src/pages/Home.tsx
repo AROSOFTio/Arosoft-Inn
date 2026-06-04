@@ -19,8 +19,18 @@ interface FeaturedSystem {
   startingPrice?: string | null;
 }
 
+interface FeaturedScript {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  price: string;
+  previewUrl?: string | null;
+}
+
 export default function Home() {
   const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>([]);
+  const [featuredScripts, setFeaturedScripts] = useState<FeaturedScript[]>([]);
 
   useEffect(() => {
     fetch("/api/systems?featured=true")
@@ -30,6 +40,14 @@ export default function Home() {
       })
       .then((data) => setFeaturedSystems(data.systems.slice(0, 3)))
       .catch(() => setFeaturedSystems([]));
+
+    fetch("/api/scripts?featured=true")
+      .then(async (response) => {
+        if (!response.ok) return { scripts: [] };
+        return response.json() as Promise<{ scripts: FeaturedScript[] }>;
+      })
+      .then((data) => setFeaturedScripts(data.scripts.slice(0, 3)))
+      .catch(() => setFeaturedScripts([]));
   }, []);
 
   return (
@@ -151,29 +169,33 @@ export default function Home() {
           <div className="container mx-auto">
             <SectionHeader title="Premium Templates" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: "Website Template", cat: "Websites", desc: "A high-converting, fully responsive landing page template." },
-                { title: "Admin Dashboard", cat: "Dashboards", desc: "Comprehensive dashboard components and charts." },
-                { title: "Invoice Template", cat: "Tools", desc: "Generate PDF invoices dynamically from JSON data." },
-              ].map((script, i) => (
-                <Card key={i} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              {featuredScripts.map((script) => (
+                <Card key={script.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                   <CardHeader className="p-0">
                     <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center rounded-t-xl">
                       <Code2 size={48} className="text-slate-300" />
                     </div>
                   </CardHeader>
                   <CardContent className="p-5 flex-1">
-                    <Badge className="bg-violet-100 text-violet-700 hover:bg-violet-200 mb-3">{script.cat}</Badge>
+                    <div className="mb-3 flex items-center justify-between gap-2">
+                      <Badge className="bg-violet-100 text-violet-700 hover:bg-violet-200">{script.category}</Badge>
+                      <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">From {script.price}</Badge>
+                    </div>
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{script.title}</h3>
-                    <p className="text-sm text-slate-600 line-clamp-1">{script.desc}</p>
+                    <p className="text-sm text-slate-600 line-clamp-1">{script.description}</p>
                   </CardContent>
                   <CardFooter className="p-5 pt-0 flex gap-2">
-                    <Button variant="outline" className="w-full border-slate-200 text-slate-900">Preview</Button>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
+                    <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
+                      <Button variant="outline" className="w-full border-slate-200 text-slate-900">Preview</Button>
+                    </a>
+                    <Link href="/client/requests" className="w-full">
+                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               ))}
             </div>
+            {featuredScripts.length === 0 && <p className="mt-6 text-center text-sm text-slate-500">Featured templates will appear after publishing from admin.</p>}
           </div>
         </section>
 

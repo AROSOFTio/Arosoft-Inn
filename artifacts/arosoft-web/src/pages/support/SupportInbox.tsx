@@ -3,6 +3,8 @@ import { Link, useLocation } from "wouter";
 import { getAuthToken } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { supportMenu } from "@/components/dashboard/dashboardData";
 
 interface ContactMessage {
   id: string;
@@ -40,8 +42,13 @@ export default function SupportInbox() {
   }, [navigate]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <DashboardPageShell
+      title="Support Inbox"
+      description="Review contact messages and open support threads."
+      allowedRoles={["SUPER_ADMIN", "ADMIN", "SUPPORT"]}
+      menuItems={supportMenu}
+    >
+      <div className="max-w-6xl space-y-6">
         <header className="flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Support</p>
@@ -73,6 +80,6 @@ export default function SupportInbox() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

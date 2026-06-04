@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
+import { adminMenu } from "@/components/dashboard/dashboardData";
 
 interface UserOption {
   id: string;
@@ -90,8 +92,13 @@ export default function AdminProjects() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <DashboardPageShell
+      title="Projects"
+      description="Create client projects and track approved work."
+      allowedRoles={["SUPER_ADMIN", "ADMIN"]}
+      menuItems={adminMenu}
+    >
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <Card className="border-slate-200 bg-white">
           <CardHeader><CardTitle>Create Project</CardTitle></CardHeader>
           <CardContent>
@@ -137,6 +144,6 @@ export default function AdminProjects() {
           </CardContent>
         </Card>
       </div>
-    </main>
+    </DashboardPageShell>
   );
 }

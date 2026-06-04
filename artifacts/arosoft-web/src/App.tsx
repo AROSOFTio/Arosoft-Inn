@@ -27,8 +27,13 @@ import ComplianceDashboard from "@/pages/dashboards/ComplianceDashboard";
 import SupportInbox from "@/pages/support/SupportInbox";
 import SupportMessageDetail from "@/pages/support/SupportMessageDetail";
 import ClientRequests from "@/pages/client/ClientRequests";
+import ClientProjects from "@/pages/client/ClientProjects";
 import AdminRequests from "@/pages/admin/AdminRequests";
 import AdminRequestDetail from "@/pages/admin/AdminRequestDetail";
+import AdminProjects from "@/pages/admin/AdminProjects";
+import AdminTasks from "@/pages/admin/AdminTasks";
+import StaffTasks from "@/pages/staff/StaffTasks";
+import TaskDetail from "@/pages/tasks/TaskDetail";
 
 const queryClient = new QueryClient();
 
@@ -48,18 +53,29 @@ function Router() {
       <Route path="/dashboard-preview" component={DashboardPreview} />
       <Route path="/admin/requests/:id" component={AdminRequestDetail} />
       <Route path="/admin/requests" component={AdminRequests} />
+      <Route path="/admin/projects" component={AdminProjects} />
+      <Route path="/admin/tasks" component={AdminTasks} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/support/messages/:id" component={SupportMessageDetail} />
       <Route path="/support/messages" component={SupportInbox} />
+      <Route path="/support/tasks" component={StaffTasks} />
       <Route path="/support" component={SupportDashboard} />
       <Route path="/client/requests" component={ClientRequests} />
+      <Route path="/client/projects" component={ClientProjects} />
       <Route path="/client" component={ClientDashboard} />
       <Route path="/student" component={StudentDashboard} />
+      <Route path="/developer/tasks" component={StaffTasks} />
       <Route path="/developer" component={DeveloperDashboard} />
+      <Route path="/marketing/tasks" component={StaffTasks} />
       <Route path="/marketing" component={MarketingDashboard} />
+      <Route path="/video/tasks" component={StaffTasks} />
       <Route path="/video" component={VideoDashboard} />
+      <Route path="/finance/tasks" component={StaffTasks} />
       <Route path="/finance" component={FinanceDashboard} />
+      <Route path="/compliance/tasks" component={StaffTasks} />
       <Route path="/compliance" component={ComplianceDashboard} />
+      <Route path="/staff/tasks" component={StaffTasks} />
+      <Route path="/tasks/:id" component={TaskDetail} />
       <Route component={NotFound} />
     </Switch>
   );

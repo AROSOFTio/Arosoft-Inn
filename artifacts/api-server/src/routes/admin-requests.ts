@@ -1,5 +1,4 @@
 import { Router, type IRouter } from "express";
-import { randomUUID } from "node:crypto";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod/v4";
 import {
@@ -74,30 +73,6 @@ router.patch(
     }
 
     res.json({ request });
-  },
-);
-
-router.post(
-  "/admin/requests/:id/convert-to-project",
-  requireAuth,
-  requireRoles([...adminRoles]),
-  async (req, res) => {
-    const [request] = await db
-      .update(clientRequestsTable)
-      .set({
-        status: "CONVERTED_TO_PROJECT",
-        convertedProjectId: randomUUID(),
-        updatedAt: new Date(),
-      })
-      .where(eq(clientRequestsTable.id, req.params.id))
-      .returning();
-
-    if (!request) {
-      res.status(404).json({ message: "Client request not found." });
-      return;
-    }
-
-    res.json({ request, projectId: request.convertedProjectId });
   },
 );
 

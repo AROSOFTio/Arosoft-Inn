@@ -66,6 +66,40 @@ export const clientRequestStatusEnum = pgEnum("client_request_status", clientReq
 export const clientRequestStatusSchema = z.enum(clientRequestStatuses);
 export type ClientRequestStatus = z.infer<typeof clientRequestStatusSchema>;
 
+export const projectStatuses = [
+  "PLANNING",
+  "ASSIGNED",
+  "IN_PROGRESS",
+  "REVIEW",
+  "COMPLETED",
+  "CANCELLED",
+  "MAINTENANCE",
+] as const;
+export const projectStatusEnum = pgEnum("project_status", projectStatuses);
+export const projectStatusSchema = z.enum(projectStatuses);
+export type ProjectStatus = z.infer<typeof projectStatusSchema>;
+
+export const taskRoleCategories = [
+  "FRONTEND",
+  "BACKEND",
+  "FULLSTACK",
+  "UI_UX",
+  "MARKETING",
+  "VIDEO",
+  "FINANCE",
+  "SUPPORT",
+  "COMPLIANCE",
+  "QA",
+] as const;
+export const taskRoleCategoryEnum = pgEnum("task_role_category", taskRoleCategories);
+export const taskRoleCategorySchema = z.enum(taskRoleCategories);
+export type TaskRoleCategory = z.infer<typeof taskRoleCategorySchema>;
+
+export const taskStatuses = ["TODO", "IN_PROGRESS", "REVIEW", "COMPLETED", "BLOCKED"] as const;
+export const taskStatusEnum = pgEnum("task_status", taskStatuses);
+export const taskStatusSchema = z.enum(taskStatuses);
+export type TaskStatus = z.infer<typeof taskStatusSchema>;
+
 export const usersTable = pgTable(
   "users",
   {
@@ -131,6 +165,43 @@ export const clientRequestsTable = pgTable("client_requests", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const projectsTable = pgTable("projects", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  clientId: uuid("client_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  clientRequestId: uuid("client_request_id").references(() => clientRequestsTable.id, { onDelete: "set null" }),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description").notNull(),
+  status: projectStatusEnum("status").notNull().default("PLANNING"),
+  budget: varchar("budget", { length: 120 }),
+  deadline: timestamp("deadline", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const tasksTable = pgTable("tasks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  projectId: uuid("project_id").notNull().references(() => projectsTable.id, { onDelete: "cascade" }),
+  assignedToId: uuid("assigned_to_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  createdById: uuid("created_by_id").references(() => usersTable.id, { onDelete: "set null" }),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description").notNull(),
+  roleCategory: taskRoleCategoryEnum("role_category").notNull(),
+  priority: varchar("priority", { length: 40 }).notNull().default("Normal"),
+  status: taskStatusEnum("status").notNull().default("TODO"),
+  dueDate: timestamp("due_date", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const taskCommentsTable = pgTable("task_comments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  taskId: uuid("task_id").notNull().references(() => tasksTable.id, { onDelete: "cascade" }),
+  authorId: uuid("author_id").references(() => usersTable.id, { onDelete: "set null" }),
+  authorName: varchar("author_name", { length: 160 }).notNull(),
+  body: text("body").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -143,3 +214,6 @@ export type NewUser = typeof usersTable.$inferInsert;
 export type ContactMessage = typeof contactMessagesTable.$inferSelect;
 export type ContactReply = typeof contactRepliesTable.$inferSelect;
 export type ClientRequest = typeof clientRequestsTable.$inferSelect;
+export type Project = typeof projectsTable.$inferSelect;
+export type Task = typeof tasksTable.$inferSelect;
+export type TaskComment = typeof taskCommentsTable.$inferSelect;

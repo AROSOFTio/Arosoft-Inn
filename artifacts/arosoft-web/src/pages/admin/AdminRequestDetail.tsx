@@ -72,7 +72,7 @@ export default function AdminRequestDetail() {
       setError(data.message ?? "Unable to convert request.");
       return;
     }
-    setNotice(`Converted to project placeholder: ${data.projectId}`);
+    setNotice(`Converted to project: ${data.projectId}`);
     await load();
   }
 

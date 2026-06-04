@@ -96,7 +96,7 @@ export default function Contact() {
                     <div className="pt-1">
                       <h4 className="font-bold text-slate-900 mb-1">Email Us</h4>
                       <div className="space-y-1 text-sm text-slate-600">
-                        <p>hello@arosof.com (General)</p>
+                        <p>hello@arosoft.com (General)</p>
                         <p>support@arosof.com (Support)</p>
                         <p>projects@arosof.com (Projects)</p>
                       </div>

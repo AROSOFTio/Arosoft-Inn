@@ -11,6 +11,7 @@ export default function DeveloperDashboard() {
       stats={createStats(["Assigned tasks", "Active projects", "Project files", "Unread comments"])}
       actions={createActions(["Update task status", "Open project files", "Reply to comments", "Submit progress note"])}
       panels={createPanels("Assigned tasks", "Project files", "Comments")}
+      summaryEndpoint="/api/dashboard/developer"
     />
   );
 }

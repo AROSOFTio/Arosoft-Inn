@@ -11,6 +11,7 @@ export default function FinanceDashboard() {
       stats={createStats(["Open invoices", "Payments received", "Receipts issued", "Overdue invoices"])}
       actions={createActions(["Create invoice", "Record payment", "Issue receipt", "Review overdue list"])}
       panels={createPanels("Invoices", "Payments", "Receipts")}
+      summaryEndpoint="/api/dashboard/finance"
     />
   );
 }

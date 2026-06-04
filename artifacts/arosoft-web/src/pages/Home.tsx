@@ -85,7 +85,7 @@ export default function Home() {
               </div>
               
               <div className="relative hidden lg:block h-[340px]">
-                {/* Clean Dashboard Mockup Card */}
+                {/* Clean dashboard visual */}
                 <div className="absolute inset-0 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden flex flex-col">
                   <div className="h-12 border-b border-gray-100 flex items-center px-4 gap-2 bg-slate-50">
                     <div className="w-3 h-3 rounded-full bg-slate-300"></div>

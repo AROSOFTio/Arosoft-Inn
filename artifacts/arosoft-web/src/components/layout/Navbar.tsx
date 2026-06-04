@@ -28,12 +28,12 @@ export function Navbar() {
       <div className="w-full border-b border-slate-100 bg-[#F8FAFC]">
         <div className="container mx-auto flex h-8 items-center justify-between px-4 md:px-6">
           <a
-            href="mailto:hello@arosof.com"
+            href="mailto:hello@arosoft.com"
             className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 transition-colors"
             data-testid="utility-email"
           >
             <Mail size={11} />
-            hello@arosof.com
+            hello@arosoft.com
           </a>
           <div className="flex items-center gap-4 ml-auto">
             {utilityLinks.map((link) => (

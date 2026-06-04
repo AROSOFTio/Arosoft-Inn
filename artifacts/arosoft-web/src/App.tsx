@@ -12,9 +12,8 @@ import Portfolio from "@/pages/Portfolio";
 import Contact from "@/pages/Contact";
 import About from "@/pages/About";
 import Privacy from "@/pages/Privacy";
-import AdminInbox from "@/pages/AdminInbox";
+import Terms from "@/pages/Terms";
 import Login from "@/pages/Login";
-import DashboardPreview from "@/pages/DashboardPreview";
 import AdminDashboard from "@/pages/dashboards/AdminDashboard";
 import SupportDashboard from "@/pages/dashboards/SupportDashboard";
 import ClientDashboard from "@/pages/dashboards/ClientDashboard";
@@ -51,9 +50,8 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/about" component={About} />
       <Route path="/privacy" component={Privacy} />
-      <Route path="/admin/inbox" component={AdminInbox} />
+      <Route path="/terms" component={Terms} />
       <Route path="/login" component={Login} />
-      <Route path="/dashboard-preview" component={DashboardPreview} />
       <Route path="/admin/requests/:id" component={AdminRequestDetail} />
       <Route path="/admin/requests" component={AdminRequests} />
       <Route path="/admin/projects" component={AdminProjects} />

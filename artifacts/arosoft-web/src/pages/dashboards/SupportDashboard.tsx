@@ -11,6 +11,7 @@ export default function SupportDashboard() {
       stats={createStats(["Inbox messages", "Open tickets", "Pending replies", "Resolved today"])}
       actions={createActions(["Open inbox", "Assign ticket", "Send reply", "Close resolved item"])}
       panels={createPanels("Inbox", "Tickets", "Replies")}
+      summaryEndpoint="/api/dashboard/support"
     />
   );
 }

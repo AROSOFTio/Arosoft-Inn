@@ -11,6 +11,7 @@ export default function StudentDashboard() {
       stats={createStats(["Active courses", "Learning tasks", "Progress score", "AI support chats"])}
       actions={createActions(["Continue course", "Submit assignment", "Take quiz", "Ask AI support"])}
       panels={createPanels("Courses", "Learning tasks", "Progress")}
+      summaryEndpoint="/api/dashboard/student"
     />
   );
 }

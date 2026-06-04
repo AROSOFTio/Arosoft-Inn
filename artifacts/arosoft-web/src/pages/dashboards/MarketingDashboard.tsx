@@ -11,6 +11,7 @@ export default function MarketingDashboard() {
       stats={createStats(["Marketing tasks", "Active campaigns", "Content plans", "Pending reviews"])}
       actions={createActions(["Create campaign", "Update content plan", "Review asset", "Schedule post"])}
       panels={createPanels("Marketing tasks", "Campaigns", "Content plans")}
+      summaryEndpoint="/api/dashboard/marketing"
     />
   );
 }

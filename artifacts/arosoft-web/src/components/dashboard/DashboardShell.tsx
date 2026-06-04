@@ -53,6 +53,7 @@ interface DashboardShellProps {
   stats: DashboardStat[];
   actions: DashboardAction[];
   panels: DashboardPanel[];
+  summaryEndpoint?: string;
 }
 
 export function DashboardShell({
@@ -63,12 +64,15 @@ export function DashboardShell({
   stats,
   actions,
   panels,
+  summaryEndpoint,
 }: DashboardShellProps) {
   const [location, navigate] = useLocation();
   const [user, setUser] = useState<AuthUser | null>(() => getStoredAuthUser());
   const [status, setStatus] = useState<"loading" | "ready" | "forbidden">(() =>
     getStoredAuthUser() ? "ready" : "loading",
   );
+  const [dashboardStats, setDashboardStats] = useState<DashboardStat[]>(stats);
+  const [activityItems, setActivityItems] = useState<string[]>(panels[0]?.items ?? []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const allowedRoleKey = allowedRoles.join("|");
 
@@ -108,13 +112,36 @@ export function DashboardShell({
         return;
       }
 
+      if (summaryEndpoint) {
+        const summaryResponse = await fetch(summaryEndpoint, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (summaryResponse.ok) {
+          const summary = (await summaryResponse.json()) as {
+            stats?: DashboardStat[];
+            activity?: string[];
+          };
+
+          if (summary.stats?.length) {
+            setDashboardStats(summary.stats);
+          }
+
+          if (summary.activity?.length) {
+            setActivityItems(summary.activity);
+          }
+        }
+      }
+
       setStoredAuthUser(data.user);
       setUser(data.user);
       setStatus("ready");
     }
 
     void loadCurrentUser();
-  }, [allowedRoleKey, navigate]);
+  }, [allowedRoleKey, navigate, summaryEndpoint]);
 
   function handleLogout() {
     clearAuthToken();
@@ -124,6 +151,8 @@ export function DashboardShell({
   function isMenuItemActive(href: string) {
     return location === href || (href !== getDashboardPath(user?.role || allowedRoles[0]) && location.startsWith(`${href}/`));
   }
+
+  const primaryAction = actions[0];
 
   if (status === "loading") {
     return (
@@ -238,15 +267,19 @@ export function DashboardShell({
                   <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 md:text-3xl">{title}</h1>
                   <p className="mt-1.5 max-w-3xl text-sm text-slate-600">{description}</p>
                 </div>
-                <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 md:w-auto">
-                  New action
-                  <ChevronRight size={16} />
-                </Button>
+                {primaryAction?.href && (
+                  <Link href={primaryAction.href}>
+                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 md:w-auto">
+                      {primaryAction.label}
+                      <ChevronRight size={16} />
+                    </Button>
+                  </Link>
+                )}
               </div>
             </section>
 
             <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              {stats.map((stat) => (
+              {dashboardStats.map((stat) => (
                 <Card key={stat.label} className="border-slate-200 bg-white shadow-sm">
                   <CardContent className="p-5">
                     <div className="flex items-start justify-between gap-3">
@@ -290,7 +323,7 @@ export function DashboardShell({
                   <CardDescription>Latest operational updates.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {panels[0]?.items.map((item) => (
+                  {activityItems.map((item) => (
                     <div key={item} className="rounded-md border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-700">
                       {item}
                     </div>

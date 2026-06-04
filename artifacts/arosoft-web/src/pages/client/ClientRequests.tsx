@@ -87,7 +87,7 @@ export default function ClientRequests() {
       setError(data.message ?? "Unable to submit request.");
       return;
     }
-    setNotice("Request submitted and AI summary placeholder generated.");
+    setNotice("Request submitted and AI review generated.");
     setTitle("");
     setDescription("");
     setBudgetRange("");
@@ -99,7 +99,7 @@ export default function ClientRequests() {
   return (
     <DashboardPageShell
       title="Client Requests"
-      description="Submit service requests and review AI summary placeholders."
+      description="Submit service requests and review generated AI request summaries."
       allowedRoles={["CLIENT"]}
       menuItems={clientMenu}
     >

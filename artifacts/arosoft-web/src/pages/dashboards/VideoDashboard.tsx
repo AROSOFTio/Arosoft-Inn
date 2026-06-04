@@ -11,6 +11,7 @@ export default function VideoDashboard() {
       stats={createStats(["Video tasks", "Uploads", "Revision requests", "Approved media"])}
       actions={createActions(["Upload video", "Review revisions", "Update edit status", "Publish media"])}
       panels={createPanels("Video tasks", "Uploads", "Revisions")}
+      summaryEndpoint="/api/dashboard/video"
     />
   );
 }

@@ -11,6 +11,7 @@ export default function AdminDashboard() {
       stats={adminStats}
       actions={createActions(["Review client requests", "Assign project tasks", "Open support inbox", "Check invoices"])}
       panels={createPanels("Client requests", "Team tasks", "Support tickets")}
+      summaryEndpoint="/api/dashboard/admin"
     />
   );
 }

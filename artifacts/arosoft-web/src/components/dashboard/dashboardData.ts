@@ -106,26 +106,26 @@ export const videoMenu: DashboardMenuItem[] = [
 ];
 
 export const adminStats: DashboardStat[] = [
-  { label: "Total client requests", value: "42", detail: "8 new requests this week" },
-  { label: "Active projects", value: "16", detail: "5 waiting on client feedback" },
-  { label: "Pending tasks", value: "73", detail: "18 marked high priority" },
-  { label: "Open support tickets", value: "11", detail: "3 need same-day response" },
-  { label: "Student enrollments", value: "128", detail: "14 new academy learners" },
-  { label: "Recent activity", value: "29", detail: "Updates across projects and support" },
+  { label: "Total client requests", value: "0", detail: "Client request totals load from the database" },
+  { label: "Active projects", value: "0", detail: "Project totals load from the database" },
+  { label: "Pending tasks", value: "0", detail: "Task totals load from the database" },
+  { label: "Open support tickets", value: "0", detail: "Support totals load from the database" },
+  { label: "Published systems", value: "0", detail: "Published systems load from the database" },
+  { label: "Published scripts", value: "0", detail: "Published scripts load from the database" },
 ];
 
 export function createStats(labels: string[]): DashboardStat[] {
-  return labels.map((label, index) => ({
+  return labels.map((label) => ({
     label,
-    value: String([12, 7, 24, 5][index % 4]),
-    detail: "Sprint 2 placeholder metric ready for live data",
+    value: "0",
+    detail: "Live data loads from the dashboard API",
   }));
 }
 
 export function createActions(labels: string[]): DashboardAction[] {
   return labels.map((label) => ({
     label,
-    description: "Open the workspace area and continue the next tracked item.",
+    description: "Open this workspace area and continue active work.",
     href: getActionHref(label),
   }));
 }

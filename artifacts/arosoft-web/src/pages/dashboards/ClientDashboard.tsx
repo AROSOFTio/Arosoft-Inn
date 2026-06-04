@@ -11,6 +11,7 @@ export default function ClientDashboard() {
       stats={createStats(["Open requests", "Active projects", "Pending invoices", "Support threads"])}
       actions={createActions(["Create request", "View project", "Open invoice", "Contact support"])}
       panels={createPanels("Requests", "Projects", "Support")}
+      summaryEndpoint="/api/dashboard/client"
     />
   );
 }

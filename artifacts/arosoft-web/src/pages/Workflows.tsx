@@ -63,7 +63,7 @@ export default function Workflows() {
           </div>
         </section>
 
-        {/* Kanban Mockup */}
+        {/* Kanban preview */}
         <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100 overflow-hidden">
           <div className="container mx-auto">
             <SectionHeader title="Built-in Project Management" description="Track every task across the entire lifecycle." />

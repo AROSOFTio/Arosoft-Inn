@@ -21,7 +21,7 @@ export function Footer() {
             </p>
             <p className="flex items-center gap-2">
               <Mail size={13} className="text-slate-500 shrink-0" />
-              hello@arosof.com
+              hello@arosoft.com
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -58,7 +58,6 @@ export function Footer() {
             <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
             <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
             <li><Link href="/login" className="hover:text-white transition-colors">Client Login</Link></li>
-            <li><Link href="/dashboard-preview" className="hover:text-white transition-colors">Dashboard Preview</Link></li>
           </ul>
         </div>
 

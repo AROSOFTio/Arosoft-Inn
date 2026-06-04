@@ -34,7 +34,7 @@ export const adminMenu: DashboardMenuItem[] = [
   { label: "Tasks", icon: ClipboardCheck, href: "/admin/tasks" },
   { label: "Team", icon: Users, href: "/admin" },
   { label: "Support Inbox", icon: MessageSquare, href: "/support/messages" },
-  { label: "Systems", icon: Archive, href: "/admin" },
+  { label: "Systems", icon: Archive, href: "/admin/systems" },
   { label: "Scripts", icon: Code2, href: "/admin" },
   { label: "Courses", icon: GraduationCap, href: "/admin" },
   { label: "Portfolio", icon: FileArchive, href: "/admin" },

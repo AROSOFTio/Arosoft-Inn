@@ -8,9 +8,18 @@ export interface SystemCardProps {
   description: string;
   bestFor: string;
   price?: string;
+  actionHref?: string;
+  actionLabel?: string;
 }
 
-export function SystemCard({ name, description, bestFor, price = "Request Quote" }: SystemCardProps) {
+export function SystemCard({
+  name,
+  description,
+  bestFor,
+  price = "Request Quote",
+  actionHref = "/client/requests",
+  actionLabel = "Request Quote",
+}: SystemCardProps) {
   return (
     <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col h-full">
       <CardContent className="p-6 flex-1">
@@ -28,9 +37,9 @@ export function SystemCard({ name, description, bestFor, price = "Request Quote"
         <div className="font-semibold text-slate-900">
           <Badge variant="secondary" className="bg-blue-50 text-blue-700 hover:bg-blue-100">{price}</Badge>
         </div>
-        <Link href="/contact">
+        <Link href={actionHref}>
           <Button variant="outline" size="sm" className="border-slate-200 text-slate-900 hover:bg-slate-50">
-            View Details
+            {actionLabel}
           </Button>
         </Link>
       </CardFooter>

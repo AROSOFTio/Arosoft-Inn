@@ -3,47 +3,35 @@ import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/layout/CTASection";
 import { SystemCard } from "@/components/ui/SystemCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useEffect, useMemo, useState } from "react";
 
-const systems = [
-  {
-    name: "Business Management System",
-    description: "A comprehensive ERP solution tailored for modern enterprises. Includes HR, Payroll, CRM, and internal messaging.",
-    bestFor: "Business",
-    category: "business"
-  },
-  {
-    name: "School Management System",
-    description: "Streamline admissions, grading, attendance, and parent communication with our robust educational platform.",
-    bestFor: "Education",
-    category: "education"
-  },
-  {
-    name: "Billing and Payment System",
-    description: "Secure, compliant, and flexible invoicing and payment gateway integrations for subscription and one-off models.",
-    bestFor: "Finance",
-    category: "finance"
-  },
-  {
-    name: "Inventory and POS System",
-    description: "Real-time stock tracking, multi-location support, and a lightning-fast point of sale interface.",
-    bestFor: "Business",
-    category: "business"
-  },
-  {
-    name: "Client Portals",
-    description: "White-labeled, secure environments for your clients to view project progress, pay invoices, and submit tickets.",
-    bestFor: "Custom",
-    category: "custom"
-  },
-  {
-    name: "AI Workflow Systems",
-    description: "Automate repetitive tasks, data extraction, and customer support triage using advanced AI agents.",
-    bestFor: "Automation",
-    category: "automation"
-  }
-];
+interface SystemItem {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  description: string;
+  startingPrice?: string | null;
+}
 
 export default function Systems() {
+  const [systems, setSystems] = useState<SystemItem[]>([]);
+  const [error, setError] = useState("");
+  const categories = useMemo(
+    () => Array.from(new Set(systems.map((system) => system.category))).filter(Boolean),
+    [systems],
+  );
+
+  useEffect(() => {
+    fetch("/api/systems")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load systems.");
+        return response.json() as Promise<{ systems: SystemItem[] }>;
+      })
+      .then((data) => setSystems(data.systems))
+      .catch((err: Error) => setError(err.message));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
@@ -66,27 +54,42 @@ export default function Systems() {
               <div className="flex justify-center mb-12">
                 <TabsList className="bg-slate-100 border border-gray-200 flex-wrap h-auto p-1 rounded-xl">
                   <TabsTrigger value="all" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">All</TabsTrigger>
-                  <TabsTrigger value="business" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Business</TabsTrigger>
-                  <TabsTrigger value="education" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Education</TabsTrigger>
-                  <TabsTrigger value="finance" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Finance</TabsTrigger>
-                  <TabsTrigger value="automation" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Automation</TabsTrigger>
-                  <TabsTrigger value="custom" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Custom</TabsTrigger>
+                  {categories.map((category) => (
+                    <TabsTrigger key={category} value={category} className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">
+                      {category}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
               </div>
 
+              {error && <p className="mb-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+
               <TabsContent value="all" className="mt-0">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {systems.map((system, i) => (
-                    <SystemCard key={i} {...system} />
+                  {systems.map((system) => (
+                    <SystemCard
+                      key={system.id}
+                      name={system.title}
+                      description={system.description}
+                      bestFor={system.category}
+                      price={system.startingPrice || "Request Quote"}
+                    />
                   ))}
                 </div>
+                {systems.length === 0 && !error && <p className="text-center text-sm text-slate-500">Published systems will appear here.</p>}
               </TabsContent>
 
-              {["business", "education", "finance", "automation", "custom"].map((category) => (
+              {categories.map((category) => (
                 <TabsContent key={category} value={category} className="mt-0">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {systems.filter(s => s.category === category).map((system, i) => (
-                      <SystemCard key={i} {...system} />
+                    {systems.filter((system) => system.category === category).map((system) => (
+                      <SystemCard
+                        key={system.id}
+                        name={system.title}
+                        description={system.description}
+                        bestFor={system.category}
+                        price={system.startingPrice || "Request Quote"}
+                      />
                     ))}
                   </div>
                 </TabsContent>

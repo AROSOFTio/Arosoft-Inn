@@ -9,6 +9,7 @@ import contactRouter from "./contact";
 import dashboardRouter from "./dashboard";
 import healthRouter from "./health";
 import supportRouter from "./support";
+import systemsRouter from "./systems";
 import tasksRouter from "./tasks";
 
 const router: IRouter = Router();
@@ -21,6 +22,7 @@ router.use(adminRequestsRouter);
 router.use(adminProjectsRouter);
 router.use(adminTasksRouter);
 router.use(supportRouter);
+router.use(systemsRouter);
 router.use(tasksRouter);
 router.use(dashboardRouter);
 router.use(healthRouter);

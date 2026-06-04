@@ -100,6 +100,11 @@ export const taskStatusEnum = pgEnum("task_status", taskStatuses);
 export const taskStatusSchema = z.enum(taskStatuses);
 export type TaskStatus = z.infer<typeof taskStatusSchema>;
 
+export const systemStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
+export const systemStatusEnum = pgEnum("system_status", systemStatuses);
+export const systemStatusSchema = z.enum(systemStatuses);
+export type SystemStatus = z.infer<typeof systemStatusSchema>;
+
 export const usersTable = pgTable(
   "users",
   {
@@ -202,6 +207,27 @@ export const taskCommentsTable = pgTable("task_comments", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const systemsTable = pgTable(
+  "systems",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    title: varchar("title", { length: 220 }).notNull(),
+    slug: varchar("slug", { length: 220 }).notNull(),
+    category: varchar("category", { length: 120 }).notNull(),
+    description: text("description").notNull(),
+    features: jsonb("features").$type<string[]>().notNull().default([]),
+    startingPrice: varchar("starting_price", { length: 120 }),
+    imageUrl: text("image_url"),
+    status: systemStatusEnum("status").notNull().default("DRAFT"),
+    featured: boolean("featured").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    slugIdx: uniqueIndex("systems_slug_unique").on(table.slug),
+  }),
+);
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -217,3 +243,4 @@ export type ClientRequest = typeof clientRequestsTable.$inferSelect;
 export type Project = typeof projectsTable.$inferSelect;
 export type Task = typeof tasksTable.$inferSelect;
 export type TaskComment = typeof taskCommentsTable.$inferSelect;
+export type System = typeof systemsTable.$inferSelect;

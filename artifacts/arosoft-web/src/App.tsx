@@ -32,6 +32,7 @@ import AdminRequests from "@/pages/admin/AdminRequests";
 import AdminRequestDetail from "@/pages/admin/AdminRequestDetail";
 import AdminProjects from "@/pages/admin/AdminProjects";
 import AdminTasks from "@/pages/admin/AdminTasks";
+import AdminSystems from "@/pages/admin/AdminSystems";
 import StaffTasks from "@/pages/staff/StaffTasks";
 import TaskDetail from "@/pages/tasks/TaskDetail";
 
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/admin/requests" component={AdminRequests} />
       <Route path="/admin/projects" component={AdminProjects} />
       <Route path="/admin/tasks" component={AdminTasks} />
+      <Route path="/admin/systems" component={AdminSystems} />
       <Route path="/admin" component={AdminDashboard} />
       <Route path="/support/messages/:id" component={SupportMessageDetail} />
       <Route path="/support/messages" component={SupportInbox} />

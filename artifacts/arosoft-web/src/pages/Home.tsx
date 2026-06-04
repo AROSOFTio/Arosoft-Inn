@@ -9,8 +9,29 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Link } from "wouter";
 import { ArrowRight, Building2, Code2, GraduationCap, Workflow, Video, BookOpen } from "lucide-react";
+import { useEffect, useState } from "react";
+
+interface FeaturedSystem {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  startingPrice?: string | null;
+}
 
 export default function Home() {
+  const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>([]);
+
+  useEffect(() => {
+    fetch("/api/systems?featured=true")
+      .then(async (response) => {
+        if (!response.ok) return { systems: [] };
+        return response.json() as Promise<{ systems: FeaturedSystem[] }>;
+      })
+      .then((data) => setFeaturedSystems(data.systems.slice(0, 3)))
+      .catch(() => setFeaturedSystems([]));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
@@ -111,10 +132,17 @@ export default function Home() {
           <div className="container mx-auto">
             <SectionHeader title="Featured Systems" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <SystemCard name="Business Management System" description="A comprehensive ERP solution tailored for modern enterprises." bestFor="Business" />
-              <SystemCard name="School Management System" description="Streamline admissions, grading, attendance, and communication." bestFor="Education" />
-              <SystemCard name="Billing and Payment System" description="Secure and flexible invoicing and payment gateway integrations." bestFor="Finance" />
+              {featuredSystems.map((system) => (
+                <SystemCard
+                  key={system.id}
+                  name={system.title}
+                  description={system.description}
+                  bestFor={system.category}
+                  price={system.startingPrice || "Request Quote"}
+                />
+              ))}
             </div>
+            {featuredSystems.length === 0 && <p className="mt-6 text-center text-sm text-slate-500">Featured systems will appear after publishing from admin.</p>}
           </div>
         </section>
 

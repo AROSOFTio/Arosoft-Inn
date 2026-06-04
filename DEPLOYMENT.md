@@ -1,33 +1,16 @@
 # Docker Deployment for new.arosoft.io
 
-This is the first deployment setup for the new domain `new.arosoft.io`.
-
-Use a normal Linux user with sudo access. Do not SSH or deploy as `root`.
-
-## First Server Setup
-
-SSH into the server as a non-root sudo user:
-
-```sh
-ssh deploy@new.arosoft.io
-```
-
-Install Docker and the Compose plugin on the server if they are not already installed. Use `sudo` for system package installation and Docker commands.
-
-Use the existing website directory created in the control panel. Do not create a separate deploy folder.
+Use the existing aaPanel website directory:
 
 ```sh
 cd /www/wwwroot/new.arosoft.io
 ```
 
-If the deploy user cannot write to this directory, fix ownership with sudo from the normal deploy user:
+Do not deploy as `root`. Use the normal `arosoft` user with `sudo`.
 
-```sh
-sudo chown -R "$USER":"$USER" /www/wwwroot/new.arosoft.io
-cd /www/wwwroot/new.arosoft.io
-```
+## Pull Code
 
-Initialize git in the existing empty directory and pull the repository:
+First setup in the existing directory:
 
 ```sh
 git init
@@ -35,31 +18,48 @@ git remote add origin https://github.com/AROSOFTio/Arosoft-Inn.git
 git pull origin main
 ```
 
-Create the environment file:
-
-```sh
-cp .env.example .env
-nano .env
-```
-
-Replace every placeholder secret in `.env` before starting the stack.
-
-Point DNS for `new.arosoft.io` to this server before going live.
-
-## Deploy
-
-From the repo directory:
+Updates:
 
 ```sh
 cd /www/wwwroot/new.arosoft.io
 git pull origin main
-cp .env.production.example .env
-nano .env
-sudo docker compose build
-sudo docker compose up -d
 ```
 
-The API container runs the database schema push and seed users before starting:
+## Environment
+
+Create `.env` once:
+
+```sh
+cp .env.production.example .env
+nano .env
+```
+
+Important ports:
+
+```env
+API_PORT=5001
+FRONTEND_PORT=4020
+```
+
+Keep secrets private. Never commit `.env`.
+
+## Docker
+
+```sh
+sudo docker compose build
+sudo docker compose up -d
+sudo docker compose ps
+```
+
+Expected ports:
+
+```text
+web: 127.0.0.1:4020 -> 80
+api: 127.0.0.1:5001 -> 5000
+postgres: internal only
+```
+
+The API container runs:
 
 ```sh
 pnpm --filter @workspace/db run push
@@ -67,79 +67,60 @@ pnpm --filter @workspace/api-server run seed:users
 pnpm --filter @workspace/api-server run start
 ```
 
-## Update Existing Deployment
+## aaPanel Nginx
 
-Use this whenever new code is pushed:
+This server does not use `/etc/nginx/sites-available`.
 
-```sh
-cd /www/wwwroot/new.arosoft.io
-git pull origin main
-sudo docker compose build
-sudo docker compose up -d
-```
-
-Check logs:
-
-```sh
-sudo docker compose logs -f api
-sudo docker compose logs -f web
-```
-
-## Nginx for new.arosoft.io
-
-Install the host Nginx reverse proxy config:
+Install the vhost config here:
 
 ```sh
 cd /www/wwwroot/new.arosoft.io
-sudo cp nginx/new.arosoft.io.conf /etc/nginx/sites-available/new.arosoft.io
-sudo ln -s /etc/nginx/sites-available/new.arosoft.io /etc/nginx/sites-enabled/new.arosoft.io
-sudo nginx -t
-sudo systemctl reload nginx
-sudo certbot --nginx -d new.arosoft.io
+sudo cp nginx/new.arosoft.io.conf /www/server/panel/vhost/nginx/new.arosoft.io.conf
+sudo /etc/init.d/nginx configtest
+sudo /etc/init.d/nginx reload
 ```
 
-The host Nginx proxies:
+Proxy targets:
 
-- `/` to `http://127.0.0.1:4020/`
-- `/api/` to `http://127.0.0.1:5000/api/`
-- `/uploads/` to `http://127.0.0.1:5000/uploads/`
+- `/` -> `http://127.0.0.1:4020/`
+- `/api/` -> `http://127.0.0.1:5001/api/`
+- `/uploads/` -> `http://127.0.0.1:5001/uploads/`
 
-## If Docker Build Fails on pnpm Build Approvals
+The config also serves:
 
-If the build fails with `ERR_PNPM_IGNORED_BUILDS` for `bcrypt` or `esbuild`, pull the latest repo changes and rebuild:
+```text
+/.well-known/acme-challenge/
+```
+
+from:
+
+```text
+/www/wwwroot/new.arosoft.io/.well-known/acme-challenge/
+```
+
+This is required for aaPanel Let's Encrypt file verification.
+
+## Cloudflare SSL
+
+For aaPanel SSL issuance:
+
+1. Cloudflare DNS record `new.arosoft.io` must point to `95.111.234.34`.
+2. If aaPanel file verification fails, temporarily set Cloudflare proxy to DNS only.
+3. Run aaPanel SSL -> Let's Encrypt -> File Verification.
+4. After SSL is issued, turn Cloudflare proxy back on if desired.
+
+## Checks
 
 ```sh
-cd /www/wwwroot/new.arosoft.io
-git pull origin main
-sudo docker compose up -d --build
+curl -I http://127.0.0.1:4020
+curl http://127.0.0.1:5001/api/healthz
+curl -I http://new.arosoft.io
+curl http://new.arosoft.io/api/healthz
 ```
 
-The workspace explicitly approves required build scripts for `bcrypt` and `esbuild`.
+After SSL:
 
-## Services
-
-- `web`: Nginx static frontend container mapped to host port `4020`.
-- `api`: Express API server. It runs schema push and seed before startup.
-- `postgres`: PostgreSQL database with persistent Docker volume.
-
-## Ports
-
-- Frontend: host `4020` to container `80`.
-- API: host `5000` to container `5000`.
-- PostgreSQL: internal Docker network only; no public host port.
-
-## Seed Users
-
-Seed user emails are defined in `artifacts/api-server/src/seed-users.ts`.
-All seed users use `SEED_USER_PASSWORD` from `.env`.
-
-## Rules
-
-- Never deploy as `root`.
-- Use `sudo docker compose ...` from the normal deploy user.
-- Use the existing `/www/wwwroot/new.arosoft.io` directory from the control panel.
-- Do not create a separate deployment directory for this domain.
-- Keep `.env` private and never commit it.
-- Do not delete the `postgres_data` Docker volume unless you intentionally want to remove production data.
-- For HTTPS, place this compose stack behind a TLS reverse proxy, or add a Certbot/Traefik/Caddy layer on the host.
-- The current Drizzle setup uses `drizzle-kit push` as the schema migration step because no migration files exist yet.
+```sh
+curl -I https://new.arosoft.io
+curl https://new.arosoft.io/api/healthz
+```

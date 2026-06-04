@@ -1,12 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useLocation, useRoute } from "wouter";
-import { getAuthToken } from "@/lib/auth";
+import { getAuthToken, type AuthUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
-import { supportMenu } from "@/components/dashboard/dashboardData";
+import { adminMenu, supportMenu } from "@/components/dashboard/dashboardData";
 
 interface ContactMessage {
   id: string;
@@ -30,6 +30,10 @@ interface ContactReply {
   emailSent: boolean;
   emailSkippedReason?: string | null;
   createdAt: string;
+}
+
+function getSupportMenuForUser(user: AuthUser) {
+  return user.role === "SUPER_ADMIN" || user.role === "ADMIN" ? adminMenu : supportMenu;
 }
 
 export default function SupportMessageDetail() {
@@ -107,6 +111,7 @@ export default function SupportMessageDetail() {
       description="View the message thread, update status, and save replies."
       allowedRoles={["SUPER_ADMIN", "ADMIN", "SUPPORT"]}
       menuItems={supportMenu}
+      menuItemsForUser={getSupportMenuForUser}
     >
       <div className="max-w-5xl space-y-6">
         <Link href="/support/messages" className="text-sm font-semibold text-blue-600">Back to inbox</Link>

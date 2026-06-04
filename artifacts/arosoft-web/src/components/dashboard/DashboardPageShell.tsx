@@ -18,6 +18,7 @@ interface DashboardPageShellProps {
   description: string;
   allowedRoles: UserRole[];
   menuItems: DashboardMenuItem[];
+  menuItemsForUser?: (user: AuthUser) => DashboardMenuItem[];
   children: ReactNode;
 }
 
@@ -26,6 +27,7 @@ export function DashboardPageShell({
   description,
   allowedRoles,
   menuItems,
+  menuItemsForUser,
   children,
 }: DashboardPageShellProps) {
   const [location, navigate] = useLocation();
@@ -87,6 +89,8 @@ export function DashboardPageShell({
     return location === href || (href !== getDashboardPath(user?.role || allowedRoles[0]) && location.startsWith(`${href}/`));
   }
 
+  const effectiveMenuItems = user && menuItemsForUser ? menuItemsForUser(user) : menuItems;
+
   if (status === "loading") {
     return (
       <main className="min-h-screen bg-slate-50 px-4 py-10">
@@ -135,7 +139,7 @@ export function DashboardPageShell({
         </div>
 
         <nav className="space-y-1 px-3 py-4">
-          {menuItems.map((item) => {
+          {effectiveMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = isMenuItemActive(item.href);
 

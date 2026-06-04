@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { getAuthToken } from "@/lib/auth";
+import { getAuthToken, getDashboardPath, getStoredAuthUser, type AuthUser } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardPageShell } from "@/components/dashboard/DashboardPageShell";
-import { supportMenu } from "@/components/dashboard/dashboardData";
+import { adminMenu, supportMenu } from "@/components/dashboard/dashboardData";
 
 interface ContactMessage {
   id: string;
@@ -17,8 +17,17 @@ interface ContactMessage {
   createdAt: string;
 }
 
+function getSupportMenuForUser(user: AuthUser) {
+  return user.role === "SUPER_ADMIN" || user.role === "ADMIN" ? adminMenu : supportMenu;
+}
+
+function getSupportDashboardHref(user: AuthUser | null) {
+  return user ? getDashboardPath(user.role) : "/support";
+}
+
 export default function SupportInbox() {
   const [, navigate] = useLocation();
+  const storedUser = getStoredAuthUser();
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [error, setError] = useState("");
 
@@ -47,6 +56,7 @@ export default function SupportInbox() {
       description="Review contact messages and open support threads."
       allowedRoles={["SUPER_ADMIN", "ADMIN", "SUPPORT"]}
       menuItems={supportMenu}
+      menuItemsForUser={getSupportMenuForUser}
     >
       <div className="max-w-6xl space-y-6">
         <header className="flex items-center justify-between">
@@ -54,7 +64,7 @@ export default function SupportInbox() {
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Support</p>
             <h1 className="text-2xl font-bold text-slate-950">Inbox</h1>
           </div>
-          <Link href="/support"><Button variant="outline">Dashboard</Button></Link>
+          <Link href={getSupportDashboardHref(storedUser)}><Button variant="outline">Dashboard</Button></Link>
         </header>
         {error && <p className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
         <Card className="border-slate-200 bg-white">

@@ -75,10 +75,13 @@ Install the vhost config here:
 
 ```sh
 cd /www/wwwroot/new.arosoft.io
+sudo ls -l /www/server/panel/vhost/cert/new.arosoft.io/fullchain.pem /www/server/panel/vhost/cert/new.arosoft.io/privkey.pem
 sudo cp nginx/new.arosoft.io.conf /www/server/panel/vhost/nginx/new.arosoft.io.conf
 sudo /etc/init.d/nginx configtest
 sudo /etc/init.d/nginx reload
 ```
+
+If the cert files do not exist, issue SSL in aaPanel first, then copy this config.
 
 Proxy targets:
 
@@ -121,6 +124,8 @@ curl http://new.arosoft.io/api/healthz
 After SSL:
 
 ```sh
+sudo grep -R "ssl_certificate" -n /www/server/panel/vhost/nginx/new.arosoft.io.conf
+echo | openssl s_client -servername new.arosoft.io -connect new.arosoft.io:443 2>/dev/null | openssl x509 -noout -subject -issuer -dates
 curl -I https://new.arosoft.io
 curl https://new.arosoft.io/api/healthz
 ```

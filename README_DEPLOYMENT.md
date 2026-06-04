@@ -38,10 +38,13 @@ The API container runs the database schema push and seed users before startup.
 Use the aaPanel vhost config path:
 
 ```sh
+sudo ls -l /www/server/panel/vhost/cert/new.arosoft.io/fullchain.pem /www/server/panel/vhost/cert/new.arosoft.io/privkey.pem
 sudo cp nginx/new.arosoft.io.conf /www/server/panel/vhost/nginx/new.arosoft.io.conf
 sudo /etc/init.d/nginx configtest
 sudo /etc/init.d/nginx reload
 ```
+
+If those cert files do not exist, issue SSL in aaPanel first, then copy this config.
 
 The config includes `/.well-known/acme-challenge/` so aaPanel Let's Encrypt file verification can read challenge files from:
 

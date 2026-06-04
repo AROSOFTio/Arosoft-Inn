@@ -23,6 +23,7 @@ import {
 export interface DashboardMenuItem {
   label: string;
   icon: LucideIcon;
+  href: string;
 }
 
 export interface DashboardStat {
@@ -34,6 +35,7 @@ export interface DashboardStat {
 export interface DashboardAction {
   label: string;
   description: string;
+  href?: string;
 }
 
 export interface DashboardPanel {
@@ -106,6 +108,10 @@ export function DashboardShell({
     navigate("/login");
   }
 
+  function isMenuItemActive(href: string) {
+    return location === href || (href !== getDashboardPath(user?.role || allowedRoles[0]) && location.startsWith(`${href}/`));
+  }
+
   if (status === "loading") {
     return (
       <main className="min-h-screen bg-slate-50 px-4 py-10">
@@ -154,14 +160,15 @@ export function DashboardShell({
         </div>
 
         <nav className="space-y-1 px-3 py-4">
-          {menuItems.map((item, index) => {
+          {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = index === 0;
+            const isActive = isMenuItemActive(item.href);
 
             return (
-              <button
+              <Link
                 key={item.label}
-                type="button"
+                href={item.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-blue-600 text-white shadow-sm"
@@ -170,7 +177,7 @@ export function DashboardShell({
               >
                 <Icon size={17} />
                 {item.label}
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -252,14 +259,14 @@ export function DashboardShell({
                 </CardHeader>
                 <CardContent className="grid gap-3 md:grid-cols-2">
                   {actions.map((action) => (
-                    <button
+                    <Link
                       key={action.label}
-                      type="button"
+                      href={action.href || location}
                       className="rounded-lg border border-slate-200 bg-white p-4 text-left transition-colors hover:border-blue-200 hover:bg-blue-50/50"
                     >
                       <p className="font-semibold text-slate-950">{action.label}</p>
                       <p className="mt-1 text-sm text-slate-600">{action.description}</p>
-                    </button>
+                    </Link>
                   ))}
                 </CardContent>
               </Card>

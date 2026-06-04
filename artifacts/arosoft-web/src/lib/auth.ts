@@ -28,6 +28,7 @@ export interface AuthResponse {
 }
 
 export const authTokenKey = "arosoft_auth_token";
+export const authUserKey = "arosoft_auth_user";
 
 export function getAuthToken() {
   return window.localStorage.getItem(authTokenKey);
@@ -37,8 +38,28 @@ export function setAuthToken(token: string) {
   window.localStorage.setItem(authTokenKey, token);
 }
 
+export function getStoredAuthUser() {
+  const rawUser = window.localStorage.getItem(authUserKey);
+
+  if (!rawUser) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(rawUser) as AuthUser;
+  } catch {
+    window.localStorage.removeItem(authUserKey);
+    return null;
+  }
+}
+
+export function setStoredAuthUser(user: AuthUser) {
+  window.localStorage.setItem(authUserKey, JSON.stringify(user));
+}
+
 export function clearAuthToken() {
   window.localStorage.removeItem(authTokenKey);
+  window.localStorage.removeItem(authUserKey);
 }
 
 export function getDashboardPath(role: UserRole) {

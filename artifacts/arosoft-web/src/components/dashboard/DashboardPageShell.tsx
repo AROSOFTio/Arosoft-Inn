@@ -6,6 +6,8 @@ import {
   clearAuthToken,
   getAuthToken,
   getDashboardPath,
+  getStoredAuthUser,
+  setStoredAuthUser,
   type AuthUser,
   type UserRole,
 } from "@/lib/auth";
@@ -27,15 +29,25 @@ export function DashboardPageShell({
   children,
 }: DashboardPageShellProps) {
   const [location, navigate] = useLocation();
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [status, setStatus] = useState<"loading" | "ready" | "forbidden">("loading");
+  const [user, setUser] = useState<AuthUser | null>(() => getStoredAuthUser());
+  const [status, setStatus] = useState<"loading" | "ready" | "forbidden">(() =>
+    getStoredAuthUser() ? "ready" : "loading",
+  );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const allowedRoleKey = allowedRoles.join("|");
 
   useEffect(() => {
     const token = getAuthToken();
+    const storedUser = getStoredAuthUser();
 
     if (!token) {
       navigate("/login");
+      return;
+    }
+
+    if (storedUser && !allowedRoles.includes(storedUser.role)) {
+      setStatus("forbidden");
+      navigate(getDashboardPath(storedUser.role));
       return;
     }
 
@@ -58,12 +70,13 @@ export function DashboardPageShell({
         return;
       }
 
+      setStoredAuthUser(data.user);
       setUser(data.user);
       setStatus("ready");
     }
 
     void loadCurrentUser();
-  }, [allowedRoles, navigate]);
+  }, [allowedRoleKey, navigate]);
 
   function handleLogout() {
     clearAuthToken();

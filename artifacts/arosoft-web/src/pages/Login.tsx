@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { getDashboardPath, setAuthToken, type AuthResponse } from "@/lib/auth";
+import { getDashboardPath, setAuthToken, setStoredAuthUser, type AuthResponse } from "@/lib/auth";
 
 export default function Login() {
   const [, navigate] = useLocation();
@@ -40,6 +40,7 @@ export default function Login() {
       }
 
       setAuthToken(data.token);
+      setStoredAuthUser(data.user);
       navigate(getDashboardPath(data.user.role));
     } catch {
       setError("Unable to reach the login service. Please try again.");

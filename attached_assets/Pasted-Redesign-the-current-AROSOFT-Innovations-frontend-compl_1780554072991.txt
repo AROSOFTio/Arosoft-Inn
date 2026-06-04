@@ -1,0 +1,268 @@
+Redesign the current AROSOFT Innovations frontend completely.
+
+The current design is wrong because it is too dark, too colorful, too neon, and not premium enough. Remove the heavy dark background, glowing colors, and startup gaming-style look.
+
+NEW DESIGN RULE:
+The website must be mostly white, clean, premium, and professional.
+
+BRAND STYLE:
+- 85% white / soft off-white background
+- 10% dark navy text and footer only
+- 5% blue/violet accent for buttons, links, badges, icons
+- Do NOT use green-heavy branding
+- Do NOT use dark hero sections
+- Do NOT use many colors everywhere
+- Do NOT use neon gradients
+- Do NOT use gaming/crypto-style visuals
+- Do NOT make the hero too wordy
+- Do NOT use large colored blobs everywhere
+- Do NOT make the website look like a cheap template
+
+COLOR PALETTE:
+Use only these colors:
+- Background: #FFFFFF
+- Soft background: #F8FAFC
+- Main text: #0F172A
+- Muted text: #64748B
+- Border: #E5E7EB
+- Primary blue: #2563EB
+- Premium violet: #7C3AED
+- Dark footer/nav text: #050816
+
+Use blue as the main button color.
+Use violet only as a small premium accent.
+Use dark navy only for text, footer, and small contrast sections.
+Do not use green unless it is a very tiny success status icon.
+
+FONT:
+Use Inter or Sora.
+Headings must look premium, clean, and serious.
+Body text must be readable and not too much.
+
+LAYOUT FEEL:
+The website should feel like Apple, Linear, Stripe, Vercel, Notion, and modern enterprise SaaS.
+Clean. White. Spacious. Minimal. Premium.
+
+HOME PAGE REDESIGN:
+Create a clean white homepage.
+
+Navbar:
+- White background
+- Small logo: AROSOFT Innovations
+- Menu: Home, Systems, Scripts, Academy, Workflows, Portfolio, Contact
+- Buttons: Login, Get Started
+- No dark navbar
+- No colorful navbar
+
+Hero:
+- White or very soft #F8FAFC background
+- Left side text only
+- Right side clean product mockup/dashboard card
+- Headline:
+  “Build. Automate. Learn. Scale.”
+- Subtext:
+  “Digital systems, premium templates, AI-powered learning, and workflow tools built for serious growth.”
+- Buttons:
+  “Explore Systems”
+  “Join Academy”
+- Hero must not have too much text
+- Hero must not be fully dark
+- Hero visual should be clean, light, and elegant
+
+Hero design:
+- Use a light dashboard mockup card
+- White cards
+- Thin borders
+- Soft shadow
+- Small blue/violet accents
+- No neon blocks
+- No dark full-screen dashboard
+
+Sections:
+1. What We Build
+Cards:
+- Business Systems
+- Script Templates
+- AI Academy
+- Workflow Tools
+- Premium Videos
+- Student Support
+
+Each card:
+- White background
+- Thin border
+- Small icon
+- Short title
+- One short sentence only
+- No long paragraphs
+
+2. Featured Systems
+Show 3 clean system cards:
+- Business Management System
+- School Management System
+- Billing & Payment System
+
+3. Premium Scripts
+Show 3 product cards:
+- Website Template
+- Admin Dashboard
+- Invoice Template
+Each card should show:
+- From $5
+- Preview button
+- Buy Now button
+
+4. Academy
+Clean section for online courses:
+Headline:
+“AI-guided learning for practical skills.”
+Mention:
+- Courses
+- Assignments
+- Progress tracking
+- RAG / CAG / CRAG study support
+Keep it short and visual.
+
+5. Workflow
+Use a clean horizontal process:
+Request → Analyze → Assign → Build → Deliver
+Do not create a large confusing section.
+
+6. Final CTA
+White or dark navy small section:
+“Ready to build with AROSOFT Innovations?”
+Button: Request a Project
+
+Footer:
+Dark navy footer is okay.
+Keep it clean and simple.
+
+ALL OTHER PAGES:
+Apply the same premium white design to:
+- Systems
+- Scripts
+- Academy
+- Workflows
+- Portfolio
+- Contact
+- Login
+- Dashboard Preview
+- Admin Inbox
+
+Each page must have its own layout but the same clean design system.
+
+SERVICES / SYSTEMS PAGE:
+Mostly white.
+Clean hero.
+System cards in a grid.
+Minimal text.
+No heavy dark hero.
+
+SCRIPTS PAGE:
+Marketplace style.
+White product cards.
+Price badges from $5.
+Clean filters.
+No colorful background.
+
+ACADEMY PAGE:
+Premium learning academy style.
+White course cards.
+Show AI learning features:
+- AI Study Guide
+- RAG Course Q&A
+- CAG Learning Memory
+- CRAG Answer Checking
+- Assignment Tracking
+- Completion Workflow
+- Progress Dashboard
+Keep text short.
+
+WORKFLOWS PAGE:
+Clean project-management style.
+Show workflow board with light cards, not dark Kanban.
+Roles:
+Frontend, Backend, Fullstack, Marketing, Video, Finance, Support.
+
+CONTACT PAGE:
+Two-column clean layout.
+
+Left side:
+General contact information:
+- hello@arosof.com
+- support@arosof.com
+- projects@arosof.com
+- Kampala, Uganda
+- Working hours
+
+Right side:
+Contact form with:
+- Full Name
+- Email
+- Phone
+- Organization
+- Reason dropdown
+- Priority dropdown
+- Subject
+- Message
+- Upload file
+- Consent checkbox
+- Send Message button
+
+Below or separate admin preview:
+Support inbox mockup must be light theme, not dark.
+Admin can reply.
+Reply is saved inside thread and also sent to client email.
+
+ADMIN PAGES:
+Admin pages must be separate from public pages.
+Use light dashboard layout:
+- White background
+- Sidebar can be very light gray
+- Blue active states
+- White cards
+- Clean tables
+- Minimal color
+No dark admin dashboard.
+
+BACKEND REQUIREMENTS:
+Keep the backend plan already requested:
+- Node.js
+- Express
+- TypeScript
+- PostgreSQL
+- Prisma
+- JWT Auth
+- bcrypt
+- Zod
+- Multer
+- Nodemailer
+- RBAC
+- Contact inbox
+- Admin reply to client email
+- Client requests
+- Projects
+- Tasks
+- Systems
+- Script templates
+- Academy courses
+- Invoices
+- Compliance records
+- Audit logs
+
+IMPORTANT:
+Do not remove the backend features.
+Only redesign the frontend UI to be clean, mostly white, premium, and professional.
+
+FINAL QUALITY CHECK:
+Before finishing:
+- Remove heavy dark sections from hero and main content
+- Remove unnecessary colors
+- Remove neon gradients
+- Reduce text
+- Make spacing clean
+- Make cards white with soft borders
+- Make the site feel premium, serious, and business-ready
+- Ensure all pages still work
+- Ensure routes are connected
+- Ensure backend API connection structure remains

@@ -36,69 +36,67 @@ const pricing = [
 
 export default function Academy() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 relative border-b border-white/5">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
-          <div className="container mx-auto max-w-4xl text-center relative z-10">
-            <Badge className="mb-6 bg-accent/20 text-accent hover:bg-accent/30 border-none px-3 py-1">
+        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+          <div className="container mx-auto max-w-4xl text-center">
+            <Badge className="mb-6 bg-violet-100 text-violet-700 hover:bg-violet-200 border-none px-3 py-1 font-medium">
               Powered by RAG, CAG & CRAG
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              Learn practical digital skills with AI-guided support.
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900">
+              Learn practical digital skills.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-10">
+            <p className="text-lg md:text-xl text-slate-600 mb-10">
               Stop watching tutorials and start building. AROSOFT Academy combines rigorous curriculum with intelligent AI agents that remember your progress, answer your questions, and verify your code.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="h-12 px-8">Explore Courses</Button>
-              <Button variant="outline" size="lg" className="h-12 px-8 border-white/10 bg-white/5">View Premium Access</Button>
+              <Button size="lg" className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium">Explore Courses</Button>
+              <Button variant="outline" size="lg" className="h-12 px-8 border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">View Premium Access</Button>
             </div>
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6">
+        <section className="py-24 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Learning Paths" description="Structured curriculum for every skill level." />
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {courses.map((course, i) => (
-                <Card key={i} className="bg-card/50 backdrop-blur-sm border-white/5 flex flex-col hover:border-white/20 transition-all">
+                <Card key={i} className="bg-white border border-gray-200 shadow-sm flex flex-col hover:shadow-md transition-all rounded-xl">
                   <CardHeader className="pb-4">
                     <div className="flex justify-between items-start mb-2">
-                      <Badge variant={course.level === "Advanced" ? "destructive" : course.level === "Intermediate" ? "default" : "secondary"} className="text-xs">
+                      <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700 font-medium border-none">
                         {course.level}
                       </Badge>
-                      {course.premium && <Badge variant="outline" className="border-accent text-accent">Premium</Badge>}
+                      {course.premium && <Badge variant="outline" className="border-violet-200 text-violet-700 bg-violet-50">Premium</Badge>}
                     </div>
-                    <CardTitle className="text-xl">{course.title}</CardTitle>
+                    <CardTitle className="text-xl font-bold">{course.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex-1 pb-4">
-                    <p className="text-sm text-muted-foreground mb-6 line-clamp-3">{course.desc}</p>
+                    <p className="text-sm text-slate-600 mb-6 line-clamp-3">{course.desc}</p>
                     
                     <div className="space-y-4">
-                      <div className="flex items-center text-sm text-muted-foreground gap-2">
+                      <div className="flex items-center text-sm text-slate-500 gap-2 font-medium">
                         <Clock size={16} />
                         <span>{course.duration}</span>
                       </div>
                       
-                      {/* Fake Progress */}
                       {i % 3 === 0 && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-xs">
-                            <span className="text-primary">In Progress</span>
-                            <span className="text-muted-foreground">45%</span>
+                        <div className="space-y-2 bg-slate-50 p-3 rounded-lg border border-gray-100">
+                          <div className="flex justify-between text-xs font-medium">
+                            <span className="text-blue-600">In Progress</span>
+                            <span className="text-slate-600">45%</span>
                           </div>
-                          <Progress value={45} className="h-2 bg-white/10" />
+                          <Progress value={45} className="h-2 bg-gray-200" />
                         </div>
                       )}
                     </div>
                   </CardContent>
                   <CardFooter className="pt-0">
-                    <Button className="w-full group" variant={i % 3 === 0 ? "default" : "secondary"}>
-                      <PlayCircle className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+                    <Button className={`w-full group font-medium ${i % 3 === 0 ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50"}`}>
+                      <PlayCircle className={`mr-2 h-4 w-4 group-hover:scale-110 transition-transform ${i % 3 !== 0 && "text-slate-500"}`} />
                       {i % 3 === 0 ? "Continue Course" : "View Course"}
                     </Button>
                   </CardFooter>
@@ -108,41 +106,40 @@ export default function Academy() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-white/[0.02] border-y border-white/5">
+        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 shadow-sm border border-blue-200">
                   <Brain size={32} />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-6">
                   An academy powered by intelligent agents.
                 </h2>
-                <p className="text-lg text-muted-foreground mb-8">
+                <p className="text-lg text-slate-600 mb-8">
                   Our platform integrates Retrieval-Augmented Generation (RAG) to provide instant context-aware answers, while CAG and CRAG memory systems track your learning style to personalize explanations.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {features.map((feature, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <CheckCircle2 size={18} className="text-primary" />
-                      <span className="text-sm font-medium">{feature}</span>
+                      <CheckCircle2 size={18} className="text-blue-600" />
+                      <span className="text-sm font-medium text-slate-700">{feature}</span>
                     </div>
                   ))}
                 </div>
               </div>
               
-              <div className="relative rounded-2xl border border-white/10 bg-[#0A1220] p-6 shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A1220] via-transparent to-transparent z-10 pointer-events-none"></div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xl">
                 <div className="space-y-4">
-                  <div className="bg-white/5 rounded-xl p-4 ml-8">
-                    <p className="text-sm">I'm having trouble understanding how props work in React. Can you explain?</p>
+                  <div className="bg-slate-100 rounded-xl p-4 ml-8 rounded-tr-sm">
+                    <p className="text-sm text-slate-800">I'm having trouble understanding how props work in React. Can you explain?</p>
                   </div>
-                  <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 mr-8">
-                    <p className="text-sm text-primary font-medium mb-1">AI Assistant</p>
-                    <p className="text-sm text-foreground/90">Based on your progress in the Web Dev course, think of props like HTML attributes (which you learned in Week 2), but for React components. Here is an example related to the project you are building...</p>
+                  <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mr-8 rounded-tl-sm">
+                    <p className="text-sm text-blue-700 font-bold mb-1">AI Assistant</p>
+                    <p className="text-sm text-slate-700">Based on your progress in the Web Dev course, think of props like HTML attributes (which you learned in Week 2), but for React components. Here is an example related to the project you are building...</p>
                   </div>
-                  <div className="bg-white/5 rounded-xl p-4 ml-8">
-                    <p className="text-sm">Oh, that makes sense! Let me try it.</p>
+                  <div className="bg-slate-100 rounded-xl p-4 ml-8 rounded-tr-sm">
+                    <p className="text-sm text-slate-800">Oh, that makes sense! Let me try it.</p>
                   </div>
                 </div>
               </div>
@@ -150,37 +147,40 @@ export default function Academy() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6">
+        <section className="py-24 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Simple, transparent pricing" />
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
               {pricing.map((tier, i) => (
-                <Card key={i} className={`bg-card border-white/5 flex flex-col ${i === 1 ? 'border-primary shadow-[0_0_30px_-10px_rgba(37,99,235,0.3)] relative' : ''}`}>
+                <Card key={i} className={`bg-white flex flex-col rounded-xl overflow-hidden ${i === 1 ? 'border-2 border-blue-500 shadow-lg relative' : 'border border-gray-200 shadow-sm'}`}>
                   {i === 1 && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full">
-                      Most Popular
-                    </div>
+                    <div className="absolute top-0 inset-x-0 h-1 bg-blue-500"></div>
                   )}
-                  <CardHeader>
-                    <CardTitle className="text-xl">{tier.name}</CardTitle>
-                    <div className="mt-4 flex items-baseline text-4xl font-bold">
+                  <CardHeader className="pt-8">
+                    {i === 1 && (
+                      <div className="mb-2 self-start px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                        Most Popular
+                      </div>
+                    )}
+                    <CardTitle className="text-xl text-slate-900">{tier.name}</CardTitle>
+                    <div className="mt-4 flex items-baseline text-4xl font-bold text-slate-900">
                       {tier.price}
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">{tier.desc}</p>
+                    <p className="text-sm text-slate-600 mt-2">{tier.desc}</p>
                   </CardHeader>
                   <CardContent className="flex-1">
                     <ul className="space-y-3">
                       {tier.features.map((feature, j) => (
-                        <li key={j} className="flex items-center gap-2 text-sm">
-                          <CheckCircle2 size={16} className="text-primary flex-shrink-0" />
+                        <li key={j} className="flex items-center gap-2 text-sm text-slate-700">
+                          <CheckCircle2 size={16} className="text-blue-600 flex-shrink-0" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </CardContent>
-                  <CardFooter>
-                    <Button className="w-full" variant={i === 1 ? "default" : "outline"}>
+                  <CardFooter className="pb-8">
+                    <Button className="w-full font-medium" variant={i === 1 ? "default" : "outline"} style={i===1 ? {backgroundColor: '#2563EB', color: 'white'} : {}}>
                       Choose Plan
                     </Button>
                   </CardFooter>

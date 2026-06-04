@@ -45,33 +45,32 @@ const systems = [
 
 export default function Systems() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
-          <div className="container mx-auto text-center relative z-10">
+        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+          <div className="container mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              Production-ready systems for serious businesses.
+              Production-ready systems.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
               We build scalable, secure, and intuitive digital infrastructure to power your daily operations.
             </p>
           </div>
         </section>
 
-        <section className="py-12 px-4 md:px-6">
+        <section className="py-16 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <Tabs defaultValue="all" className="w-full">
               <div className="flex justify-center mb-12">
-                <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto p-1">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="business">Business</TabsTrigger>
-                  <TabsTrigger value="education">Education</TabsTrigger>
-                  <TabsTrigger value="finance">Finance</TabsTrigger>
-                  <TabsTrigger value="automation">Automation</TabsTrigger>
-                  <TabsTrigger value="custom">Custom</TabsTrigger>
+                <TabsList className="bg-slate-100 border border-gray-200 flex-wrap h-auto p-1 rounded-xl">
+                  <TabsTrigger value="all" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">All</TabsTrigger>
+                  <TabsTrigger value="business" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Business</TabsTrigger>
+                  <TabsTrigger value="education" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Education</TabsTrigger>
+                  <TabsTrigger value="finance" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Finance</TabsTrigger>
+                  <TabsTrigger value="automation" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Automation</TabsTrigger>
+                  <TabsTrigger value="custom" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Custom</TabsTrigger>
                 </TabsList>
               </div>
 
@@ -100,6 +99,7 @@ export default function Systems() {
           title="Need a custom system?" 
           description="Let's build a solution tailored exactly to your operational needs."
           primaryBtnText="Request a System"
+          variant="dark"
         />
       </main>
 

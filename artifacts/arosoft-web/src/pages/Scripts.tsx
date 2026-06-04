@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, CheckCircle2 } from "lucide-react";
+import { Search, CheckCircle2, Code2 } from "lucide-react";
 import { Link } from "wouter";
 
 const scripts = [
@@ -22,34 +22,34 @@ const scripts = [
 
 export default function Scripts() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 relative">
+        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-              Premium scripts and templates <br className="hidden md:block"/>from <span className="text-primary">$5</span>.
+              Premium scripts and templates.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12">
               Accelerate your development with production-ready code, beautiful UI kits, and automated workflows.
             </p>
             
             <div className="max-w-xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
               <Input 
                 placeholder="Search for templates, scripts, or packs..." 
-                className="h-14 pl-12 bg-white/5 border-white/10 rounded-xl text-lg focus-visible:ring-primary/50"
+                className="h-14 pl-12 bg-white border-gray-200 rounded-xl text-lg focus-visible:ring-blue-500 shadow-sm"
               />
             </div>
           </div>
         </section>
 
-        <section className="py-12 px-4 md:px-6">
+        <section className="py-16 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <div className="flex flex-wrap gap-2 justify-center mb-12">
               {["All", "Website Templates", "Admin Dashboards", "Business Forms", "Automation Scripts", "AI Prompt Packs"].map(cat => (
-                <Button key={cat} variant="outline" className={`rounded-full border-white/10 ${cat === "All" ? "bg-white/10 text-foreground" : "bg-transparent text-muted-foreground"}`}>
+                <Button key={cat} variant="outline" className={`rounded-full border-gray-200 ${cat === "All" ? "bg-blue-50 text-blue-700 border-blue-200 font-medium" : "bg-white text-slate-600 hover:bg-slate-50"}`}>
                   {cat}
                 </Button>
               ))}
@@ -57,23 +57,23 @@ export default function Scripts() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {scripts.map((script, i) => (
-                <Card key={i} className="bg-card/50 backdrop-blur-sm border-white/5 flex flex-col hover:border-primary/30 transition-colors group">
+                <Card key={i} className="bg-white border-gray-200 flex flex-col hover:shadow-md transition-shadow rounded-xl overflow-hidden shadow-sm">
                   <CardHeader className="p-0">
-                    <div className="aspect-video bg-white/5 rounded-t-xl relative overflow-hidden group-hover:bg-white/10 transition-colors flex items-center justify-center">
-                       <Code2 size={48} className="text-white/20" />
-                       <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground font-semibold">
-                         {script.price}
-                       </Badge>
+                    <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center relative">
+                       <Code2 size={48} className="text-slate-300" />
                     </div>
                   </CardHeader>
                   <CardContent className="p-5 flex-1">
-                    <div className="text-xs text-primary mb-2 font-medium">{script.category}</div>
+                    <div className="flex justify-between items-start mb-2">
+                      <Badge className="bg-violet-100 text-violet-700 hover:bg-violet-200 text-xs font-medium border-none">{script.category}</Badge>
+                      <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold border-none">From {script.price}</Badge>
+                    </div>
                     <h3 className="text-lg font-bold mb-2 line-clamp-1">{script.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">{script.desc}</p>
+                    <p className="text-sm text-slate-600 line-clamp-2">{script.desc}</p>
                   </CardContent>
                   <CardFooter className="p-5 pt-0 flex gap-2">
-                    <Button variant="outline" className="w-full border-white/10 text-xs">Preview</Button>
-                    <Button className="w-full text-xs">Buy Now</Button>
+                    <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 text-sm">Preview</Button>
+                    <Button className="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -81,7 +81,7 @@ export default function Scripts() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-white/[0.02] border-y border-white/5">
+        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <SectionHeader title="Why buy from AROSOFT?" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
@@ -91,25 +91,22 @@ export default function Scripts() {
                 { title: "Affordable Pricing", desc: "Premium quality tools accessible to developers everywhere." },
                 { title: "Support Included", desc: "Stuck? Our technical support team is here to help you deploy." }
               ].map((feature, i) => (
-                <div key={i} className="text-center">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                <div key={i} className="text-center bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="w-12 h-12 mx-auto rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
                     <CheckCircle2 size={24} />
                   </div>
-                  <h4 className="font-semibold mb-2">{feature.title}</h4>
-                  <p className="text-sm text-muted-foreground">{feature.desc}</p>
+                  <h4 className="font-bold text-slate-900 mb-2">{feature.title}</h4>
+                  <p className="text-sm text-slate-600">{feature.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <CTASection />
+        <CTASection variant="dark" />
       </main>
 
       <Footer />
     </div>
   );
 }
-
-// Quick inline component for the icon since we didn't import it at the top
-import { Code2 } from "lucide-react";

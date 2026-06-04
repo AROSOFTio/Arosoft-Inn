@@ -33,6 +33,29 @@ sudo docker compose logs -f api
 
 The API container runs the database schema push and seed users before startup.
 
+Required production `.env` values include:
+
+```text
+POSTGRES_PASSWORD=...
+JWT_SECRET=...
+SEED_USER_PASSWORD=...
+FRONTEND_URL=https://new.arosoft.io
+CORS_ORIGINS=https://new.arosoft.io
+```
+
+Optional SMTP values:
+
+```text
+SMTP_HOST=
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM_EMAIL=
+SMTP_FROM_NAME=AROSOFT Innovations
+```
+
+If SMTP is empty, notification emails are skipped safely and API requests still complete.
+
 ## aaPanel Nginx
 
 Use the aaPanel vhost config path:

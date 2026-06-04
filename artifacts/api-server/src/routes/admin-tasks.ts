@@ -10,6 +10,7 @@ import {
   usersTable,
 } from "@workspace/db";
 import { sendTaskAssignmentEmail } from "../lib/email";
+import { audit } from "../lib/audit";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -68,6 +69,7 @@ router.post(
         })
       : { sent: false, skippedReason: "Assigned user not found." };
 
+    audit("task.assigned", { actorId: user.id, taskId: task.id, assignedToId: task.assignedToId, projectId: task.projectId });
     res.status(201).json({ task, email });
   },
 );

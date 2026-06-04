@@ -11,6 +11,7 @@ import {
   sendAdminRequestAlertEmail,
   sendClientRequestConfirmationEmail,
 } from "../lib/email";
+import { audit } from "../lib/audit";
 import { getRouteParam } from "../lib/params";
 import { createUpload, fileToUrl } from "../lib/uploads";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
@@ -70,6 +71,7 @@ router.post(
       }),
     ]);
 
+    audit("client_request.created", { actorId: user.id, requestId: request.id, serviceType: request.serviceType });
     res.status(201).json({ request, email: { client: clientEmail, admin: adminEmail } });
   },
 );

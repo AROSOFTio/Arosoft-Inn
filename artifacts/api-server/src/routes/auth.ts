@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { eq } from "drizzle-orm";
 import { z } from "zod/v4";
-import { db, userRoleSchema, usersTable } from "@workspace/db";
+import { db, usersTable } from "@workspace/db";
 import {
   hashPassword,
   signPasswordResetToken,
@@ -19,7 +19,6 @@ const registerSchema = z.object({
   name: z.string().trim().min(2).max(160),
   email: z.string().trim().email().max(255).transform((email) => email.toLowerCase()),
   password: z.string().min(8).max(100),
-  role: userRoleSchema.optional().default("CLIENT"),
 });
 
 const loginSchema = z.object({
@@ -61,7 +60,7 @@ router.post("/register", async (req, res) => {
       name: parsed.data.name,
       email: parsed.data.email,
       passwordHash: await hashPassword(parsed.data.password),
-      role: parsed.data.role,
+      role: "CLIENT",
     })
     .returning();
 

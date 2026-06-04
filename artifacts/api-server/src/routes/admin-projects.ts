@@ -11,6 +11,7 @@ import {
   type UserRole,
 } from "@workspace/db";
 import { getRouteParam } from "../lib/params";
+import { audit } from "../lib/audit";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
 const router: IRouter = Router();
@@ -48,6 +49,7 @@ router.post(
       return;
     }
 
+    const user = (req as AuthenticatedRequest).user;
     const [project] = await db
       .insert(projectsTable)
       .values({
@@ -56,6 +58,7 @@ router.post(
       })
       .returning();
 
+    audit("project.created", { actorId: user.id, projectId: project.id, clientId: project.clientId });
     res.status(201).json({ project });
   },
 );
@@ -85,6 +88,7 @@ router.get(
       return;
     }
 
+    const user = (req as AuthenticatedRequest).user;
     const [project] = await db
       .select()
       .from(projectsTable)
@@ -145,6 +149,7 @@ router.patch(
       return;
     }
 
+    audit("project.updated", { actorId: user.id, projectId: project.id, status: project.status });
     res.json({ project });
   },
 );
@@ -171,6 +176,7 @@ router.post(
       return;
     }
 
+    const user = (req as AuthenticatedRequest).user;
     const [project] = await db
       .insert(projectsTable)
       .values({
@@ -192,6 +198,7 @@ router.post(
       })
       .where(eq(clientRequestsTable.id, request.id));
 
+    audit("client_request.converted_to_project", { actorId: user.id, requestId: request.id, projectId: project.id });
     res.status(201).json({ project, projectId: project.id });
   },
 );
@@ -211,7 +218,17 @@ router.get(
       "FINANCE",
       "COMPLIANCE",
     ];
-    const users = await db.select().from(usersTable).orderBy(usersTable.name);
+    const users = await db
+      .select({
+        id: usersTable.id,
+        name: usersTable.name,
+        email: usersTable.email,
+        role: usersTable.role,
+        isActive: usersTable.isActive,
+        createdAt: usersTable.createdAt,
+      })
+      .from(usersTable)
+      .orderBy(usersTable.name);
     res.json({ users: users.filter((user) => staffRoles.includes(user.role)) });
   },
 );
@@ -221,7 +238,17 @@ router.get(
   requireAuth,
   requireRoles(adminRoles),
   async (_req, res) => {
-    const users = await db.select().from(usersTable).orderBy(usersTable.name);
+    const users = await db
+      .select({
+        id: usersTable.id,
+        name: usersTable.name,
+        email: usersTable.email,
+        role: usersTable.role,
+        isActive: usersTable.isActive,
+        createdAt: usersTable.createdAt,
+      })
+      .from(usersTable)
+      .orderBy(usersTable.name);
     res.json({ users: users.filter((user) => user.role === "CLIENT") });
   },
 );

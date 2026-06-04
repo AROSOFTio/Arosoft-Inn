@@ -8,6 +8,7 @@ import {
   db,
 } from "@workspace/db";
 import { sendSupportReplyEmail } from "../lib/email";
+import { audit } from "../lib/audit";
 import { getRouteParam } from "../lib/params";
 import { requireAuth, requireRoles, type AuthenticatedRequest } from "../middleware/auth";
 
@@ -137,6 +138,7 @@ router.post(
       .set({ status: "REPLIED", updatedAt: new Date() })
       .where(eq(contactMessagesTable.id, message.id));
 
+    audit("support.reply_created", { actorId: user.id, messageId: message.id, replyId: reply.id, emailSent: reply.emailSent });
     res.status(201).json({ reply, email: emailResult });
   },
 );

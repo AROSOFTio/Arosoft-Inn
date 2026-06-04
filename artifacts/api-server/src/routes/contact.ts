@@ -2,6 +2,7 @@ import { Router, type IRouter } from "express";
 import { z } from "zod/v4";
 import { db, contactMessagesTable } from "@workspace/db";
 import { sendContactConfirmationEmail } from "../lib/email";
+import { audit } from "../lib/audit";
 import { createUpload, fileToUrl } from "../lib/uploads";
 
 const router: IRouter = Router();
@@ -42,6 +43,7 @@ router.post("/contact", upload.single("attachment"), async (req, res) => {
     subject: message.subject,
   });
 
+  audit("contact.created", { messageId: message.id, source: message.source });
   res.status(201).json({ message, email });
 });
 

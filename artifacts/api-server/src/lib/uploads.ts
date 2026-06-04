@@ -4,6 +4,16 @@ import multer from "multer";
 
 const uploadRoot = path.resolve(process.cwd(), "uploads");
 const allowedExtensions = new Set([".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".zip"]);
+const allowedMimeTypes = new Set([
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/zip",
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/webp",
+]);
 
 function ensureDir(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
@@ -36,9 +46,12 @@ export function createUpload(folder: string) {
     }),
     limits: {
       fileSize: 20 * 1024 * 1024,
+      files: 8,
     },
     fileFilter(_req, file, cb) {
-      cb(null, allowedExtensions.has(path.extname(file.originalname).toLowerCase()));
+      const extensionAllowed = allowedExtensions.has(path.extname(file.originalname).toLowerCase());
+      const mimeAllowed = allowedMimeTypes.has(file.mimetype);
+      cb(null, extensionAllowed && mimeAllowed);
     },
   });
 }

@@ -53,7 +53,10 @@ From the repo directory:
 ```sh
 cd /www/wwwroot/new.arosoft.io
 git pull origin main
-sudo docker compose up -d --build
+cp .env.production.example .env
+nano .env
+sudo docker compose build
+sudo docker compose up -d
 ```
 
 The API container runs the database schema push and seed users before starting:
@@ -71,7 +74,8 @@ Use this whenever new code is pushed:
 ```sh
 cd /www/wwwroot/new.arosoft.io
 git pull origin main
-sudo docker compose up -d --build
+sudo docker compose build
+sudo docker compose up -d
 ```
 
 Check logs:
@@ -80,6 +84,25 @@ Check logs:
 sudo docker compose logs -f api
 sudo docker compose logs -f web
 ```
+
+## Nginx for new.arosoft.io
+
+Install the host Nginx reverse proxy config:
+
+```sh
+cd /www/wwwroot/new.arosoft.io
+sudo cp nginx/new.arosoft.io.conf /etc/nginx/sites-available/new.arosoft.io
+sudo ln -s /etc/nginx/sites-available/new.arosoft.io /etc/nginx/sites-enabled/new.arosoft.io
+sudo nginx -t
+sudo systemctl reload nginx
+sudo certbot --nginx -d new.arosoft.io
+```
+
+The host Nginx proxies:
+
+- `/` to `http://127.0.0.1:4020/`
+- `/api/` to `http://127.0.0.1:5000/api/`
+- `/uploads/` to `http://127.0.0.1:5000/uploads/`
 
 ## If Docker Build Fails on pnpm Build Approvals
 
@@ -95,9 +118,15 @@ The workspace explicitly approves required build scripts for `bcrypt` and `esbui
 
 ## Services
 
-- `web`: Nginx static web server and `/api` reverse proxy for `new.arosoft.io`.
+- `web`: Nginx static frontend container mapped to host port `4020`.
 - `api`: Express API server. It runs schema push and seed before startup.
 - `postgres`: PostgreSQL database with persistent Docker volume.
+
+## Ports
+
+- Frontend: host `4020` to container `80`.
+- API: host `5000` to container `5000`.
+- PostgreSQL: internal Docker network only; no public host port.
 
 ## Seed Users
 

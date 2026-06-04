@@ -13,7 +13,7 @@
     </filter>
   </defs>
 
-  <g opacity=".34" stroke="#2563EB" stroke-width="2" stroke-linecap="round">
+  <g opacity=".58" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round">
     <path d="M95 356H258C281 356 292 367 292 390V492C292 515 303 526 326 526H492"/>
     <path d="M290 210H470C493 210 504 221 504 244V306C504 329 515 340 538 340H724"/>
     <path d="M1275 112H1398C1421 112 1432 123 1432 146V278"/>
@@ -21,7 +21,7 @@
     <path d="M702 628H618C595 628 584 617 584 594V472C584 449 595 438 618 438H728"/>
   </g>
 
-  <g opacity=".2" fill="#2563EB">
+  <g opacity=".4" fill="#2563EB">
     <circle cx="95" cy="356" r="9"/>
     <circle cx="492" cy="526" r="9"/>
     <circle cx="290" cy="210" r="9"/>
@@ -32,7 +32,7 @@
     <circle cx="702" cy="628" r="9"/>
   </g>
 
-  <g filter="url(#softShadow)" opacity=".72">
+  <g filter="url(#softShadow)" opacity=".95">
     <path d="M817 170C817 146.252 836.252 127 860 127H1298C1321.75 127 1341 146.252 1341 170V512H817V170Z" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
     <path d="M850 183C850 170.85 859.85 161 872 161H1286C1298.15 161 1308 170.85 1308 183V482H850V183Z" fill="url(#screen)" stroke="#DBEAFE"/>
     <path d="M726 512H1432L1372 586H786L726 512Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
@@ -46,11 +46,11 @@
     <rect x="1048" y="215" width="214" height="32" rx="8" fill="#E2E8F0"/>
   </g>
 
-  <g opacity=".52">
+  <g opacity=".82">
     <path d="M574 334L708 260L842 334L708 408L574 334Z" fill="#EFF6FF" stroke="#93C5FD" stroke-width="2"/>
     <path d="M708 408V548L574 474V334L708 408Z" fill="#DBEAFE" stroke="#93C5FD" stroke-width="2"/>
     <path d="M708 408L842 334V474L708 548V408Z" fill="#FFFFFF" stroke="#93C5FD" stroke-width="2"/>
-    <path d="M634 334L708 294L782 334L708 374L634 334Z" fill="url(#blue)" fill-opacity=".24" stroke="#2563EB" stroke-width="2"/>
+    <path d="M634 334L708 294L782 334L708 374L634 334Z" fill="url(#blue)" fill-opacity=".42" stroke="#2563EB" stroke-width="2"/>
     <path d="M646 454H770M676 490H740" stroke="#2563EB" stroke-width="7" stroke-linecap="round"/>
   </g>
 </svg>

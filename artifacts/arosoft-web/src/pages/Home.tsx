@@ -94,13 +94,21 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-8 md:py-10 bg-slate-50">
-          <div
-            className="absolute inset-0 bg-[url('/hero-tech-bg.svg')] bg-[length:1180px_auto] bg-[center_10%] bg-no-repeat opacity-45"
+        <section className="relative overflow-hidden bg-slate-50 py-12 md:py-16">
+          <img
+            src="/hero-tech-bg.svg"
+            alt=""
+            className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[72%] object-cover object-right opacity-80 lg:block"
             aria-hidden="true"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-white/35" aria-hidden="true" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" aria-hidden="true" />
+          <img
+            src="/hero-tech-bg.svg"
+            alt=""
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center opacity-35 lg:hidden"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-white/20" aria-hidden="true" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/75 to-transparent" aria-hidden="true" />
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="max-w-2xl">
@@ -126,50 +134,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              
-              <div className="relative hidden lg:block h-[340px]">
-                {/* Clean dashboard visual */}
-                <div className="absolute inset-0 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden flex flex-col">
-                  <div className="h-12 border-b border-gray-100 flex items-center px-4 gap-2 bg-slate-50">
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                  </div>
-                  <div className="flex-1 p-5 grid grid-cols-3 gap-4">
-                    <div className="col-span-2 space-y-4">
-                      <div className="h-28 rounded-lg border border-gray-100 bg-slate-50 p-4">
-                        <div className="w-1/3 h-4 bg-slate-200 rounded mb-4"></div>
-                        <div className="w-full h-16 flex items-end gap-2">
-                          {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
-                            <div key={i} className="flex-1 bg-blue-200 rounded-t" style={{ height: `${h}%` }}></div>
-                          ))}
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="h-20 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
-                          <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500"><Building2 size={16} /></div>
-                          <div className="w-1/2 h-4 bg-slate-200 rounded"></div>
-                        </div>
-                        <div className="h-20 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
-                          <div className="w-8 h-8 rounded bg-violet-50 flex items-center justify-center text-violet-500"><Code2 size={16} /></div>
-                          <div className="w-1/2 h-4 bg-slate-200 rounded"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-span-1 space-y-4">
-                      {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="h-12 rounded-lg border border-gray-100 bg-white shadow-sm flex items-center px-3 gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-100"></div>
-                          <div className="flex-1 space-y-2">
-                            <div className="w-3/4 h-2 bg-slate-200 rounded"></div>
-                            <div className="w-1/2 h-2 bg-slate-100 rounded"></div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div className="relative hidden h-[360px] lg:block" aria-hidden="true" />
             </div>
           </div>
         </section>

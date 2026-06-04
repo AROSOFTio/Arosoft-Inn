@@ -70,9 +70,14 @@ autoInstallPeers: false
 
 onlyBuiltDependencies:
   - '@swc/core'
+  - bcrypt
   - esbuild
   - msw
   - unrs-resolver
+
+allowBuilds:
+  bcrypt: true
+  esbuild: true
 
 overrides:
   # replit uses linux-x64 only, we can exclude all other platforms

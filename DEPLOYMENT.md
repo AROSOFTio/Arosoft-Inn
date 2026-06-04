@@ -81,6 +81,18 @@ sudo docker compose logs -f api
 sudo docker compose logs -f web
 ```
 
+## If Docker Build Fails on pnpm Build Approvals
+
+If the build fails with `ERR_PNPM_IGNORED_BUILDS` for `bcrypt` or `esbuild`, pull the latest repo changes and rebuild:
+
+```sh
+cd /www/wwwroot/new.arosoft.io
+git pull origin main
+sudo docker compose up -d --build
+```
+
+The workspace explicitly approves required build scripts for `bcrypt` and `esbuild`.
+
 ## Services
 
 - `web`: Nginx static web server and `/api` reverse proxy for `new.arosoft.io`.

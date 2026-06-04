@@ -37,6 +37,7 @@ export const adminMenu: DashboardMenuItem[] = [
   { label: "Systems", icon: Archive, href: "/admin/systems" },
   { label: "Scripts", icon: Code2, href: "/admin/scripts" },
   { label: "Courses", icon: GraduationCap, href: "/admin/courses" },
+  { label: "Student Progress", icon: BookOpen, href: "/admin/progress" },
   { label: "Portfolio", icon: FileArchive, href: "/admin/portfolio" },
   { label: "Invoices", icon: CreditCard, href: "/admin/invoices" },
   { label: "Compliance", icon: ShieldCheck, href: "/admin/compliance" },
@@ -53,11 +54,11 @@ export const developerMenu: DashboardMenuItem[] = [
 
 export const studentMenu: DashboardMenuItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/student" },
-  { label: "Courses", icon: GraduationCap, href: "/student" },
-  { label: "My Learning", icon: BookOpen, href: "/student" },
-  { label: "Quizzes", icon: ClipboardCheck, href: "/student" },
-  { label: "Assignments", icon: FileText, href: "/student" },
-  { label: "Progress", icon: Archive, href: "/student" },
+  { label: "Courses", icon: GraduationCap, href: "/academy" },
+  { label: "My Learning", icon: BookOpen, href: "/student/learning" },
+  { label: "Quizzes", icon: ClipboardCheck, href: "/student/quizzes" },
+  { label: "Assignments", icon: FileText, href: "/student/assignments" },
+  { label: "Progress", icon: Archive, href: "/student/progress" },
   { label: "AI Support", icon: HelpCircle, href: "/student" },
 ];
 
@@ -136,6 +137,10 @@ function getActionHref(label: string) {
   if (normalized.includes("review client requests")) return "/admin/requests";
   if (normalized.includes("client request") || normalized.includes("create request")) return "/client/requests";
   if (normalized.includes("project task") || normalized.includes("assign")) return "/admin/tasks";
+  if (normalized.includes("course")) return "/student/learning";
+  if (normalized.includes("assignment")) return "/student/assignments";
+  if (normalized.includes("quiz")) return "/student/quizzes";
+  if (normalized.includes("progress")) return "/student/progress";
   if (normalized.includes("support inbox") || normalized.includes("inbox") || normalized.includes("reply")) return "/support/messages";
   if (normalized.includes("task")) return "/staff/tasks";
   if (normalized.includes("project")) return "/client/projects";

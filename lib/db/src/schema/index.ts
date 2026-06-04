@@ -1,6 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import {
   boolean,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -109,6 +110,26 @@ export const scriptTemplateStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
 export const scriptTemplateStatusEnum = pgEnum("script_template_status", scriptTemplateStatuses);
 export const scriptTemplateStatusSchema = z.enum(scriptTemplateStatuses);
 export type ScriptTemplateStatus = z.infer<typeof scriptTemplateStatusSchema>;
+
+export const courseStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
+export const courseStatusEnum = pgEnum("course_status", courseStatuses);
+export const courseStatusSchema = z.enum(courseStatuses);
+export type CourseStatus = z.infer<typeof courseStatusSchema>;
+
+export const enrollmentStatuses = ["ACTIVE", "COMPLETED", "CANCELLED"] as const;
+export const enrollmentStatusEnum = pgEnum("enrollment_status", enrollmentStatuses);
+export const enrollmentStatusSchema = z.enum(enrollmentStatuses);
+export type EnrollmentStatus = z.infer<typeof enrollmentStatusSchema>;
+
+export const quizStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
+export const quizStatusEnum = pgEnum("quiz_status", quizStatuses);
+export const quizStatusSchema = z.enum(quizStatuses);
+export type QuizStatus = z.infer<typeof quizStatusSchema>;
+
+export const learningTaskStatuses = ["TODO", "IN_PROGRESS", "COMPLETED"] as const;
+export const learningTaskStatusEnum = pgEnum("learning_task_status", learningTaskStatuses);
+export const learningTaskStatusSchema = z.enum(learningTaskStatuses);
+export type LearningTaskStatus = z.infer<typeof learningTaskStatusSchema>;
 
 export const usersTable = pgTable(
   "users",
@@ -255,6 +276,98 @@ export const scriptTemplatesTable = pgTable(
   }),
 );
 
+export const coursesTable = pgTable(
+  "courses",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    title: varchar("title", { length: 220 }).notNull(),
+    slug: varchar("slug", { length: 220 }).notNull(),
+    category: varchar("category", { length: 120 }).notNull(),
+    level: varchar("level", { length: 80 }).notNull(),
+    duration: varchar("duration", { length: 120 }).notNull(),
+    description: text("description").notNull(),
+    price: varchar("price", { length: 80 }).notNull().default("$0"),
+    isFree: boolean("is_free").notNull().default(true),
+    isPremium: boolean("is_premium").notNull().default(false),
+    status: courseStatusEnum("status").notNull().default("DRAFT"),
+    featured: boolean("featured").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    slugIdx: uniqueIndex("courses_slug_unique").on(table.slug),
+  }),
+);
+
+export const courseLessonsTable = pgTable("course_lessons", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => coursesTable.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 220 }).notNull(),
+  content: text("content").notNull(),
+  videoUrl: text("video_url"),
+  order: integer("lesson_order").notNull().default(1),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const studentEnrollmentsTable = pgTable(
+  "student_enrollments",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    studentId: uuid("student_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+    courseId: uuid("course_id").notNull().references(() => coursesTable.id, { onDelete: "cascade" }),
+    progress: integer("progress").notNull().default(0),
+    status: enrollmentStatusEnum("status").notNull().default("ACTIVE"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    studentCourseIdx: uniqueIndex("student_enrollments_student_course_unique").on(table.studentId, table.courseId),
+  }),
+);
+
+export const quizzesTable = pgTable("quizzes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => coursesTable.id, { onDelete: "cascade" }),
+  lessonId: uuid("lesson_id").references(() => courseLessonsTable.id, { onDelete: "set null" }),
+  title: varchar("title", { length: 220 }).notNull(),
+  status: quizStatusEnum("status").notNull().default("DRAFT"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const quizQuestionsTable = pgTable("quiz_questions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  quizId: uuid("quiz_id").notNull().references(() => quizzesTable.id, { onDelete: "cascade" }),
+  question: text("question").notNull(),
+  options: jsonb("options").$type<string[]>().notNull().default([]),
+  correctAnswer: text("correct_answer").notNull(),
+  explanation: text("explanation"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const quizAttemptsTable = pgTable("quiz_attempts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentId: uuid("student_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  quizId: uuid("quiz_id").notNull().references(() => quizzesTable.id, { onDelete: "cascade" }),
+  score: integer("score").notNull().default(0),
+  answers: jsonb("answers").$type<Record<string, string>>().notNull().default({}),
+  completedAt: timestamp("completed_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const learningTasksTable = pgTable("learning_tasks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentId: uuid("student_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  courseId: uuid("course_id").notNull().references(() => coursesTable.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 220 }).notNull(),
+  description: text("description").notNull(),
+  status: learningTaskStatusEnum("status").notNull().default("TODO"),
+  dueDate: timestamp("due_date", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -272,3 +385,10 @@ export type Task = typeof tasksTable.$inferSelect;
 export type TaskComment = typeof taskCommentsTable.$inferSelect;
 export type System = typeof systemsTable.$inferSelect;
 export type ScriptTemplate = typeof scriptTemplatesTable.$inferSelect;
+export type Course = typeof coursesTable.$inferSelect;
+export type CourseLesson = typeof courseLessonsTable.$inferSelect;
+export type StudentEnrollment = typeof studentEnrollmentsTable.$inferSelect;
+export type Quiz = typeof quizzesTable.$inferSelect;
+export type QuizQuestion = typeof quizQuestionsTable.$inferSelect;
+export type QuizAttempt = typeof quizAttemptsTable.$inferSelect;
+export type LearningTask = typeof learningTasksTable.$inferSelect;

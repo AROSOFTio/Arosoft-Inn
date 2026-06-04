@@ -1,196 +1,176 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "wouter";
+import { Brain, CheckCircle2, Clock, Lock, PlayCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SectionHeader } from "@/components/layout/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "wouter";
-import { Brain, CheckCircle2, Clock, PlayCircle } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 
-const courses = [
-  { title: "Basic Computer Skills", level: "Beginner", duration: "4 Weeks", premium: false, desc: "Master the fundamentals of operating systems, internet navigation, and file management." },
-  { title: "Web Development", level: "Intermediate", duration: "12 Weeks", premium: true, desc: "Build modern, responsive websites using HTML, CSS, JavaScript, and React." },
-  { title: "AI for Students", level: "Beginner", duration: "3 Weeks", premium: false, desc: "Learn how to use AI tools ethically to research, study, and improve academic performance." },
-  { title: "AI for Business", level: "Advanced", duration: "6 Weeks", premium: true, desc: "Implement AI workflows, prompt engineering, and automation into your company operations." },
-  { title: "Office Skills", level: "Beginner", duration: "4 Weeks", premium: false, desc: "Advanced proficiency in Word, Excel, PowerPoint, and modern collaborative tools." },
-  { title: "Video Editing", level: "Intermediate", duration: "8 Weeks", premium: true, desc: "Professional video editing techniques using Premiere Pro and DaVinci Resolve." },
-  { title: "Digital Marketing", level: "Intermediate", duration: "6 Weeks", premium: true, desc: "SEO, social media strategies, and paid advertising campaigns that convert." },
-  { title: "Freelancing Skills", level: "Beginner", duration: "3 Weeks", premium: true, desc: "How to find clients, pitch projects, manage contracts, and build a freelance business." },
-  { title: "System Development", level: "Advanced", duration: "16 Weeks", premium: true, desc: "Full-stack application architecture, database design, and API development." },
-  { title: "Cybersecurity Basics", level: "Intermediate", duration: "5 Weeks", premium: true, desc: "Protecting digital assets, identifying vulnerabilities, and secure coding practices." },
-];
+interface Course {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  level: string;
+  duration: string;
+  description: string;
+  price: string;
+  isFree: boolean;
+  isPremium: boolean;
+  featured: boolean;
+}
 
 const features = [
-  "AI Study Guide", "AI Course Assistant", "RAG-powered Q&A", "CAG-powered learning memory", 
-  "CRAG-powered answer checking", "Assignment Tracker", "Learning Progress Dashboard", 
-  "Quiz Support", "Certificate on completion"
-];
-
-const pricing = [
-  { name: "Free Access", price: "$0", desc: "Basic courses and community access.", features: ["Basic Courses", "Community Forum", "Self-paced Learning"] },
-  { name: "Student Premium", price: "$15/mo", desc: "Full access with AI support for students.", features: ["All Courses", "AI Assistant", "Progress Tracking", "Certificates"] },
-  { name: "Business Premium", price: "$49/mo", desc: "Advanced training for professionals.", features: ["Everything in Student", "Business Use Cases", "Priority Support", "1-on-1 Mentoring"] },
-  { name: "Institution Plan", price: "Custom", desc: "Bulk access for schools and teams.", features: ["Custom Portal", "Admin Dashboard", "Bulk Enrollment", "API Access"] },
+  "Course lessons",
+  "Student enrollments",
+  "Progress tracking",
+  "Quizzes",
+  "Assignments",
+  "Premium course locks",
 ];
 
 export default function Academy() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [error, setError] = useState("");
+  const featuredCourses = useMemo(() => courses.filter((course) => course.featured).slice(0, 3), [courses]);
+
+  useEffect(() => {
+    fetch("/api/courses")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load courses.");
+        return response.json() as Promise<{ courses: Course[] }>;
+      })
+      .then((data) => setCourses(data.courses))
+      .catch((err: Error) => setError(err.message));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
-      
       <main className="flex-1">
-        <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+        <section className="py-8 md:py-10 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto max-w-3xl text-center">
-            <Badge className="mb-4 bg-violet-100 text-violet-700 hover:bg-violet-200 border-none px-3 py-1 text-xs font-medium">
-              Powered by RAG, CAG & CRAG
+            <Badge className="mb-4 bg-blue-50 text-blue-700 hover:bg-blue-100 border-none px-3 py-1 text-xs font-medium">
+              Academy
             </Badge>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3 text-slate-900">
               Learn practical digital skills.
             </h1>
-            <p className="text-base text-slate-600 mb-6 max-w-2xl mx-auto">
-              Rigorous curriculum with intelligent AI agents that remember your progress, answer your questions, and verify your work.
+            <p className="text-base text-slate-600 mb-5 max-w-2xl mx-auto">
+              Browse free and premium courses, enroll as a student, view lessons, complete quizzes, and track progress.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button size="sm" className="h-9 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium">Explore Courses</Button>
-              <Button variant="outline" size="sm" className="h-9 px-6 border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">View Premium Access</Button>
+              <a href="#courses">
+                <Button size="sm" className="h-9 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium">Explore Courses</Button>
+              </a>
+              <Link href="/login">
+                <Button variant="outline" size="sm" className="h-9 px-6 border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">Student Login</Button>
+              </Link>
             </div>
           </div>
         </section>
 
-        <section className="py-10 px-4 md:px-6 bg-white">
+        <section id="courses" className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
-            <SectionHeader title="Learning Paths" description="Structured curriculum for every skill level." />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {courses.map((course, i) => (
-                <Card key={i} className="bg-white border border-gray-200 shadow-sm flex flex-col hover:shadow-md transition-all rounded-xl">
+            <SectionHeader title="Learning Paths" description="Published courses from the AROSOFT Academy." />
+            {error && <p className="mb-5 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {courses.map((course) => (
+                <Card key={course.id} className="bg-white border border-gray-200 shadow-sm flex flex-col hover:shadow-md transition-all rounded-lg">
                   <CardHeader className="pb-4">
                     <div className="flex justify-between items-start mb-2">
                       <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700 font-medium border-none">
                         {course.level}
                       </Badge>
-                      {course.premium && <Badge variant="outline" className="border-violet-200 text-violet-700 bg-violet-50">Premium</Badge>}
+                      {course.isPremium ? (
+                        <Badge variant="outline" className="border-violet-200 text-violet-700 bg-violet-50">Premium</Badge>
+                      ) : (
+                        <Badge variant="outline" className="border-green-200 text-green-700 bg-green-50">Free</Badge>
+                      )}
                     </div>
                     <CardTitle className="text-xl font-bold">{course.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="flex-1 pb-4">
-                    <p className="text-sm text-slate-600 mb-6 line-clamp-3">{course.desc}</p>
-                    
-                    <div className="space-y-4">
-                      <div className="flex items-center text-sm text-slate-500 gap-2 font-medium">
-                        <Clock size={16} />
-                        <span>{course.duration}</span>
-                      </div>
-                      
-                      {i % 3 === 0 && (
-                        <div className="space-y-2 bg-slate-50 p-3 rounded-lg border border-gray-100">
-                          <div className="flex justify-between text-xs font-medium">
-                            <span className="text-blue-600">In Progress</span>
-                            <span className="text-slate-600">45%</span>
-                          </div>
-                          <Progress value={45} className="h-2 bg-gray-200" />
-                        </div>
-                      )}
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-3">{course.description}</p>
+                    <div className="flex items-center text-sm text-slate-500 gap-2 font-medium">
+                      <Clock size={16} />
+                      <span>{course.duration}</span>
+                      <span className="text-slate-300">/</span>
+                      <span>{course.price}</span>
                     </div>
                   </CardContent>
                   <CardFooter className="pt-0">
-                    <Button className={`w-full group font-medium ${i % 3 === 0 ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50"}`}>
-                      <PlayCircle className={`mr-2 h-4 w-4 group-hover:scale-110 transition-transform ${i % 3 !== 0 && "text-slate-500"}`} />
-                      {i % 3 === 0 ? "Continue Course" : "View Course"}
-                    </Button>
+                    <Link href={`/academy/${course.slug}`} className="w-full">
+                      <Button className="w-full group font-medium bg-white text-slate-900 border border-slate-200 hover:bg-slate-50">
+                        {course.isPremium && !course.isFree ? <Lock className="mr-2 h-4 w-4 text-slate-500" /> : <PlayCircle className="mr-2 h-4 w-4 text-slate-500" />}
+                        View Course
+                      </Button>
+                    </Link>
                   </CardFooter>
                 </Card>
               ))}
             </div>
+            {courses.length === 0 && !error && <p className="text-center text-sm text-slate-500">Published courses will appear here.</p>}
           </div>
         </section>
 
-        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
-          <div className="container mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              <div>
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600 mb-4 shadow-sm border border-blue-200">
-                  <Brain size={20} />
-                </div>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-3">
-                  Powered by intelligent agents.
-                </h2>
-                <p className="text-sm text-slate-600 mb-5">
-                  RAG for instant context-aware answers. CAG and CRAG memory systems track your learning style and personalize explanations automatically.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {features.map((feature, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <CheckCircle2 size={18} className="text-blue-600" />
-                      <span className="text-sm font-medium text-slate-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xl">
-                <div className="space-y-4">
-                  <div className="bg-slate-100 rounded-xl p-4 ml-8 rounded-tr-sm">
-                    <p className="text-sm text-slate-800">I'm having trouble understanding how props work in React. Can you explain?</p>
-                  </div>
-                  <div className="bg-blue-50 border border-blue-100 rounded-xl p-4 mr-8 rounded-tl-sm">
-                    <p className="text-sm text-blue-700 font-bold mb-1">AI Assistant</p>
-                    <p className="text-sm text-slate-700">Based on your progress in the Web Dev course, think of props like HTML attributes (which you learned in Week 2), but for React components. Here is an example related to the project you are building...</p>
-                  </div>
-                  <div className="bg-slate-100 rounded-xl p-4 ml-8 rounded-tr-sm">
-                    <p className="text-sm text-slate-800">Oh, that makes sense! Let me try it.</p>
-                  </div>
-                </div>
+        {featuredCourses.length > 0 && (
+          <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+            <div className="container mx-auto">
+              <SectionHeader title="Featured Courses" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {featuredCourses.map((course) => (
+                  <Card key={course.id} className="border-slate-200 bg-white">
+                    <CardContent className="p-5">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">{course.category}</p>
+                      <h3 className="mt-2 font-bold text-slate-950">{course.title}</h3>
+                      <p className="mt-2 text-sm text-slate-600 line-clamp-2">{course.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
-        <section className="py-10 px-4 md:px-6 bg-white">
-          <div className="container mx-auto">
-            <SectionHeader title="Simple, transparent pricing" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
-              {pricing.map((tier, i) => (
-                <Card key={i} className={`bg-white flex flex-col rounded-xl overflow-hidden ${i === 1 ? 'border-2 border-blue-500 shadow-lg relative' : 'border border-gray-200 shadow-sm'}`}>
-                  {i === 1 && (
-                    <div className="absolute top-0 inset-x-0 h-1 bg-blue-500"></div>
-                  )}
-                  <CardHeader className="pt-5 pb-3">
-                    {i === 1 && (
-                      <div className="mb-2 self-start px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
-                        Most Popular
-                      </div>
-                    )}
-                    <CardTitle className="text-xl text-slate-900">{tier.name}</CardTitle>
-                    <div className="mt-4 flex items-baseline text-4xl font-bold text-slate-900">
-                      {tier.price}
-                    </div>
-                    <p className="text-sm text-slate-600 mt-2">{tier.desc}</p>
-                  </CardHeader>
-                  <CardContent className="flex-1">
-                    <ul className="space-y-3">
-                      {tier.features.map((feature, j) => (
-                        <li key={j} className="flex items-center gap-2 text-sm text-slate-700">
-                          <CheckCircle2 size={16} className="text-blue-600 flex-shrink-0" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <CardFooter className="pb-8">
-                    <Button className="w-full font-medium" variant={i === 1 ? "default" : "outline"} style={i===1 ? {backgroundColor: '#2563EB', color: 'white'} : {}}>
-                      Choose Plan
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
+        <section className="py-8 px-4 md:px-6 bg-white">
+          <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-blue-100 text-blue-600 mb-4 border border-blue-200">
+                <Brain size={20} />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-3">
+                Built for measurable progress.
+              </h2>
+              <p className="text-sm text-slate-600 mb-5">
+                Student dashboards connect enrollments, lessons, quizzes, assignments, and completion tracking.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {features.map((feature) => (
+                  <div key={feature} className="flex items-center gap-2">
+                    <CheckCircle2 size={18} className="text-blue-600" />
+                    <span className="text-sm font-medium text-slate-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-lg">
+              <div className="space-y-3">
+                <div className="rounded-lg bg-slate-50 border border-slate-100 p-4">
+                  <p className="text-sm font-semibold text-slate-950">Student flow</p>
+                  <p className="mt-1 text-sm text-slate-600">Enroll, learn, take quizzes, complete assignments, and track progress.</p>
+                </div>
+                <div className="rounded-lg bg-blue-50 border border-blue-100 p-4">
+                  <p className="text-sm font-semibold text-blue-700">Premium access</p>
+                  <p className="mt-1 text-sm text-slate-700">Premium courses are visible but locked until payment is added.</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

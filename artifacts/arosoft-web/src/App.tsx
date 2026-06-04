@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import Systems from "@/pages/Systems";
 import Scripts from "@/pages/Scripts";
 import Academy from "@/pages/Academy";
+import CourseDetail from "@/pages/CourseDetail";
 import Portfolio from "@/pages/Portfolio";
 import Contact from "@/pages/Contact";
 import About from "@/pages/About";
@@ -33,9 +34,17 @@ import AdminProjects from "@/pages/admin/AdminProjects";
 import AdminTasks from "@/pages/admin/AdminTasks";
 import AdminSystems from "@/pages/admin/AdminSystems";
 import AdminScripts from "@/pages/admin/AdminScripts";
+import AdminCourses from "@/pages/admin/AdminCourses";
+import AdminStudentProgress from "@/pages/admin/AdminStudentProgress";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import StaffTasks from "@/pages/staff/StaffTasks";
 import TaskDetail from "@/pages/tasks/TaskDetail";
+import StudentLearning from "@/pages/student/StudentLearning";
+import StudentCourseLearn from "@/pages/student/StudentCourseLearn";
+import StudentQuizzes from "@/pages/student/StudentQuizzes";
+import TakeQuiz from "@/pages/student/TakeQuiz";
+import StudentAssignments from "@/pages/student/StudentAssignments";
+import StudentProgress from "@/pages/student/StudentProgress";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +54,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/systems" component={Systems} />
       <Route path="/scripts" component={Scripts} />
+      <Route path="/academy/:slug" component={CourseDetail} />
       <Route path="/academy" component={Academy} />
       <Route path="/portfolio" component={Portfolio} />
       <Route path="/contact" component={Contact} />
@@ -58,8 +68,9 @@ function Router() {
       <Route path="/admin/tasks" component={AdminTasks} />
       <Route path="/admin/systems" component={AdminSystems} />
       <Route path="/admin/scripts" component={AdminScripts} />
+      <Route path="/admin/courses" component={AdminCourses} />
+      <Route path="/admin/progress" component={AdminStudentProgress} />
       <Route path="/admin/team" component={AdminComingSoon} />
-      <Route path="/admin/courses" component={AdminComingSoon} />
       <Route path="/admin/portfolio" component={AdminComingSoon} />
       <Route path="/admin/invoices" component={AdminComingSoon} />
       <Route path="/admin/compliance" component={AdminComingSoon} />
@@ -72,6 +83,12 @@ function Router() {
       <Route path="/client/requests" component={ClientRequests} />
       <Route path="/client/projects" component={ClientProjects} />
       <Route path="/client" component={ClientDashboard} />
+      <Route path="/student/courses/:id/learn" component={StudentCourseLearn} />
+      <Route path="/student/learning" component={StudentLearning} />
+      <Route path="/student/quizzes/:id" component={TakeQuiz} />
+      <Route path="/student/quizzes" component={StudentQuizzes} />
+      <Route path="/student/assignments" component={StudentAssignments} />
+      <Route path="/student/progress" component={StudentProgress} />
       <Route path="/student" component={StudentDashboard} />
       <Route path="/developer/tasks" component={StaffTasks} />
       <Route path="/developer" component={DeveloperDashboard} />

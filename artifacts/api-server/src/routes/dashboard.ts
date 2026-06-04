@@ -3,9 +3,12 @@ import { and, count, eq, inArray, ne } from "drizzle-orm";
 import {
   clientRequestsTable,
   contactMessagesTable,
+  coursesTable,
   db,
+  learningTasksTable,
   projectsTable,
   scriptTemplatesTable,
+  studentEnrollmentsTable,
   systemsTable,
   tasksTable,
   type ClientRequestStatus,
@@ -65,6 +68,8 @@ router.get(
       openSupport,
       publishedSystems,
       publishedScripts,
+      publishedCourses,
+      studentEnrollments,
     ] = await Promise.all([
       tableCount(clientRequestsTable),
       countClientRequestsByStatus("SUBMITTED"),
@@ -85,6 +90,12 @@ router.get(
         .from(scriptTemplatesTable)
         .where(eq(scriptTemplatesTable.status, "PUBLISHED"))
         .then(([row]) => row?.value ?? 0),
+      db
+        .select({ value: count() })
+        .from(coursesTable)
+        .where(eq(coursesTable.status, "PUBLISHED"))
+        .then(([row]) => row?.value ?? 0),
+      tableCount(studentEnrollmentsTable),
     ]);
 
     res.json({
@@ -95,10 +106,13 @@ router.get(
         { label: "Open support tickets", value: String(openSupport), detail: "New or open contact messages" },
         { label: "Published systems", value: String(publishedSystems), detail: "Visible on the public Systems page" },
         { label: "Published scripts", value: String(publishedScripts), detail: "Visible on the public Scripts page" },
+        { label: "Published courses", value: String(publishedCourses), detail: "Visible on the public Academy page" },
+        { label: "Student enrollments", value: String(studentEnrollments), detail: "Course enrollments across students" },
       ],
       activity: [
         `${totalRequests} client requests in the platform`,
         `${activeProjects} active projects in progress`,
+        `${studentEnrollments} student enrollments recorded`,
         `${openSupport} support conversations need attention`,
       ],
     });
@@ -172,15 +186,42 @@ router.get(
   "/dashboard/student",
   requireAuth,
   requireRoles(["STUDENT"]),
-  (_req, res) => res.json({
-    stats: [
-      { label: "Courses", value: "0", detail: "Course management is reserved for a later sprint" },
-      { label: "Learning tasks", value: "0", detail: "Student coursework will appear after courses are built" },
-      { label: "Progress", value: "0%", detail: "Progress tracking is not active yet" },
-      { label: "AI support", value: "0", detail: "AI support is reserved for a later sprint" },
-    ],
-    activity: ["Student course features are not implemented yet"],
-  }),
+  async (req, res) => {
+    const user = (req as AuthenticatedRequest).user;
+    const [publishedCourses, enrollments, pendingTasks] = await Promise.all([
+      db
+        .select({ value: count() })
+        .from(coursesTable)
+        .where(eq(coursesTable.status, "PUBLISHED"))
+        .then(([row]) => row?.value ?? 0),
+      db
+        .select()
+        .from(studentEnrollmentsTable)
+        .where(eq(studentEnrollmentsTable.studentId, user.id)),
+      db
+        .select({ value: count() })
+        .from(learningTasksTable)
+        .where(and(eq(learningTasksTable.studentId, user.id), inArray(learningTasksTable.status, ["TODO", "IN_PROGRESS"])))
+        .then(([row]) => row?.value ?? 0),
+    ]);
+    const averageProgress = enrollments.length
+      ? Math.round(enrollments.reduce((sum, enrollment) => sum + enrollment.progress, 0) / enrollments.length)
+      : 0;
+
+    res.json({
+      stats: [
+        { label: "Published courses", value: String(publishedCourses), detail: "Courses available in the public academy" },
+        { label: "My enrollments", value: String(enrollments.length), detail: "Courses connected to your student account" },
+        { label: "Learning tasks", value: String(pendingTasks), detail: "Pending assignments and learning tasks" },
+        { label: "Progress score", value: `${averageProgress}%`, detail: "Average completion across enrolled courses" },
+      ],
+      activity: [
+        `${enrollments.length} courses enrolled`,
+        `${pendingTasks} pending learning tasks`,
+        `${averageProgress}% average progress`,
+      ],
+    });
+  },
 );
 
 router.get(

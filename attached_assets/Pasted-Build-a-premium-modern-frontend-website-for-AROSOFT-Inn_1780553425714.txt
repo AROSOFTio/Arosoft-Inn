@@ -1,0 +1,421 @@
+Build a premium, modern frontend website for “AROSOFT Innovations” using React + TypeScript + Tailwind CSS.
+
+IMPORTANT BRAND DIRECTION:
+Do NOT use the old green-heavy look.
+Use a powerful startup-style color palette:
+- Primary dark: #050816 or #07111F
+- Electric blue: #2563EB
+- Violet / purple: #7C3AED
+- Cyan accent: #06B6D4
+- White: #FFFFFF
+- Soft background: #F8FAFC
+- Text dark: #0F172A
+- Muted text: #64748B
+
+Use colors carefully. The website must feel clean, premium, startup-level, serious, and not childish. Avoid too many colors. Use dark navy, white, blue, violet, and small cyan accents.
+
+FONT:
+Use a clean modern font like Inter, Sora, or Space Grotesk.
+Headings should be bold, premium, and clear.
+Body text should be simple and readable.
+
+GENERAL STYLE:
+- Premium SaaS/startup feel
+- Clean spacing
+- Rounded cards
+- Soft shadows
+- Glassmorphism only where it looks professional
+- Smooth hover effects
+- Responsive on mobile, tablet, and desktop
+- No overcrowding
+- Avoid too much text
+- Use strong short headlines
+- Use realistic icons from lucide-react
+- Use reusable components
+- Every page should feel different but still belong to one brand
+- No placeholder lorem ipsum
+- No fake broken images
+- Use elegant gradient accents, but not too much
+
+BUILD THESE FRONTEND PAGES:
+
+1. HOME PAGE
+Route: /
+Purpose: premium overview of AROSOFT Innovations.
+
+Sections:
+- Navbar with logo “AROSOFT Innovations”
+- Menu: Home, Systems, Scripts, Academy, Workflows, Portfolio, Contact
+- Buttons: Login, Get Started
+- Hero section with short powerful headline:
+  “Build. Automate. Learn. Scale.”
+- Hero subtext:
+  “AROSOFT Innovations builds digital systems, premium templates, AI-powered learning, and workflow tools for serious teams and learners.”
+- Hero buttons:
+  “Explore Systems”
+  “Join Academy”
+- Right side hero visual: abstract dashboard/mockup card showing systems, academy, scripts, workflow
+- Small trust stats:
+  Systems
+  Templates
+  Courses
+  Workflows
+- Feature cards:
+  Custom Systems
+  Script Templates
+  Premium Academy
+  AI Learning Assistant
+  Task Workflows
+  Client Support
+- Section for “What We Offer”
+- Section for “Built for businesses, students, and creators”
+- CTA section:
+  “Ready to build with AROSOFT Innovations?”
+  Button: “Request a Project”
+
+2. SYSTEMS PAGE
+Route: /systems
+Purpose: showcase systems AROSOFT sells/builds.
+
+Content:
+- Hero headline:
+  “Production-ready systems for serious businesses.”
+- Short description:
+  “Explore scalable systems built for operations, automation, sales, billing, education, and business management.”
+- System categories:
+  Business Management Systems
+  School Management Systems
+  Billing & Payment Systems
+  Inventory & POS Systems
+  Client Portals
+  AI Workflow Systems
+- Each system card should show:
+  Name
+  Short description
+  Best for
+  Starting price or “Request Quote”
+  Button: View Details
+- Add filter tabs:
+  All
+  Business
+  Education
+  Finance
+  Automation
+  Custom
+- Add CTA:
+  “Need a custom system?”
+  Button: Request a System
+
+3. SCRIPT TEMPLATES PAGE
+Route: /scripts
+Purpose: sell premium script templates starting from $5.
+
+Content:
+- Hero headline:
+  “Premium scripts and templates from $5.”
+- Description:
+  “Save time with ready-made scripts, website templates, automation tools, dashboards, and business components.”
+- Product cards:
+  Website Templates
+  Admin Dashboards
+  Business Forms
+  Automation Scripts
+  Invoice Templates
+  Landing Pages
+  Portfolio Templates
+  AI Prompt Packs
+- Each card should include:
+  Product title
+  Category
+  Price badge: “From $5”
+  Short description
+  Buttons: Preview, Buy Now
+- Add search bar and category filters
+- Add “Why buy from AROSOFT?” section:
+  Clean code
+  Easy customization
+  Affordable pricing
+  Support included
+- Add CTA:
+  “Start with a premium template today.”
+
+4. ACADEMY PAGE
+Route: /academy
+Purpose: online courses with premium access and AI learning features.
+
+This page must feel like a serious learning academy, not a normal blog.
+
+Hero:
+- Headline:
+  “Learn practical digital skills with AI-guided support.”
+- Description:
+  “Access premium courses, guided learning paths, assignments, progress tracking, and AI-powered study support using RAG, CAG, and CRAG learning assistance.”
+- Buttons:
+  “Explore Courses”
+  “View Premium Access”
+
+Course categories:
+- Basic Computer Skills
+- Web Development
+- AI for Students
+- AI for Business
+- Office Skills
+- Video Editing
+- Digital Marketing
+- Freelancing Skills
+- System Development
+- Cybersecurity Basics
+
+Course cards should show:
+- Course name
+- Level: Beginner / Intermediate / Advanced
+- Duration
+- Premium badge
+- Short description
+- Progress-style visual
+- Button: View Course
+
+AI Academy Features section:
+- AI Study Guide
+- AI Course Assistant
+- RAG-powered course Q&A
+- CAG-powered saved learning memory
+- CRAG-powered answer checking
+- Assignment Tracker
+- Task Completion Workflow
+- Learning Progress Dashboard
+- Quiz and Revision Support
+- Certificate after completion
+
+Premium Access section:
+- Free Access
+- Student Premium
+- Business Premium
+- Institution Plan
+
+5. WORKFLOWS PAGE
+Route: /workflows
+Purpose: explain task assignment, client project workflow, developer task tracking.
+
+Hero:
+- Headline:
+  “Run projects with clear workflows.”
+- Description:
+  “Manage client requests, assign tasks, track progress, review work, and deliver projects with accountability.”
+
+Sections:
+- Workflow cards:
+  Client Request
+  AI Requirement Analysis
+  Admin Review
+  Task Assignment
+  Developer Execution
+  Quality Review
+  Client Delivery
+  Support & Maintenance
+
+Task roles:
+- Frontend Developer
+- Backend Developer
+- Fullstack Developer
+- UI/UX Designer
+- Marketing Team
+- Video Editor
+- Finance/Admin
+- Support Team
+
+Add sample Kanban preview:
+Columns:
+- New Request
+- In Review
+- Assigned
+- In Progress
+- Testing
+- Completed
+
+Add feature list:
+- Assignment tracking
+- Deadlines
+- File uploads
+- Team comments
+- Status updates
+- Client visibility
+- Admin approval
+- Audit trail
+
+6. PORTFOLIO PAGE
+Route: /portfolio
+Purpose: show completed systems, videos, websites, templates, academy projects.
+
+Hero:
+- Headline:
+  “Selected work built for impact.”
+- Description:
+  “Explore systems, websites, videos, templates, and learning solutions created by AROSOFT Innovations.”
+
+Portfolio filters:
+- All
+- Systems
+- Websites
+- Videos
+- Templates
+- Academy
+- Automation
+
+Cards:
+- Project image area or clean mockup block
+- Project name
+- Category
+- Short description
+- Tags
+- Button: View Case Study
+
+Add featured case study section:
+- Project problem
+- Solution
+- Outcome
+Keep it short and visual.
+
+7. CONTACT PAGE
+Route: /contact
+Purpose: contact page with two sides.
+
+Layout:
+Two-column premium contact layout.
+
+Left side: General contact details
+Title:
+“Talk to AROSOFT Innovations”
+
+Show:
+- Email: hello@arosof.com
+- Support: support@arosof.com
+- Projects: projects@arosof.com
+- Phone: +256 XXX XXX XXX
+- Location: Kampala, Uganda
+- Working hours: Monday – Saturday
+- Social links
+
+Also add support note:
+“Messages submitted here are kept in the support inbox and can be replied to by admin or customer support. Replies are also sent directly to the client email.”
+
+Right side: Contact form
+
+Fields:
+- Full Name
+- Email Address
+- Phone Number
+- Organization / School / Business Name
+- Reason for Contact dropdown:
+  General Inquiry
+  Request a Website
+  Request a System
+  Buy Script Template
+  Academy Support
+  Premium Course Access
+  Student Support
+  Partnership
+  Complaint
+  Billing / Payment
+  Technical Support
+  Other
+- Priority dropdown:
+  Low
+  Normal
+  High
+  Urgent
+- Subject
+- Message
+- Upload file field
+- Consent checkbox:
+  “I agree that AROSOFT Innovations may contact me about this request.”
+- Submit button:
+  “Send Message”
+
+After submit, show success message:
+“Thank you. Your message has been received. Our support team will respond to your email shortly.”
+
+Important frontend behavior:
+- Store submitted contact messages in local mock state for now.
+- Also create a hidden/mock Admin Support Inbox component/page design showing how messages will appear internally.
+- Each message should have status:
+  New
+  Open
+  Replied
+  Closed
+- Admin/support should have a reply box in the mock UI.
+- When admin replies, show that the reply is saved in the internal thread and marked as sent to the client email.
+- This is frontend only for now, but structure it so backend can be connected later.
+
+8. LOGIN PAGE
+Route: /login
+Purpose: clean login page for clients, students, developers, and admins.
+
+Fields:
+- Email
+- Password
+- Remember me
+- Forgot password
+- Login button
+
+Show role hint:
+“Access your client portal, academy dashboard, project workspace, or admin tools.”
+
+9. DASHBOARD PREVIEW PAGE
+Route: /dashboard-preview
+Purpose: frontend-only preview of future dashboards.
+
+Show cards for:
+- Client Dashboard
+- Student Dashboard
+- Developer Dashboard
+- Admin Dashboard
+- Support Inbox
+- Finance & Compliance
+
+Each card should explain what the user can do.
+
+IMPORTANT NAVIGATION:
+All pages must be connected using React Router or Next-style routing if using Next.js.
+If using Vite React, use react-router-dom.
+Navbar must work on all pages.
+Active menu item should be highlighted.
+
+COMPONENTS TO CREATE:
+- Navbar
+- Footer
+- Button
+- SectionHeader
+- ServiceCard
+- SystemCard
+- ScriptCard
+- CourseCard
+- PortfolioCard
+- ContactForm
+- SupportInboxMock
+- CTASection
+- StatCard
+- FeatureCard
+- WorkflowStep
+- PricingCard
+
+RESPONSIVENESS:
+- Desktop: full premium layout
+- Tablet: cards wrap nicely
+- Mobile: clean stacked layout, hamburger menu if possible
+
+DO NOT:
+- Do not use old green-heavy branding
+- Do not make the pages too wordy
+- Do not use too many sections on one page
+- Do not use childish colors
+- Do not use lorem ipsum
+- Do not generate backend unless needed for mock data
+- Do not create a messy layout
+- Do not make all pages look exactly the same
+
+DESIGN FEEL:
+Imagine Linear, Vercel, Stripe, Framer, and modern AI SaaS websites, but customized for AROSOFT Innovations.
+
+OUTPUT:
+Create the full frontend project with all pages, components, routes, styling, and mock data. Make sure it runs without errors.

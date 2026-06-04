@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "AROSOFT Innovations Website"
+version = "1.0.0"
+id = "artifacts/arosoft-web"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18549
+
+[services.development]
+run = "pnpm --filter @workspace/arosoft-web run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/arosoft-web", "run", "build" ]
+publicDir = "artifacts/arosoft-web/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18549"
+BASE_PATH = "/"

@@ -59,7 +59,7 @@ export const studentMenu: DashboardMenuItem[] = [
   { label: "Quizzes", icon: ClipboardCheck, href: "/student/quizzes" },
   { label: "Assignments", icon: FileText, href: "/student/assignments" },
   { label: "Progress", icon: Archive, href: "/student/progress" },
-  { label: "AI Support", icon: HelpCircle, href: "/student" },
+  { label: "AI Support", icon: HelpCircle, href: "/student/ai-support" },
 ];
 
 export const clientMenu: DashboardMenuItem[] = [
@@ -113,6 +113,7 @@ export const adminStats: DashboardStat[] = [
   { label: "Open support tickets", value: "0", detail: "Support totals load from the database" },
   { label: "Published systems", value: "0", detail: "Published systems load from the database" },
   { label: "Published scripts", value: "0", detail: "Published scripts load from the database" },
+  { label: "Portfolio items", value: "0", detail: "Portfolio totals load from the database" },
 ];
 
 export function createStats(labels: string[]): DashboardStat[] {
@@ -141,6 +142,7 @@ function getActionHref(label: string) {
   if (normalized.includes("assignment")) return "/student/assignments";
   if (normalized.includes("quiz")) return "/student/quizzes";
   if (normalized.includes("progress")) return "/student/progress";
+  if (normalized.includes("ai support")) return "/student/ai-support";
   if (normalized.includes("support inbox") || normalized.includes("inbox") || normalized.includes("reply")) return "/support/messages";
   if (normalized.includes("task")) return "/staff/tasks";
   if (normalized.includes("project")) return "/client/projects";

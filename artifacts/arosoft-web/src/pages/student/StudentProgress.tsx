@@ -10,6 +10,7 @@ interface ProgressData {
   enrollments: Array<{ enrollment: { id: string; progress: number; status: string }; course: { title: string } }>;
   guide: {
     nextLesson?: { title: string } | null;
+    pendingQuiz?: { title: string } | null;
     pendingAssignment?: { title: string } | null;
     completionPercentage: number;
   };
@@ -45,6 +46,7 @@ export default function StudentProgress() {
             <Progress value={data?.guide.completionPercentage ?? 0} className="h-2" />
             <p className="text-sm text-slate-600">{data?.guide.completionPercentage ?? 0}% average completion</p>
             <p className="text-sm text-slate-700">Next lesson: {data?.guide.nextLesson?.title ?? "No pending lesson"}</p>
+            <p className="text-sm text-slate-700">Pending quiz: {data?.guide.pendingQuiz?.title ?? "No pending quiz"}</p>
             <p className="text-sm text-slate-700">Pending assignment: {data?.guide.pendingAssignment?.title ?? "No pending assignment"}</p>
           </CardContent>
         </Card>

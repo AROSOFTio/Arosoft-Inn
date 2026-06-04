@@ -487,12 +487,20 @@ router.get("/student/progress", requireAuth, requireRoles(["STUDENT"]), async (r
   const nextEnrollment = enrollments.find((item) => item.enrollment.progress < 100);
   const nextLessons = nextEnrollment ? await getCourseWithLessons(nextEnrollment.course.id) : [];
   const lessonIndex = nextEnrollment ? Math.min(nextLessons.length - 1, Math.floor((nextEnrollment.enrollment.progress / 100) * nextLessons.length)) : -1;
+  const [pendingQuiz] = nextEnrollment
+    ? await db
+        .select()
+        .from(quizzesTable)
+        .where(and(eq(quizzesTable.courseId, nextEnrollment.course.id), eq(quizzesTable.status, "PUBLISHED")))
+        .orderBy(desc(quizzesTable.createdAt))
+        .limit(1)
+    : [];
 
   res.json({
     enrollments,
     guide: {
       nextLesson: lessonIndex >= 0 ? nextLessons[lessonIndex] : null,
-      pendingQuiz: null,
+      pendingQuiz: pendingQuiz ?? null,
       pendingAssignment: pendingTasks[0] ?? null,
       completionPercentage: enrollments.length
         ? Math.round(enrollments.reduce((sum, item) => sum + item.enrollment.progress, 0) / enrollments.length)

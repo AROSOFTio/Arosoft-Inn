@@ -131,6 +131,11 @@ export const learningTaskStatusEnum = pgEnum("learning_task_status", learningTas
 export const learningTaskStatusSchema = z.enum(learningTaskStatuses);
 export type LearningTaskStatus = z.infer<typeof learningTaskStatusSchema>;
 
+export const portfolioStatuses = ["DRAFT", "PUBLISHED", "HIDDEN"] as const;
+export const portfolioStatusEnum = pgEnum("portfolio_status", portfolioStatuses);
+export const portfolioStatusSchema = z.enum(portfolioStatuses);
+export type PortfolioStatus = z.infer<typeof portfolioStatusSchema>;
+
 export const usersTable = pgTable(
   "users",
   {
@@ -368,6 +373,23 @@ export const learningTasksTable = pgTable("learning_tasks", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const portfolioItemsTable = pgTable("portfolio_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  title: varchar("title", { length: 220 }).notNull(),
+  projectType: varchar("project_type", { length: 120 }).notNull(),
+  category: varchar("category", { length: 120 }).notNull(),
+  description: text("description").notNull(),
+  clientName: varchar("client_name", { length: 180 }),
+  liveUrl: text("live_url"),
+  githubUrl: text("github_url"),
+  imageUrls: jsonb("image_urls").$type<string[]>().notNull().default([]),
+  tags: jsonb("tags").$type<string[]>().notNull().default([]),
+  status: portfolioStatusEnum("status").notNull().default("DRAFT"),
+  featured: boolean("featured").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -392,3 +414,4 @@ export type Quiz = typeof quizzesTable.$inferSelect;
 export type QuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type QuizAttempt = typeof quizAttemptsTable.$inferSelect;
 export type LearningTask = typeof learningTasksTable.$inferSelect;
+export type PortfolioItem = typeof portfolioItemsTable.$inferSelect;

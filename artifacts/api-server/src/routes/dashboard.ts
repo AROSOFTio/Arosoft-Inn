@@ -6,6 +6,7 @@ import {
   coursesTable,
   db,
   learningTasksTable,
+  portfolioItemsTable,
   projectsTable,
   scriptTemplatesTable,
   studentEnrollmentsTable,
@@ -70,6 +71,7 @@ router.get(
       publishedScripts,
       publishedCourses,
       studentEnrollments,
+      publishedPortfolio,
     ] = await Promise.all([
       tableCount(clientRequestsTable),
       countClientRequestsByStatus("SUBMITTED"),
@@ -96,6 +98,11 @@ router.get(
         .where(eq(coursesTable.status, "PUBLISHED"))
         .then(([row]) => row?.value ?? 0),
       tableCount(studentEnrollmentsTable),
+      db
+        .select({ value: count() })
+        .from(portfolioItemsTable)
+        .where(eq(portfolioItemsTable.status, "PUBLISHED"))
+        .then(([row]) => row?.value ?? 0),
     ]);
 
     res.json({
@@ -108,11 +115,13 @@ router.get(
         { label: "Published scripts", value: String(publishedScripts), detail: "Visible on the public Scripts page" },
         { label: "Published courses", value: String(publishedCourses), detail: "Visible on the public Academy page" },
         { label: "Student enrollments", value: String(studentEnrollments), detail: "Course enrollments across students" },
+        { label: "Portfolio items", value: String(publishedPortfolio), detail: "Published public portfolio work" },
       ],
       activity: [
         `${totalRequests} client requests in the platform`,
         `${activeProjects} active projects in progress`,
         `${studentEnrollments} student enrollments recorded`,
+        `${publishedPortfolio} portfolio items published`,
         `${openSupport} support conversations need attention`,
       ],
     });

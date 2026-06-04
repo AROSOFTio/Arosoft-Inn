@@ -2,6 +2,7 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ChatbotWidget } from "@/components/assistant/ChatbotWidget";
 import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/Home";
@@ -35,6 +36,7 @@ import AdminTasks from "@/pages/admin/AdminTasks";
 import AdminSystems from "@/pages/admin/AdminSystems";
 import AdminScripts from "@/pages/admin/AdminScripts";
 import AdminCourses from "@/pages/admin/AdminCourses";
+import AdminPortfolio from "@/pages/admin/AdminPortfolio";
 import AdminStudentProgress from "@/pages/admin/AdminStudentProgress";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import StaffTasks from "@/pages/staff/StaffTasks";
@@ -45,6 +47,7 @@ import StudentQuizzes from "@/pages/student/StudentQuizzes";
 import TakeQuiz from "@/pages/student/TakeQuiz";
 import StudentAssignments from "@/pages/student/StudentAssignments";
 import StudentProgress from "@/pages/student/StudentProgress";
+import StudentAiSupport from "@/pages/student/StudentAiSupport";
 
 const queryClient = new QueryClient();
 
@@ -71,7 +74,7 @@ function Router() {
       <Route path="/admin/courses" component={AdminCourses} />
       <Route path="/admin/progress" component={AdminStudentProgress} />
       <Route path="/admin/team" component={AdminComingSoon} />
-      <Route path="/admin/portfolio" component={AdminComingSoon} />
+      <Route path="/admin/portfolio" component={AdminPortfolio} />
       <Route path="/admin/invoices" component={AdminComingSoon} />
       <Route path="/admin/compliance" component={AdminComingSoon} />
       <Route path="/admin/settings" component={AdminComingSoon} />
@@ -89,6 +92,7 @@ function Router() {
       <Route path="/student/quizzes" component={StudentQuizzes} />
       <Route path="/student/assignments" component={StudentAssignments} />
       <Route path="/student/progress" component={StudentProgress} />
+      <Route path="/student/ai-support" component={StudentAiSupport} />
       <Route path="/student" component={StudentDashboard} />
       <Route path="/developer/tasks" component={StaffTasks} />
       <Route path="/developer" component={DeveloperDashboard} />
@@ -113,6 +117,7 @@ function App() {
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Router />
+          <ChatbotWidget />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

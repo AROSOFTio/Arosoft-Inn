@@ -5,7 +5,6 @@ import { adminMenu } from "@/components/dashboard/dashboardData";
 
 const titles: Record<string, string> = {
   "/admin/team": "Team",
-  "/admin/portfolio": "Portfolio",
   "/admin/invoices": "Invoices",
   "/admin/compliance": "Compliance",
   "/admin/settings": "Settings",

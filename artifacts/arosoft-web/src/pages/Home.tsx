@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Link } from "wouter";
-import { ArrowRight, Building2, Code2, GraduationCap, Workflow, Video, BookOpen } from "lucide-react";
+import { ArrowRight, Building2, Code2, GraduationCap, Workflow, Video, BookOpen, ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface FeaturedSystem {
@@ -29,9 +29,30 @@ interface FeaturedScript {
   imageUrl?: string | null;
 }
 
+interface FeaturedPortfolio {
+  id: string;
+  title: string;
+  projectType: string;
+  category: string;
+  description: string;
+  imageUrls: string[];
+  tags: string[];
+}
+
+interface FeaturedCourse {
+  id: string;
+  title: string;
+  level: string;
+  duration: string;
+  description: string;
+  isPremium: boolean;
+}
+
 export default function Home() {
   const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>([]);
   const [featuredScripts, setFeaturedScripts] = useState<FeaturedScript[]>([]);
+  const [featuredPortfolio, setFeaturedPortfolio] = useState<FeaturedPortfolio[]>([]);
+  const [featuredCourses, setFeaturedCourses] = useState<FeaturedCourse[]>([]);
 
   useEffect(() => {
     fetch("/api/systems?featured=true")
@@ -49,6 +70,22 @@ export default function Home() {
       })
       .then((data) => setFeaturedScripts(data.scripts.slice(0, 3)))
       .catch(() => setFeaturedScripts([]));
+
+    fetch("/api/portfolio?featured=true")
+      .then(async (response) => {
+        if (!response.ok) return { items: [] };
+        return response.json() as Promise<{ items: FeaturedPortfolio[] }>;
+      })
+      .then((data) => setFeaturedPortfolio(data.items.slice(0, 3)))
+      .catch(() => setFeaturedPortfolio([]));
+
+    fetch("/api/courses?featured=true")
+      .then(async (response) => {
+        if (!response.ok) return { courses: [] };
+        return response.json() as Promise<{ courses: FeaturedCourse[] }>;
+      })
+      .then((data) => setFeaturedCourses(data.courses.slice(0, 3)))
+      .catch(() => setFeaturedCourses([]));
   }, []);
 
   return (
@@ -204,6 +241,36 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Featured Work */}
+        <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+          <div className="container mx-auto">
+            <SectionHeader title="Featured Work" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {featuredPortfolio.map((item) => (
+                <Card key={item.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="aspect-video bg-white border-b border-gray-100 flex items-center justify-center overflow-hidden">
+                    {item.imageUrls[0] ? <img src={item.imageUrls[0]} alt={item.title} className="h-full w-full object-cover" /> : <ImageIcon size={42} className="text-slate-300" />}
+                  </div>
+                  <CardContent className="p-4">
+                    <div className="mb-3 flex items-center justify-between gap-2">
+                      <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">{item.category}</Badge>
+                      <span className="text-xs font-semibold text-slate-500">{item.projectType}</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-600 line-clamp-2">{item.description}</p>
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0">
+                    <Link href="/portfolio" className="w-full">
+                      <Button variant="outline" className="w-full border-slate-200 text-slate-900">View Portfolio</Button>
+                    </Link>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+            {featuredPortfolio.length === 0 && <p className="mt-6 text-center text-sm text-slate-500">Featured portfolio items will appear after publishing from admin.</p>}
+          </div>
+        </section>
+
         {/* Academy Section */}
         <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -228,21 +295,17 @@ export default function Home() {
               </Link>
             </div>
             <div className="space-y-4">
-              {[
-                { title: "Web Development", level: "Intermediate", progress: 45 },
-                { title: "AI for Business", level: "Advanced", progress: 0 },
-                { title: "Digital Marketing", level: "Beginner", progress: 100 }
-              ].map((course, i) => (
-                <Card key={i} className="bg-white border border-gray-200 shadow-sm p-4">
+              {featuredCourses.map((course) => (
+                <Card key={course.id} className="bg-white border border-gray-200 shadow-sm p-4">
                   <div className="flex justify-between items-center mb-3">
                     <h4 className="font-bold text-slate-900">{course.title}</h4>
                     <Badge variant="secondary" className="bg-slate-100 text-slate-700">{course.level}</Badge>
                   </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2">
-                    <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
-                  </div>
+                  <p className="text-sm text-slate-600 line-clamp-2">{course.description}</p>
+                  <p className="mt-3 text-xs font-semibold text-slate-500">{course.duration} / {course.isPremium ? "Premium" : "Free"}</p>
                 </Card>
               ))}
+              {featuredCourses.length === 0 && <p className="text-sm text-slate-500">Featured academy courses will appear after publishing from admin.</p>}
             </div>
           </div>
         </section>

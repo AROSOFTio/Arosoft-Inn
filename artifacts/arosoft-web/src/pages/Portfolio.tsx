@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from "react";
+import { ExternalLink, Github, ImageIcon } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { CTASection } from "@/components/layout/CTASection";
@@ -6,139 +8,135 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const portfolio = [
-  { name: "FinTech Dashboard", category: "Systems", tags: ["React", "Node.js", "PostgreSQL"], desc: "A comprehensive internal dashboard for processing high-volume transactions securely.", color: "from-blue-50 to-cyan-50" },
-  { name: "National University Portal", category: "Websites", tags: ["Next.js", "CMS", "Tailwind"], desc: "Modern, accessible website serving over 50,000 students and faculty.", color: "from-violet-50 to-indigo-50" },
-  { name: "Retail Inventory Manager", category: "Automation", tags: ["Python", "AWS", "AI"], desc: "Automated stock prediction and ordering system reducing stockouts by 40%.", color: "from-emerald-50 to-teal-50" },
-  { name: "E-Commerce Mobile App", category: "Templates", tags: ["React Native", "Expo"], desc: "A premium shopping template used by dozens of boutiques to launch fast.", color: "from-rose-50 to-red-50" },
-  { name: "Corporate Promo Video", category: "Videos", tags: ["Premiere", "After Effects"], desc: "High-impact brand storytelling for a major telecommunications provider.", color: "from-fuchsia-50 to-pink-50" },
-  { name: "Code Review Assistant", category: "Academy", tags: ["OpenAI", "CRAG", "TypeScript"], desc: "An internal learning tool built to mentor junior developers automatically.", color: "from-slate-100 to-gray-100" },
-];
+interface PortfolioItem {
+  id: string;
+  title: string;
+  projectType: string;
+  category: string;
+  description: string;
+  clientName?: string | null;
+  liveUrl?: string | null;
+  githubUrl?: string | null;
+  imageUrls: string[];
+  tags: string[];
+  featured: boolean;
+}
 
 export default function Portfolio() {
+  const [items, setItems] = useState<PortfolioItem[]>([]);
+  const [error, setError] = useState("");
+  const categories = useMemo(() => ["All", ...Array.from(new Set(items.map((item) => item.category)))], [items]);
+  const featured = items.find((item) => item.featured) ?? items[0];
+
+  useEffect(() => {
+    fetch("/api/portfolio")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Unable to load portfolio.");
+        return response.json() as Promise<{ items: PortfolioItem[] }>;
+      })
+      .then((data) => setItems(data.items))
+      .catch((err: Error) => setError(err.message));
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-white text-slate-900">
       <Navbar />
-      
       <main className="flex-1">
         <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
-              Selected work.
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Selected work.</h1>
             <p className="text-base text-slate-600 max-w-2xl mx-auto">
-              Explore the systems, templates, and digital experiences we've crafted for ambitious teams.
+              Published systems, websites, templates, videos, and digital products from AROSOFT.
             </p>
           </div>
         </section>
 
-        {/* Featured Case Study */}
-        <section className="py-8 px-4 md:px-6 bg-white">
-          <div className="container mx-auto max-w-5xl">
-            <div className="rounded-2xl border border-gray-200 overflow-hidden bg-white shadow-sm">
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <Badge className="w-fit mb-4 bg-blue-100 text-blue-700 hover:bg-blue-200 border-none">Featured Case Study</Badge>
-                  <h2 className="text-2xl md:text-4xl font-bold mb-6 text-slate-900">Enterprise Logistics Platform</h2>
-                  
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Problem</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-medium">A regional logistics firm was managing hundreds of daily dispatches using fragmented spreadsheets, leading to errors and delays.</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Solution</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-medium">A custom real-time tracking dashboard with automated driver assignment, built on a robust Node.js/React stack.</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Outcome</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-medium">Reduced dispatch times by 65% and entirely eliminated data-entry errors within the first month.</p>
+        {featured && (
+          <section className="py-8 px-4 md:px-6 bg-white">
+            <div className="container mx-auto max-w-5xl">
+              <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="p-7 md:p-10">
+                    <Badge className="w-fit mb-4 bg-blue-100 text-blue-700 hover:bg-blue-200 border-none">Featured Case Study</Badge>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3 text-slate-900">{featured.title}</h2>
+                    <p className="text-sm text-slate-600 leading-relaxed">{featured.description}</p>
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {featured.tags.map((tag) => <Tag key={tag} tag={tag} />)}
                     </div>
                   </div>
-                </div>
-                <div className="bg-slate-50 min-h-[300px] flex items-center justify-center p-8 border-l border-gray-100">
-                  {/* Abstract UI representation */}
-                  <div className="w-full max-w-sm rounded-xl border border-gray-200 bg-white shadow-md p-4 space-y-4">
-                    <div className="h-4 w-1/3 bg-slate-200 rounded"></div>
-                    <div className="space-y-2">
-                      {[1,2,3].map(i => (
-                        <div key={i} className="flex gap-2">
-                          <div className="h-8 w-8 rounded bg-slate-100"></div>
-                          <div className="h-8 flex-1 rounded bg-slate-100"></div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <PortfolioImage item={featured} large />
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
-            <Tabs defaultValue="all" className="w-full">
+            {error && <p className="mb-5 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            <Tabs defaultValue="All" className="w-full">
               <div className="flex justify-center mb-6">
-                <TabsList className="bg-slate-100 border border-gray-200 flex-wrap h-auto p-1 max-w-full overflow-x-auto justify-start sm:justify-center rounded-xl">
-                  <TabsTrigger value="all" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">All</TabsTrigger>
-                  <TabsTrigger value="Systems" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Systems</TabsTrigger>
-                  <TabsTrigger value="Websites" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Websites</TabsTrigger>
-                  <TabsTrigger value="Videos" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Videos</TabsTrigger>
-                  <TabsTrigger value="Templates" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Templates</TabsTrigger>
-                  <TabsTrigger value="Academy" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Academy</TabsTrigger>
-                  <TabsTrigger value="Automation" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">Automation</TabsTrigger>
+                <TabsList className="bg-slate-100 border border-gray-200 flex-wrap h-auto p-1 max-w-full overflow-x-auto justify-start sm:justify-center rounded-lg">
+                  {categories.map((category) => (
+                    <TabsTrigger key={category} value={category} className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-md px-4 py-2">
+                      {category}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
               </div>
 
-              <TabsContent value="all" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {portfolio.map((item, i) => (
-                    <PortfolioCard key={i} {...item} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              {["Systems", "Websites", "Videos", "Templates", "Academy", "Automation"].map((category) => (
-                <TabsContent key={category} value={category} className="mt-0">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {portfolio.filter(p => p.category === category).map((item, i) => (
-                      <PortfolioCard key={i} {...item} />
-                    ))}
-                  </div>
-                </TabsContent>
-              ))}
+              {categories.map((category) => {
+                const visibleItems = category === "All" ? items : items.filter((item) => item.category === category);
+                return (
+                  <TabsContent key={category} value={category} className="mt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                      {visibleItems.map((item) => <PortfolioCard key={item.id} item={item} />)}
+                    </div>
+                    {visibleItems.length === 0 && <p className="text-center text-sm text-slate-500">Published portfolio items will appear here.</p>}
+                  </TabsContent>
+                );
+              })}
             </Tabs>
           </div>
         </section>
 
         <CTASection variant="dark" />
       </main>
-
       <Footer />
     </div>
   );
 }
 
-function PortfolioCard({ name, category, tags, desc, color }: any) {
+function PortfolioCard({ item }: { item: PortfolioItem }) {
   return (
-    <Card className="bg-white border-gray-200 overflow-hidden group hover:shadow-md transition-all flex flex-col h-full rounded-xl shadow-sm">
-      <div className={`h-48 bg-gradient-to-br ${color} w-full relative border-b border-gray-100`}>
-         <Badge className="absolute top-4 left-4 bg-white/90 text-slate-900 hover:bg-white backdrop-blur-sm border-gray-200 font-medium">{category}</Badge>
-      </div>
-      <CardContent className="p-6 flex-1 flex flex-col">
-        <h3 className="text-xl font-bold mb-2 text-slate-900">{name}</h3>
-        <p className="text-sm text-slate-600 mb-6 flex-1">{desc}</p>
-        <div className="flex flex-wrap gap-2 mb-6">
-          {tags.map((tag: string, i: number) => (
-            <span key={i} className="text-[10px] uppercase tracking-wider font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">
-              {tag}
-            </span>
-          ))}
+    <Card className="bg-white border-gray-200 overflow-hidden group hover:shadow-md transition-all flex flex-col h-full rounded-lg shadow-sm">
+      <PortfolioImage item={item} />
+      <CardContent className="p-5 flex-1 flex flex-col">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">{item.category}</Badge>
+          <span className="text-xs font-semibold text-slate-500">{item.projectType}</span>
         </div>
-        <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 font-medium">
-          View Case Study
-        </Button>
+        <h3 className="text-xl font-bold mb-2 text-slate-900">{item.title}</h3>
+        <p className="text-sm text-slate-600 mb-5 flex-1 line-clamp-3">{item.description}</p>
+        <div className="mb-5 flex flex-wrap gap-2">{item.tags.map((tag) => <Tag key={tag} tag={tag} />)}</div>
+        <div className="flex gap-2">
+          {item.liveUrl && <a className="w-full" href={item.liveUrl} target="_blank" rel="noreferrer"><Button variant="outline" className="w-full border-slate-200"><ExternalLink className="mr-2 h-4 w-4" /> Live</Button></a>}
+          {item.githubUrl && <a className="w-full" href={item.githubUrl} target="_blank" rel="noreferrer"><Button variant="outline" className="w-full border-slate-200"><Github className="mr-2 h-4 w-4" /> Code</Button></a>}
+        </div>
       </CardContent>
     </Card>
   );
+}
+
+function PortfolioImage({ item, large = false }: { item: PortfolioItem; large?: boolean }) {
+  const image = item.imageUrls[0];
+  return (
+    <div className={`${large ? "min-h-[280px]" : "h-48"} bg-slate-50 border-b border-gray-100 flex items-center justify-center overflow-hidden`}>
+      {image ? <img src={image} alt={item.title} className="h-full w-full object-cover" /> : <ImageIcon size={42} className="text-slate-300" />}
+    </div>
+  );
+}
+
+function Tag({ tag }: { tag: string }) {
+  return <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{tag}</span>;
 }

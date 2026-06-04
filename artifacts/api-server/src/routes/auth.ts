@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
+import { z } from "zod/v4";
 import { db, userRoleSchema, usersTable } from "@workspace/db";
 import {
   hashPassword,

@@ -229,14 +229,14 @@ export function DashboardShell({
           </div>
         </header>
 
-        <main className="px-4 py-6 md:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-6">
-            <section className="rounded-lg border border-slate-200 bg-white px-5 py-5 shadow-sm md:px-6">
+        <main className="px-4 py-5 md:px-6">
+          <div className="mx-auto max-w-7xl space-y-5">
+            <section className="rounded-lg border border-slate-200 bg-white px-5 py-4 shadow-sm">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Dashboard</p>
                   <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 md:text-3xl">{title}</h1>
-                  <p className="mt-2 max-w-3xl text-sm text-slate-600">{description}</p>
+                  <p className="mt-1.5 max-w-3xl text-sm text-slate-600">{description}</p>
                 </div>
                 <Button className="w-full bg-blue-600 text-white hover:bg-blue-700 md:w-auto">
                   New action
@@ -245,7 +245,7 @@ export function DashboardShell({
               </div>
             </section>
 
-            <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {stats.map((stat) => (
                 <Card key={stat.label} className="border-slate-200 bg-white shadow-sm">
                   <CardContent className="p-5">
@@ -258,13 +258,13 @@ export function DashboardShell({
                         <BarChart3 size={18} />
                       </div>
                     </div>
-                    <p className="mt-3 text-xs text-slate-500">{stat.detail}</p>
+                    <p className="mt-2 text-xs text-slate-500">{stat.detail}</p>
                   </CardContent>
                 </Card>
               ))}
             </section>
 
-            <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+            <section className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
               <Card className="border-slate-200 bg-white shadow-sm">
                 <CardHeader>
                   <CardTitle>Quick Actions</CardTitle>
@@ -299,7 +299,7 @@ export function DashboardShell({
               </Card>
             </section>
 
-            <section className="grid gap-6 lg:grid-cols-2">
+            <section className="grid gap-5 lg:grid-cols-2">
               {panels.slice(1).map((panel) => (
                 <Card key={panel.title} className="border-slate-200 bg-white shadow-sm">
                   <CardHeader>

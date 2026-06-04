@@ -195,12 +195,12 @@ export function DashboardPageShell({
           </div>
         </header>
 
-        <main className="px-4 py-6 md:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-6">
-            <section className="rounded-lg border border-slate-200 bg-white px-5 py-5 shadow-sm md:px-6">
+        <main className="px-4 py-5 md:px-6">
+          <div className="mx-auto max-w-7xl space-y-5">
+            <section className="rounded-lg border border-slate-200 bg-white px-5 py-4 shadow-sm">
               <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">Internal</p>
               <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 md:text-3xl">{title}</h1>
-              <p className="mt-2 max-w-3xl text-sm text-slate-600">{description}</p>
+              <p className="mt-1.5 max-w-3xl text-sm text-slate-600">{description}</p>
             </section>
             {children}
           </div>

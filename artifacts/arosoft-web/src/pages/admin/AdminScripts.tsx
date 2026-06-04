@@ -25,6 +25,7 @@ interface ScriptTemplate {
 }
 
 const statuses = ["DRAFT", "PUBLISHED", "HIDDEN"];
+const scriptCategories = ["Website", "Dashboard", "Invoice", "Automation", "AI Prompts"];
 
 function slugify(value: string) {
   return value
@@ -156,23 +157,28 @@ export default function AdminScripts() {
       allowedRoles={["SUPER_ADMIN", "ADMIN"]}
       menuItems={adminMenu}
     >
-      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
         <Card className="border-slate-200 bg-white">
-          <CardHeader><CardTitle>{editingId ? "Edit Script" : "Create Script"}</CardTitle></CardHeader>
+          <CardHeader className="pb-3"><CardTitle>{editingId ? "Edit Script" : "Create Script"}</CardTitle></CardHeader>
           <CardContent>
-            <form className="space-y-4" onSubmit={submit}>
+            <form className="space-y-3" onSubmit={submit}>
               <Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title" required />
               <Input value={slug} onChange={(event) => setSlug(slugify(event.target.value))} placeholder="slug" />
-              <Input value={category} onChange={(event) => setCategory(event.target.value)} placeholder="Category" required />
-              <Textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description" className="min-h-28" required />
-              <Input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="Price, e.g. $5" required />
+              <Select value={category} onValueChange={setCategory}>
+                <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
+                <SelectContent>{scriptCategories.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent>
+              </Select>
+              <Textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Description" className="min-h-24" required />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="Price, e.g. $5" required />
+                <Select value={status} onValueChange={setStatus}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>{statuses.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
               <Input value={previewUrl} onChange={(event) => setPreviewUrl(event.target.value)} placeholder="Preview URL" />
               <Input value={downloadUrl} onChange={(event) => setDownloadUrl(event.target.value)} placeholder="Download URL" />
               <Input value={imageUrl} onChange={(event) => setImageUrl(event.target.value)} placeholder="Image URL" />
-              <Select value={status} onValueChange={setStatus}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{statuses.map((item) => <SelectItem key={item} value={item}>{item}</SelectItem>)}</SelectContent>
-              </Select>
               <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
                 <Checkbox checked={featured} onCheckedChange={(checked) => setFeatured(Boolean(checked))} />
                 Featured on homepage
@@ -188,15 +194,15 @@ export default function AdminScripts() {
         </Card>
 
         <Card className="border-slate-200 bg-white">
-          <CardHeader><CardTitle>Script Templates</CardTitle></CardHeader>
+          <CardHeader className="pb-3"><CardTitle>Script Templates</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             {scripts.map((script) => (
-              <div key={script.id} className="rounded-lg border border-slate-200 p-4">
+              <div key={script.id} className="rounded-lg border border-slate-200 p-3">
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div>
                     <p className="font-semibold text-slate-950">{script.title}</p>
                     <p className="text-sm text-slate-600">{script.category} / {script.slug} / {script.price}</p>
-                    <p className="mt-2 text-sm text-slate-600">{script.description}</p>
+                    <p className="mt-1.5 text-sm text-slate-600 line-clamp-2">{script.description}</p>
                   </div>
                   <div className="flex shrink-0 flex-col gap-2 md:items-end">
                     <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{script.status}</span>

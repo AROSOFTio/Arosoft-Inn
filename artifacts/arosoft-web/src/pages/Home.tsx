@@ -26,6 +26,7 @@ interface FeaturedScript {
   description: string;
   price: string;
   previewUrl?: string | null;
+  imageUrl?: string | null;
 }
 
 export default function Home() {
@@ -56,34 +57,34 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative pt-12 pb-10 md:pt-16 md:pb-14 bg-slate-50">
+        <section className="relative py-8 md:py-10 bg-slate-50">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 text-violet-700 font-medium mb-4 text-xs">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-medium mb-3 text-xs">
                   Next-generation digital infrastructure
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight text-slate-900">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 leading-tight text-slate-900">
                   Build. Automate. Learn. Scale.
                 </h1>
-                <p className="text-base text-slate-600 mb-6 leading-relaxed max-w-lg">
-                  Digital systems, templates, AI learning, and workflows — built for serious teams.
+                <p className="text-base text-slate-600 mb-5 leading-relaxed max-w-lg">
+                  Digital systems, templates, AI learning, and workflow tools built for serious teams.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Link href="/systems">
-                    <Button size="lg" className="h-12 px-8 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium" data-testid="button-explore-systems">
+                    <Button size="lg" className="h-11 px-7 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium" data-testid="button-explore-systems">
                       Explore Systems <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                   <Link href="/academy">
-                    <Button variant="outline" size="lg" className="h-12 px-8 w-full sm:w-auto border-slate-200 text-slate-900 hover:bg-slate-100 font-medium" data-testid="button-join-academy">
+                    <Button variant="outline" size="lg" className="h-11 px-7 w-full sm:w-auto border-slate-200 text-slate-900 hover:bg-slate-100 font-medium" data-testid="button-join-academy">
                       Join Academy
                     </Button>
                   </Link>
                 </div>
               </div>
               
-              <div className="relative hidden lg:block h-[400px]">
+              <div className="relative hidden lg:block h-[340px]">
                 {/* Clean Dashboard Mockup Card */}
                 <div className="absolute inset-0 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden flex flex-col">
                   <div className="h-12 border-b border-gray-100 flex items-center px-4 gap-2 bg-slate-50">
@@ -91,9 +92,9 @@ export default function Home() {
                     <div className="w-3 h-3 rounded-full bg-slate-300"></div>
                     <div className="w-3 h-3 rounded-full bg-slate-300"></div>
                   </div>
-                  <div className="flex-1 p-6 grid grid-cols-3 gap-4">
+                  <div className="flex-1 p-5 grid grid-cols-3 gap-4">
                     <div className="col-span-2 space-y-4">
-                      <div className="h-32 rounded-lg border border-gray-100 bg-slate-50 p-4">
+                      <div className="h-28 rounded-lg border border-gray-100 bg-slate-50 p-4">
                         <div className="w-1/3 h-4 bg-slate-200 rounded mb-4"></div>
                         <div className="w-full h-16 flex items-end gap-2">
                           {[40, 70, 45, 90, 65, 85, 100].map((h, i) => (
@@ -102,11 +103,11 @@ export default function Home() {
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                        <div className="h-24 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
+                        <div className="h-20 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
                           <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-500"><Building2 size={16} /></div>
                           <div className="w-1/2 h-4 bg-slate-200 rounded"></div>
                         </div>
-                        <div className="h-24 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
+                        <div className="h-20 rounded-lg border border-gray-100 bg-white p-4 flex flex-col justify-between shadow-sm">
                           <div className="w-8 h-8 rounded bg-violet-50 flex items-center justify-center text-violet-500"><Code2 size={16} /></div>
                           <div className="w-1/2 h-4 bg-slate-200 rounded"></div>
                         </div>
@@ -114,7 +115,7 @@ export default function Home() {
                     </div>
                     <div className="col-span-1 space-y-4">
                       {[1, 2, 3, 4].map(i => (
-                        <div key={i} className="h-14 rounded-lg border border-gray-100 bg-white shadow-sm flex items-center px-3 gap-3">
+                        <div key={i} className="h-12 rounded-lg border border-gray-100 bg-white shadow-sm flex items-center px-3 gap-3">
                           <div className="w-8 h-8 rounded-full bg-slate-100"></div>
                           <div className="flex-1 space-y-2">
                             <div className="w-3/4 h-2 bg-slate-200 rounded"></div>
@@ -131,10 +132,10 @@ export default function Home() {
         </section>
 
         {/* What We Build */}
-        <section className="py-10 px-4 md:px-6 bg-white">
+        <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="What We Build" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               <FeatureCard icon={<Building2 />} title="Business Systems" description="Tailor-made management systems and client portals." />
               <FeatureCard icon={<Code2 />} title="Script Templates" description="Production-ready codebase templates and automated scripts." />
               <FeatureCard icon={<GraduationCap />} title="AI Academy" description="High-quality learning paths for digital skills." />
@@ -146,10 +147,10 @@ export default function Home() {
         </section>
 
         {/* Featured Systems */}
-        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+        <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <SectionHeader title="Featured Systems" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {featuredSystems.map((system) => (
                 <SystemCard
                   key={system.id}
@@ -165,18 +166,22 @@ export default function Home() {
         </section>
 
         {/* Premium Scripts */}
-        <section className="py-10 px-4 md:px-6 bg-white">
+        <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Premium Templates" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {featuredScripts.map((script) => (
                 <Card key={script.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                   <CardHeader className="p-0">
-                    <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center rounded-t-xl">
-                      <Code2 size={48} className="text-slate-300" />
+                    <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center rounded-t-xl overflow-hidden">
+                      {script.imageUrl ? (
+                        <img src={script.imageUrl} alt={script.title} className="h-full w-full object-cover" />
+                      ) : (
+                        <Code2 size={42} className="text-slate-300" />
+                      )}
                     </div>
                   </CardHeader>
-                  <CardContent className="p-5 flex-1">
+                  <CardContent className="p-4 flex-1">
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <Badge className="bg-violet-100 text-violet-700 hover:bg-violet-200">{script.category}</Badge>
                       <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100">From {script.price}</Badge>
@@ -184,7 +189,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{script.title}</h3>
                     <p className="text-sm text-slate-600 line-clamp-1">{script.description}</p>
                   </CardContent>
-                  <CardFooter className="p-5 pt-0 flex gap-2">
+                  <CardFooter className="p-4 pt-0 flex gap-2">
                     <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
                       <Button variant="outline" className="w-full border-slate-200 text-slate-900">Preview</Button>
                     </a>
@@ -200,8 +205,8 @@ export default function Home() {
         </section>
 
         {/* Academy Section */}
-        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
-          <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+          <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-4">
                 AI-guided learning for practical skills.
@@ -243,7 +248,7 @@ export default function Home() {
         </section>
 
         {/* Workflow Steps */}
-        <section className="py-10 px-4 md:px-6 bg-white">
+        <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="How we work" />
             <div className="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-4 md:gap-0">

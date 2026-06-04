@@ -18,7 +18,10 @@ interface ScriptTemplate {
   description: string;
   price: string;
   previewUrl?: string | null;
+  imageUrl?: string | null;
 }
+
+const marketplaceCategories = ["All", "Website", "Dashboard", "Invoice", "Automation", "AI Prompts"];
 
 export default function Scripts() {
   const [scripts, setScripts] = useState<ScriptTemplate[]>([]);
@@ -26,7 +29,12 @@ export default function Scripts() {
   const [category, setCategory] = useState("All");
   const [error, setError] = useState("");
   const categories = useMemo(
-    () => ["All", ...Array.from(new Set(scripts.map((script) => script.category))).filter(Boolean)],
+    () => [
+      ...marketplaceCategories,
+      ...Array.from(new Set(scripts.map((script) => script.category)))
+        .filter(Boolean)
+        .filter((item) => !marketplaceCategories.includes(item)),
+    ],
     [scripts],
   );
   const filteredScripts = useMemo(() => {
@@ -59,12 +67,12 @@ export default function Scripts() {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+        <section className="py-8 md:py-10 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
               Premium scripts and templates.
             </h1>
-            <p className="text-base text-slate-600 max-w-2xl mx-auto mb-6">
+            <p className="text-base text-slate-600 max-w-2xl mx-auto mb-5">
               Accelerate your development with production-ready code, beautiful UI kits, and automated workflows.
             </p>
             
@@ -74,19 +82,20 @@ export default function Scripts() {
                 placeholder="Search for templates, scripts, or packs..." 
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                className="h-14 pl-12 bg-white border-gray-200 rounded-xl text-lg focus-visible:ring-blue-500 shadow-sm"
+                className="h-12 pl-12 bg-white border-gray-200 rounded-lg text-base focus-visible:ring-blue-500 shadow-sm"
               />
             </div>
           </div>
         </section>
 
-        <section className="py-8 px-4 md:px-6 bg-white">
+        <section className="py-7 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
-            <div className="flex flex-wrap gap-2 justify-center mb-6">
+            <div className="flex flex-wrap gap-2 justify-center mb-5">
               {categories.map(cat => (
                 <Button
                   key={cat}
                   variant="outline"
+                  size="sm"
                   className={`rounded-full border-gray-200 ${cat === category ? "bg-blue-50 text-blue-700 border-blue-200 font-medium" : "bg-white text-slate-600 hover:bg-slate-50"}`}
                   onClick={() => setCategory(cat)}
                 >
@@ -97,15 +106,19 @@ export default function Scripts() {
 
             {error && <p className="mb-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {filteredScripts.map((script) => (
-                <Card key={script.id} className="bg-white border-gray-200 flex flex-col hover:shadow-md transition-shadow rounded-xl overflow-hidden shadow-sm">
+                <Card key={script.id} className="bg-white border-gray-200 flex flex-col hover:shadow-md transition-shadow rounded-lg overflow-hidden shadow-sm">
                   <CardHeader className="p-0">
                     <div className="aspect-video bg-slate-50 border-b border-gray-100 flex items-center justify-center relative">
-                       <Code2 size={48} className="text-slate-300" />
+                      {script.imageUrl ? (
+                        <img src={script.imageUrl} alt={script.title} className="h-full w-full object-cover" />
+                      ) : (
+                        <Code2 size={42} className="text-slate-300" />
+                      )}
                     </div>
                   </CardHeader>
-                  <CardContent className="p-5 flex-1">
+                  <CardContent className="p-4 flex-1">
                     <div className="flex justify-between items-start mb-2">
                       <Badge className="bg-violet-100 text-violet-700 hover:bg-violet-200 text-xs font-medium border-none">{script.category}</Badge>
                       <Badge className="bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold border-none">From {script.price}</Badge>
@@ -113,7 +126,7 @@ export default function Scripts() {
                     <h3 className="text-lg font-bold mb-2 line-clamp-1">{script.title}</h3>
                     <p className="text-sm text-slate-600 line-clamp-2">{script.description}</p>
                   </CardContent>
-                  <CardFooter className="p-5 pt-0 flex gap-2">
+                  <CardFooter className="p-4 pt-0 flex gap-2">
                     <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
                       <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 text-sm">Preview</Button>
                     </a>
@@ -128,7 +141,7 @@ export default function Scripts() {
           </div>
         </section>
 
-        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+        <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <SectionHeader title="Why buy from AROSOFT?" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
@@ -138,7 +151,7 @@ export default function Scripts() {
                 { title: "Affordable Pricing", desc: "Premium quality tools accessible to developers everywhere." },
                 { title: "Support Included", desc: "Stuck? Our technical support team is here to help you deploy." }
               ].map((feature, i) => (
-                <div key={i} className="text-center bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div key={i} className="text-center bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
                   <div className="w-12 h-12 mx-auto rounded-full bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
                     <CheckCircle2 size={24} />
                   </div>

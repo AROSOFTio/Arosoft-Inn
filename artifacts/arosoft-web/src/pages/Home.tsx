@@ -94,7 +94,17 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-8 md:py-10 bg-slate-50">
+        <section className="relative overflow-hidden py-8 md:py-10 bg-slate-50">
+          <div
+            className="absolute inset-0 opacity-[0.18] bg-[length:980px_520px] bg-[center_top] bg-no-repeat"
+            aria-hidden="true"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='980' height='520' viewBox='0 0 980 520' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='980' height='520' fill='%23F8FAFC'/%3E%3Cg stroke='%232563EB' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M102 110H246C260 110 267 117 267 131V184C267 198 274 205 288 205H428'/%3E%3Cpath d='M648 92H540C525 92 518 99 518 114V186C518 201 511 208 496 208H424'/%3E%3Cpath d='M756 296H626C612 296 605 289 605 275V244C605 230 598 223 584 223H468'/%3E%3Cpath d='M210 368H346C361 368 368 361 368 346V260C368 245 375 238 390 238H468'/%3E%3Cpath d='M468 238V156'/%3E%3Cpath d='M468 238V326'/%3E%3Cpath d='M746 150H824C839 150 846 157 846 172V236'/%3E%3Cpath d='M118 246H218C233 246 240 253 240 268V318'/%3E%3Cpath d='M572 390H500C485 390 478 383 478 368V326'/%3E%3C/g%3E%3Cg fill='%232563EB'%3E%3Ccircle cx='102' cy='110' r='8'/%3E%3Ccircle cx='428' cy='205' r='8'/%3E%3Ccircle cx='648' cy='92' r='8'/%3E%3Ccircle cx='756' cy='296' r='8'/%3E%3Ccircle cx='210' cy='368' r='8'/%3E%3Ccircle cx='468' cy='156' r='8'/%3E%3Ccircle cx='468' cy='326' r='8'/%3E%3Ccircle cx='746' cy='150' r='8'/%3E%3Ccircle cx='846' cy='236' r='8'/%3E%3Ccircle cx='118' cy='246' r='8'/%3E%3Ccircle cx='240' cy='318' r='8'/%3E%3Ccircle cx='572' cy='390' r='8'/%3E%3C/g%3E%3Cg stroke='%237C3AED' stroke-width='1.5' opacity='.75'%3E%3Crect x='384' y='190' width='150' height='86' rx='18' fill='%23FFFFFF'/%3E%3Cpath d='M418 220H494M418 244H474'/%3E%3Crect x='690' y='330' width='116' height='74' rx='16' fill='%23FFFFFF'/%3E%3Cpath d='M718 358H778M718 380H758'/%3E%3Crect x='144' y='154' width='104' height='68' rx='15' fill='%23FFFFFF'/%3E%3Cpath d='M170 182H222M170 202H208'/%3E%3C/g%3E%3C/svg%3E\")",
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-white/70" aria-hidden="true" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" aria-hidden="true" />
           <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="max-w-2xl">

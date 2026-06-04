@@ -37,21 +37,21 @@ export default function Systems() {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+        <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
               Production-ready systems.
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+            <p className="text-base text-slate-600 max-w-2xl mx-auto">
               We build scalable, secure, and intuitive digital infrastructure to power your daily operations.
             </p>
           </div>
         </section>
 
-        <section className="py-16 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <Tabs defaultValue="all" className="w-full">
-              <div className="flex justify-center mb-12">
+              <div className="flex justify-center mb-8">
                 <TabsList className="bg-slate-100 border border-gray-200 flex-wrap h-auto p-1 rounded-xl">
                   <TabsTrigger value="all" className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm rounded-lg px-4 py-2">All</TabsTrigger>
                   {categories.map((category) => (

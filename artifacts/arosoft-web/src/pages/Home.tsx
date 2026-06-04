@@ -56,20 +56,20 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 bg-slate-50">
+        <section className="relative pt-12 pb-10 md:pt-16 md:pb-14 bg-slate-50">
           <div className="container mx-auto px-4 md:px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 text-violet-700 font-medium mb-6 text-sm">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-100 text-violet-700 font-medium mb-4 text-xs">
                   Next-generation digital infrastructure
                 </div>
-                <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight text-slate-900">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 leading-tight text-slate-900">
                   Build. Automate. Learn. Scale.
                 </h1>
-                <p className="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed max-w-lg">
+                <p className="text-base text-slate-600 mb-6 leading-relaxed max-w-lg">
                   Digital systems, templates, AI learning, and workflows — built for serious teams.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <Link href="/systems">
                     <Button size="lg" className="h-12 px-8 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium" data-testid="button-explore-systems">
                       Explore Systems <ArrowRight className="ml-2 h-4 w-4" />
@@ -83,7 +83,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="relative hidden lg:block h-[500px]">
+              <div className="relative hidden lg:block h-[400px]">
                 {/* Clean Dashboard Mockup Card */}
                 <div className="absolute inset-0 rounded-2xl border border-gray-200 bg-white shadow-xl overflow-hidden flex flex-col">
                   <div className="h-12 border-b border-gray-100 flex items-center px-4 gap-2 bg-slate-50">
@@ -131,7 +131,7 @@ export default function Home() {
         </section>
 
         {/* What We Build */}
-        <section className="py-24 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="What We Build" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -146,7 +146,7 @@ export default function Home() {
         </section>
 
         {/* Featured Systems */}
-        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <SectionHeader title="Featured Systems" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -165,7 +165,7 @@ export default function Home() {
         </section>
 
         {/* Premium Scripts */}
-        <section className="py-24 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Premium Templates" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -200,13 +200,13 @@ export default function Home() {
         </section>
 
         {/* Academy Section */}
-        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
-          <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+          <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-4">
                 AI-guided learning for practical skills.
               </h2>
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-3 mb-6">
                 {["Structured courses", "Assignment tracking", "Progress dashboard", "RAG/CAG/CRAG AI study support"].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
                     <div className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
@@ -243,7 +243,7 @@ export default function Home() {
         </section>
 
         {/* Workflow Steps */}
-        <section className="py-24 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="How we work" />
             <div className="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-4 md:gap-0">

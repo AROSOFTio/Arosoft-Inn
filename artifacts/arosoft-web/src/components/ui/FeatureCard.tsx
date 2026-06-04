@@ -10,12 +10,12 @@ interface FeatureCardProps {
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <Card className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
-      <CardContent className="p-6">
-        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+      <CardContent className="p-5">
+        <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
           {icon}
         </div>
-        <h3 className="text-xl font-bold text-slate-900 mb-2">{title}</h3>
-        <p className="text-slate-600 leading-relaxed text-sm">
+        <h3 className="text-base font-semibold text-slate-900 mb-1">{title}</h3>
+        <p className="text-slate-500 leading-relaxed text-sm">
           {description}
         </p>
       </CardContent>

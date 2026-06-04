@@ -73,12 +73,12 @@ export default function Contact() {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden">
+        <section className="py-10 md:py-14 px-4 md:px-6 relative overflow-hidden">
           <div className="container mx-auto max-w-6xl relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-24">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-14">
               
               {/* Left Column - Contact Info */}
-              <div className="lg:col-span-2 space-y-10">
+              <div className="lg:col-span-2 space-y-6">
                 <div>
                   <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-slate-900">
                     Talk to AROSOFT

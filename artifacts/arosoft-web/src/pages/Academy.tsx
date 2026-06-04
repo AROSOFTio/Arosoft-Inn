@@ -40,25 +40,25 @@ export default function Academy() {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
-          <div className="container mx-auto max-w-4xl text-center">
-            <Badge className="mb-6 bg-violet-100 text-violet-700 hover:bg-violet-200 border-none px-3 py-1 font-medium">
+        <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+          <div className="container mx-auto max-w-3xl text-center">
+            <Badge className="mb-4 bg-violet-100 text-violet-700 hover:bg-violet-200 border-none px-3 py-1 text-xs font-medium">
               Powered by RAG, CAG & CRAG
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-slate-900">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3 text-slate-900">
               Learn practical digital skills.
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 mb-10">
-              Stop watching tutorials and start building. AROSOFT Academy combines rigorous curriculum with intelligent AI agents that remember your progress, answer your questions, and verify your code.
+            <p className="text-base text-slate-600 mb-6 max-w-2xl mx-auto">
+              Rigorous curriculum with intelligent AI agents that remember your progress, answer your questions, and verify your work.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="h-12 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium">Explore Courses</Button>
-              <Button variant="outline" size="lg" className="h-12 px-8 border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">View Premium Access</Button>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button size="sm" className="h-9 px-6 bg-blue-600 hover:bg-blue-700 text-white font-medium">Explore Courses</Button>
+              <Button variant="outline" size="sm" className="h-9 px-6 border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">View Premium Access</Button>
             </div>
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Learning Paths" description="Structured curriculum for every skill level." />
             
@@ -106,18 +106,18 @@ export default function Academy() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div>
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 mb-6 shadow-sm border border-blue-200">
-                  <Brain size={32} />
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-blue-100 text-blue-600 mb-4 shadow-sm border border-blue-200">
+                  <Brain size={20} />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-6">
-                  An academy powered by intelligent agents.
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-3">
+                  Powered by intelligent agents.
                 </h2>
-                <p className="text-lg text-slate-600 mb-8">
-                  Our platform integrates Retrieval-Augmented Generation (RAG) to provide instant context-aware answers, while CAG and CRAG memory systems track your learning style to personalize explanations.
+                <p className="text-sm text-slate-600 mb-5">
+                  RAG for instant context-aware answers. CAG and CRAG memory systems track your learning style and personalize explanations automatically.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {features.map((feature, i) => (
@@ -147,17 +147,17 @@ export default function Academy() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-white">
+        <section className="py-10 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
             <SectionHeader title="Simple, transparent pricing" />
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
               {pricing.map((tier, i) => (
                 <Card key={i} className={`bg-white flex flex-col rounded-xl overflow-hidden ${i === 1 ? 'border-2 border-blue-500 shadow-lg relative' : 'border border-gray-200 shadow-sm'}`}>
                   {i === 1 && (
                     <div className="absolute top-0 inset-x-0 h-1 bg-blue-500"></div>
                   )}
-                  <CardHeader className="pt-8">
+                  <CardHeader className="pt-5 pb-3">
                     {i === 1 && (
                       <div className="mb-2 self-start px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
                         Most Popular

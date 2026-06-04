@@ -32,9 +32,9 @@ export default function About() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-[#F8FAFC] border-b border-slate-100 py-20 px-4">
+      <section className="bg-[#F8FAFC] border-b border-slate-100 py-10 md:py-14 px-4">
         <div className="container mx-auto max-w-3xl text-center">
-          <span className="inline-block mb-4 text-xs font-semibold tracking-widest text-primary uppercase">
+          <span className="inline-block mb-3 text-xs font-semibold tracking-widest text-primary uppercase">
             About AROSOFT
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5">
@@ -48,9 +48,9 @@ export default function About() {
       </section>
 
       {/* Mission */}
-      <section className="py-20 px-4">
+      <section className="py-10 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
               <span className="text-xs font-semibold tracking-widest text-primary uppercase mb-3 block">Our Mission</span>
               <h2 className="text-3xl font-bold text-slate-900 mb-4">
@@ -83,9 +83,9 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="bg-[#F8FAFC] border-y border-slate-100 py-20 px-4">
+      <section className="bg-[#F8FAFC] border-y border-slate-100 py-10 px-4">
         <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <span className="text-xs font-semibold tracking-widest text-primary uppercase mb-3 block">What We Stand For</span>
             <h2 className="text-3xl font-bold text-slate-900">Our Core Values</h2>
           </div>

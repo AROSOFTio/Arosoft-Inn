@@ -59,12 +59,12 @@ export default function Scripts() {
       <Navbar />
       
       <main className="flex-1">
-        <section className="py-20 md:py-32 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
+        <section className="py-10 md:py-14 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
               Premium scripts and templates.
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-12">
+            <p className="text-base text-slate-600 max-w-2xl mx-auto mb-6">
               Accelerate your development with production-ready code, beautiful UI kits, and automated workflows.
             </p>
             
@@ -80,9 +80,9 @@ export default function Scripts() {
           </div>
         </section>
 
-        <section className="py-16 px-4 md:px-6 bg-white">
+        <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
-            <div className="flex flex-wrap gap-2 justify-center mb-12">
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
               {categories.map(cat => (
                 <Button
                   key={cat}
@@ -128,10 +128,10 @@ export default function Scripts() {
           </div>
         </section>
 
-        <section className="py-24 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+        <section className="py-10 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
           <div className="container mx-auto">
             <SectionHeader title="Why buy from AROSOFT?" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
               {[
                 { title: "Clean Code", desc: "Strictly typed, well-commented, and follows modern best practices." },
                 { title: "Easy Customization", desc: "Designed to be extended. Just drop it in and tweak the config." },

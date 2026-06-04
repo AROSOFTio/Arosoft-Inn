@@ -45,7 +45,7 @@ export default function Privacy() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-[#F8FAFC] border-b border-slate-100 py-16 px-4">
+      <section className="bg-[#F8FAFC] border-b border-slate-100 py-10 px-4">
         <div className="container mx-auto max-w-2xl text-center">
           <span className="inline-block mb-3 text-xs font-semibold tracking-widest text-primary uppercase">
             Legal
@@ -58,7 +58,7 @@ export default function Privacy() {
       </section>
 
       {/* Content */}
-      <section className="py-16 px-4 flex-1">
+      <section className="py-10 px-4 flex-1">
         <div className="container mx-auto max-w-2xl">
           <p className="text-slate-600 leading-relaxed mb-10">
             AROSOFT Innovations Ltd ("we", "us", or "our") is committed to protecting your personal information. This

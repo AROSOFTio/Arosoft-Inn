@@ -18,16 +18,16 @@ export function CTASection({
 }: CTASectionProps) {
   if (variant === "light") {
     return (
-      <section className="py-24 px-4 md:px-6 relative bg-white border-y border-slate-200">
+      <section className="py-12 px-4 md:px-6 relative bg-white border-y border-slate-200">
         <div className="container mx-auto relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mb-3">
             {title}
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
+          <p className="text-base text-slate-600 max-w-2xl mx-auto mb-6">
             {description}
           </p>
           <Link href={primaryBtnHref}>
-            <Button size="lg" className="h-12 px-8 text-base bg-blue-600 hover:bg-blue-700 text-white">
+            <Button size="lg" className="h-10 px-7 text-sm bg-blue-600 hover:bg-blue-700 text-white">
               {primaryBtnText}
             </Button>
           </Link>
@@ -37,16 +37,16 @@ export function CTASection({
   }
 
   return (
-    <section className="py-24 px-4 md:px-6 relative bg-[#050816]">
+    <section className="py-12 px-4 md:px-6 relative bg-[#050816]">
       <div className="container mx-auto relative z-10 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-3">
           {title}
         </h2>
-        <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-8">
+        <p className="text-base text-slate-400 max-w-2xl mx-auto mb-6">
           {description}
         </p>
         <Link href={primaryBtnHref}>
-          <Button size="lg" className="h-12 px-8 text-base bg-blue-600 hover:bg-blue-700 text-white">
+          <Button size="lg" className="h-10 px-7 text-sm bg-blue-600 hover:bg-blue-700 text-white">
             {primaryBtnText}
           </Button>
         </Link>

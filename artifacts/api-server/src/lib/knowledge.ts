@@ -1,14 +1,14 @@
 import { db, contactMessagesTable } from "@workspace/db";
 
 export const companyKnowledge = [
-  "AROSOFT Innovations builds business systems, websites, templates, academy learning, automation, video production, and digital marketing support.",
+  "AROSOFT Labs sells and builds business systems, websites, script templates, academy courses, portfolio projects, and monthly support.",
   "Public navigation is Home, Systems, Scripts, Academy, Portfolio, Contact, Login, and Get Started.",
   "Clients can request systems, scripts, websites, academy help, video production, branding, marketing, consultation, and other digital services.",
   "Support handoff is available by phone, WhatsApp, email, or support ticket.",
 ];
 
 export const courseKnowledge = [
-  "Academy courses can be free or premium. Free courses allow student enrollment now; premium courses are visible but locked until payment access is added.",
+  "Academy courses can be free or premium. Free courses allow student enrollment now; premium courses use manual payment requests before access is confirmed.",
   "Students can view enrolled courses in My Learning, open lessons, take quizzes, complete assignments, and track progress.",
   "The learning assistant uses fixed company and course knowledge first, then local course context when available.",
 ];
@@ -21,8 +21,8 @@ export const systemsKnowledge = [
 
 export const scriptsKnowledge = [
   "Scripts and templates are published by admins and shown on the public Scripts marketplace.",
-  "Templates can start from $5 and include preview/download fields ready for future payments.",
-  "Buy Now is a request action until payments are added.",
+  "Templates can start from $5 and include preview/download fields.",
+  "Buy Now creates a manual payment request with MTN MoMo, Airtel Money, Bank Transfer, or Request Invoice.",
 ];
 
 export const faqKnowledge = [
@@ -108,7 +108,7 @@ export async function createSupportLeadFromChat(data: {
     .insert(contactMessagesTable)
     .values({
       fullName: data.fullName?.trim() || "Chatbot Visitor",
-      email: data.email?.trim().toLowerCase() || "support-lead@arosoft.com",
+      email: data.email?.trim().toLowerCase() || "support@arosoftlabs.com",
       phone: data.phone?.trim() || null,
       organization: null,
       reason: "Chatbot support lead",

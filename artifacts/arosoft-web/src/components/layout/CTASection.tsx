@@ -10,9 +10,9 @@ interface CTASectionProps {
 }
 
 export function CTASection({
-  title = "Ready to build with AROSOFT Innovations?",
-  description = "Join serious teams and learners building the future with our premium systems.",
-  primaryBtnText = "Request a Project",
+  title = "Ready to buy or build with AROSOFT Labs?",
+  description = "Request a system, buy a script, join the academy, or start monthly support with a clear manual payment flow.",
+  primaryBtnText = "Request a System",
   primaryBtnHref = "/contact",
   variant = "dark"
 }: CTASectionProps) {

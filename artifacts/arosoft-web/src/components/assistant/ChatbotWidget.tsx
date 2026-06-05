@@ -21,7 +21,7 @@ export function ChatbotWidget() {
   const [query, setQuery] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", text: "Hi. Ask about AROSOFT systems, scripts, academy courses, portfolio, or support." },
+    { role: "assistant", text: "Hi. Ask about AROSOFT Labs systems, websites, scripts, academy courses, portfolio, or support." },
   ]);
   const [handoff, setHandoff] = useState(false);
   const [notice, setNotice] = useState("");
@@ -70,7 +70,7 @@ export function ChatbotWidget() {
             <div className="flex items-center gap-2">
               <div className="rounded-md bg-blue-50 p-2 text-blue-600"><Bot size={18} /></div>
               <div>
-                <p className="text-sm font-bold text-slate-950">AROSOFT Assistant</p>
+                <p className="text-sm font-bold text-slate-950">AROSOFT Labs Assistant</p>
                 <p className="text-xs text-slate-500">Quick help and support handoff</p>
               </div>
             </div>
@@ -90,7 +90,7 @@ export function ChatbotWidget() {
                 <div className="mt-2 grid gap-2">
                   <a href="tel:+000000000" className="flex items-center gap-2"><Phone size={14} /> Call phone placeholder</a>
                   <a href="https://wa.me/000000000" target="_blank" rel="noreferrer" className="flex items-center gap-2"><MessageCircle size={14} /> WhatsApp placeholder</a>
-                  <a href="mailto:hello@arosoft.com" className="flex items-center gap-2"><Mail size={14} /> Email support</a>
+                  <a href="mailto:support@arosoftlabs.com" className="flex items-center gap-2"><Mail size={14} /> Email support</a>
                 </div>
                 <div className="mt-3 flex gap-2">
                   <Input value={leadEmail} onChange={(event) => setLeadEmail(event.target.value)} placeholder="Email optional" className="h-8 bg-white" />

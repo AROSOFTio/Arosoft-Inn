@@ -6,6 +6,7 @@ import {
   coursesTable,
   db,
   learningTasksTable,
+  paymentRequestsTable,
   portfolioItemsTable,
   projectsTable,
   scriptTemplatesTable,
@@ -72,6 +73,7 @@ router.get(
       publishedCourses,
       studentEnrollments,
       publishedPortfolio,
+      pendingPayments,
     ] = await Promise.all([
       tableCount(clientRequestsTable),
       countClientRequestsByStatus("SUBMITTED"),
@@ -103,6 +105,11 @@ router.get(
         .from(portfolioItemsTable)
         .where(eq(portfolioItemsTable.status, "PUBLISHED"))
         .then(([row]) => row?.value ?? 0),
+      db
+        .select({ value: count() })
+        .from(paymentRequestsTable)
+        .where(eq(paymentRequestsTable.status, "PENDING_PAYMENT"))
+        .then(([row]) => row?.value ?? 0),
     ]);
 
     res.json({
@@ -116,6 +123,7 @@ router.get(
         { label: "Published courses", value: String(publishedCourses), detail: "Visible on the public Academy page" },
         { label: "Student enrollments", value: String(studentEnrollments), detail: "Course enrollments across students" },
         { label: "Portfolio items", value: String(publishedPortfolio), detail: "Published public portfolio work" },
+        { label: "Pending payments", value: String(pendingPayments), detail: "Payment requests awaiting finance action" },
       ],
       activity: [
         `${totalRequests} client requests in the platform`,
@@ -123,6 +131,7 @@ router.get(
         `${studentEnrollments} student enrollments recorded`,
         `${publishedPortfolio} portfolio items published`,
         `${openSupport} support conversations need attention`,
+        `${pendingPayments} payment requests pending`,
       ],
     });
   },
@@ -179,13 +188,13 @@ router.get(
       stats: [
         { label: "Open requests", value: String(openRequests), detail: "Requests submitted for review or delivery" },
         { label: "Active projects", value: String(activeProjects), detail: "Projects currently connected to your account" },
-        { label: "Pending invoices", value: "0", detail: "Invoices are reserved for the finance sprint" },
+        { label: "Pending payments", value: "0", detail: "Payment requests are handled by finance after submission" },
         { label: "Support threads", value: "0", detail: "Use Contact to start a support conversation" },
       ],
       activity: [
         `${openRequests} active requests on your account`,
         `${activeProjects} projects currently visible`,
-        "Invoices will appear after the finance sprint",
+        "Payment requests will be confirmed by finance",
       ],
     });
   },
@@ -290,13 +299,25 @@ router.get(
   requireRoles(["FINANCE"]),
   async (req, res) => {
     const user = (req as AuthenticatedRequest).user;
-    const assignedTasks = await countAssignedOpenTasks(user.id);
+    const [assignedTasks, pendingPayments, paidPayments] = await Promise.all([
+      countAssignedOpenTasks(user.id),
+      db
+        .select({ value: count() })
+        .from(paymentRequestsTable)
+        .where(eq(paymentRequestsTable.status, "PENDING_PAYMENT"))
+        .then(([row]) => row?.value ?? 0),
+      db
+        .select({ value: count() })
+        .from(paymentRequestsTable)
+        .where(eq(paymentRequestsTable.status, "PAID"))
+        .then(([row]) => row?.value ?? 0),
+    ]);
     res.json({ stats: [
       { label: "Finance tasks", value: String(assignedTasks), detail: "Open tasks assigned to you" },
-      { label: "Invoices", value: "0", detail: "Invoice records are reserved for a later sprint" },
-      { label: "Payments", value: "0", detail: "Payment tracking is not active yet" },
-      { label: "Receipts", value: "0", detail: "Receipt records are reserved for a later sprint" },
-    ], activity: [`${assignedTasks} open finance tasks assigned to you`] });
+      { label: "Pending payments", value: String(pendingPayments), detail: "Payment requests awaiting confirmation" },
+      { label: "Paid requests", value: String(paidPayments), detail: "Requests marked as paid" },
+      { label: "Receipts", value: "0", detail: "Receipt records are reserved for gateway integration" },
+    ], activity: [`${assignedTasks} open finance tasks assigned to you`, `${pendingPayments} payment requests pending`] });
   },
 );
 

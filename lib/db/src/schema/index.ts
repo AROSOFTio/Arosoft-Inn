@@ -136,6 +136,21 @@ export const portfolioStatusEnum = pgEnum("portfolio_status", portfolioStatuses)
 export const portfolioStatusSchema = z.enum(portfolioStatuses);
 export type PortfolioStatus = z.infer<typeof portfolioStatusSchema>;
 
+export const paymentRequestStatuses = ["PENDING_PAYMENT", "PAID", "CANCELLED"] as const;
+export const paymentRequestStatusEnum = pgEnum("payment_request_status", paymentRequestStatuses);
+export const paymentRequestStatusSchema = z.enum(paymentRequestStatuses);
+export type PaymentRequestStatus = z.infer<typeof paymentRequestStatusSchema>;
+
+export const paymentMethods = ["MTN_MOMO", "AIRTEL_MONEY", "BANK_TRANSFER", "REQUEST_INVOICE"] as const;
+export const paymentMethodEnum = pgEnum("payment_method", paymentMethods);
+export const paymentMethodSchema = z.enum(paymentMethods);
+export type PaymentMethod = z.infer<typeof paymentMethodSchema>;
+
+export const paymentRequestTypes = ["SCRIPT_TEMPLATE", "COURSE", "WEBSITE_PACKAGE", "SYSTEM_PACKAGE", "SUPPORT_PACKAGE", "ACADEMY_PACKAGE"] as const;
+export const paymentRequestTypeEnum = pgEnum("payment_request_type", paymentRequestTypes);
+export const paymentRequestTypeSchema = z.enum(paymentRequestTypes);
+export type PaymentRequestType = z.infer<typeof paymentRequestTypeSchema>;
+
 export const usersTable = pgTable(
   "users",
   {
@@ -390,6 +405,23 @@ export const portfolioItemsTable = pgTable("portfolio_items", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const paymentRequestsTable = pgTable("payment_requests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  customerName: varchar("customer_name", { length: 160 }).notNull(),
+  customerEmail: varchar("customer_email", { length: 255 }).notNull(),
+  customerPhone: varchar("customer_phone", { length: 80 }),
+  organization: varchar("organization", { length: 180 }),
+  itemType: paymentRequestTypeEnum("item_type").notNull(),
+  itemId: uuid("item_id"),
+  itemName: varchar("item_name", { length: 220 }).notNull(),
+  amount: varchar("amount", { length: 80 }).notNull(),
+  method: paymentMethodEnum("method").notNull(),
+  status: paymentRequestStatusEnum("status").notNull().default("PENDING_PAYMENT"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const selectUserSchema = createSelectSchema(usersTable);
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
@@ -415,3 +447,4 @@ export type QuizQuestion = typeof quizQuestionsTable.$inferSelect;
 export type QuizAttempt = typeof quizAttemptsTable.$inferSelect;
 export type LearningTask = typeof learningTasksTable.$inferSelect;
 export type PortfolioItem = typeof portfolioItemsTable.$inferSelect;
+export type PaymentRequest = typeof paymentRequestsTable.$inferSelect;

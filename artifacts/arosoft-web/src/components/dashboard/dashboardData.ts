@@ -39,7 +39,7 @@ export const adminMenu: DashboardMenuItem[] = [
   { label: "Courses", icon: GraduationCap, href: "/admin/courses" },
   { label: "Student Progress", icon: BookOpen, href: "/admin/progress" },
   { label: "Portfolio", icon: FileArchive, href: "/admin/portfolio" },
-  { label: "Invoices", icon: CreditCard, href: "/admin/invoices" },
+  { label: "Payment Requests", icon: CreditCard, href: "/admin/invoices" },
   { label: "Compliance", icon: ShieldCheck, href: "/admin/compliance" },
   { label: "Settings", icon: Settings, href: "/admin/settings" },
 ];
@@ -66,7 +66,7 @@ export const clientMenu: DashboardMenuItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/client" },
   { label: "Requests", icon: Inbox, href: "/client/requests" },
   { label: "Projects", icon: BriefcaseBusiness, href: "/client/projects" },
-  { label: "Invoices", icon: CreditCard, href: "/client" },
+  { label: "Payment Requests", icon: CreditCard, href: "/client" },
   { label: "Support", icon: MessageSquare, href: "/contact" },
 ];
 
@@ -79,8 +79,8 @@ export const supportMenu: DashboardMenuItem[] = [
 
 export const financeMenu: DashboardMenuItem[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/finance" },
-  { label: "Invoices", icon: CreditCard, href: "/finance/tasks" },
-  { label: "Payments", icon: FileCheck, href: "/finance/tasks" },
+  { label: "Payment Requests", icon: CreditCard, href: "/admin/invoices" },
+  { label: "Payments", icon: FileCheck, href: "/admin/invoices" },
   { label: "Receipts", icon: Receipt, href: "/finance/tasks" },
 ];
 

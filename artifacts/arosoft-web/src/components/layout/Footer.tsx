@@ -9,10 +9,10 @@ export function Footer() {
         <div className="md:col-span-2">
           <Link href="/" className="flex flex-col leading-none mb-4" data-testid="footer-logo">
             <span className="text-[16px] font-bold tracking-tight text-white">AROSOFT</span>
-            <span className="text-[10px] font-medium tracking-widest text-primary uppercase mt-0.5">Innovations Ltd</span>
+            <span className="text-[10px] font-medium tracking-widest text-primary uppercase mt-0.5">Labs</span>
           </Link>
           <p className="text-slate-400 text-sm max-w-xs leading-relaxed mb-5">
-            Building digital systems, premium templates, AI-powered learning, and workflow tools for serious teams.
+            Selling business systems, websites, script templates, academy courses, portfolio delivery, and monthly support.
           </p>
           <div className="space-y-1.5 text-sm text-slate-400 mb-5">
             <p className="flex items-center gap-2">
@@ -21,7 +21,7 @@ export function Footer() {
             </p>
             <p className="flex items-center gap-2">
               <Mail size={13} className="text-slate-500 shrink-0" />
-              hello@arosoft.com
+              info@arosoftlabs.com
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -72,8 +72,8 @@ export function Footer() {
       </div>
 
       <div className="container mx-auto mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-        <p>&copy; {new Date().getFullYear()} AROSOFT Innovations Ltd. All rights reserved.</p>
-        <p>Kampala, Uganda &mdash; Monday &ndash; Saturday</p>
+        <p>&copy; {new Date().getFullYear()} AROSOFT Labs. Operated by AROSOFT Innovations Ltd.</p>
+        <p>arosoftlabs.com / Kampala, Uganda / Monday - Saturday</p>
       </div>
     </footer>
   );

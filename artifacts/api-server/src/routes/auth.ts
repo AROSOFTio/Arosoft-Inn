@@ -123,7 +123,7 @@ router.post("/forgot-password", async (req, res) => {
 
   if (userRecord?.isActive) {
     const token = signPasswordResetToken(userRecord.id);
-    const baseUrl = process.env.FRONTEND_URL || "https://new.arosoft.io";
+    const baseUrl = process.env.FRONTEND_URL || "https://arosoftlabs.com";
     await sendPasswordResetEmail({
       to: userRecord.email,
       name: userRecord.name,

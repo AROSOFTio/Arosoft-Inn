@@ -30,12 +30,12 @@ const sections = [
   {
     title: "Your Rights",
     content:
-      "You have the right to access, correct, or request deletion of your personal data at any time. To exercise these rights, contact us at privacy@arosof.com.",
+      "You have the right to access, correct, or request deletion of your personal data at any time. To exercise these rights, contact us at support@arosoftlabs.com.",
   },
   {
     title: "Contact Us",
     content:
-      "If you have any questions about this Privacy Policy, please contact us at privacy@arosof.com or write to us at AROSOFT Innovations Ltd, Kampala, Uganda.",
+      "If you have any questions about this Privacy Policy, please contact us at support@arosoftlabs.com or write to AROSOFT Innovations Ltd, Kampala, Uganda.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function Privacy() {
       <section className="py-10 px-4 flex-1">
         <div className="container mx-auto max-w-2xl">
           <p className="text-slate-600 leading-relaxed mb-10">
-            AROSOFT Innovations Ltd ("we", "us", or "our") is committed to protecting your personal information. This
+            AROSOFT Labs is operated by AROSOFT Innovations Ltd ("we", "us", or "our"). We are committed to protecting your personal information. This
             Privacy Policy explains how we collect, use, and safeguard your data when you use our website and services.
           </p>
 

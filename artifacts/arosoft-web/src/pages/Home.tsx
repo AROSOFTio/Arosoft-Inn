@@ -7,6 +7,7 @@ import { SystemCard } from "@/components/ui/SystemCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { PaymentRequestDialog } from "@/components/payments/PaymentRequestDialog";
 import { Link } from "wouter";
 import { ArrowRight, Building2, Code2, GraduationCap, Workflow, Video, BookOpen, ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -47,6 +48,39 @@ interface FeaturedCourse {
   description: string;
   isPremium: boolean;
 }
+
+const packages = [
+  {
+    type: "WEBSITE_PACKAGE" as const,
+    title: "Website Launch",
+    price: "From $250",
+    description: "Premium business websites, landing pages, portfolios, and company profiles.",
+  },
+  {
+    type: "SYSTEM_PACKAGE" as const,
+    title: "Business System",
+    price: "From $800",
+    description: "Dashboards, portals, CRMs, booking systems, and workflow automation.",
+  },
+  {
+    type: "SUPPORT_PACKAGE" as const,
+    title: "Monthly Support",
+    price: "From $99/mo",
+    description: "Maintenance, updates, backups, monitoring, and technical support.",
+  },
+  {
+    type: "ACADEMY_PACKAGE" as const,
+    title: "Academy Access",
+    price: "From $20",
+    description: "Practical courses for AI, software, websites, automation, and digital skills.",
+  },
+  {
+    type: "SCRIPT_TEMPLATE" as const,
+    title: "Script Templates",
+    price: "From $5",
+    description: "Ready-made templates, scripts, UI kits, and deployable starter packs.",
+  },
+];
 
 export default function Home() {
   const [featuredSystems, setFeaturedSystems] = useState<FeaturedSystem[]>([]);
@@ -113,23 +147,33 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="max-w-2xl">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-medium mb-3 text-xs">
-                  Next-generation digital infrastructure
+                  AROSOFT Labs for digital revenue systems
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 leading-tight text-slate-900">
-                  Build. Automate. Learn. Scale.
+                  Buy, build, and scale digital products.
                 </h1>
                 <p className="text-base text-slate-600 mb-5 leading-relaxed max-w-lg">
-                  Digital systems, templates, AI learning, and workflow tools built for serious teams.
+                  Business systems, websites, script templates, academy courses, portfolio delivery, and monthly support for growing teams.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Link href="/systems">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <Link href="/contact">
                     <Button size="lg" className="h-11 px-7 w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium" data-testid="button-explore-systems">
-                      Explore Systems <ArrowRight className="ml-2 h-4 w-4" />
+                      Request a System <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/scripts">
+                    <Button variant="outline" size="lg" className="h-11 px-7 w-full sm:w-auto border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">
+                      Buy Script
                     </Button>
                   </Link>
                   <Link href="/academy">
                     <Button variant="outline" size="lg" className="h-11 px-7 w-full sm:w-auto border-slate-200 text-slate-900 hover:bg-slate-100 font-medium" data-testid="button-join-academy">
                       Join Academy
+                    </Button>
+                  </Link>
+                  <Link href="/portfolio">
+                    <Button variant="outline" size="lg" className="h-11 px-7 w-full sm:w-auto border-slate-200 text-slate-900 hover:bg-slate-100 font-medium">
+                      View Portfolio
                     </Button>
                   </Link>
                 </div>
@@ -142,14 +186,40 @@ export default function Home() {
         {/* What We Build */}
         <section className="py-8 px-4 md:px-6 bg-white">
           <div className="container mx-auto">
-            <SectionHeader title="What We Build" />
+            <SectionHeader title="What You Can Buy" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              <FeatureCard icon={<Building2 />} title="Business Systems" description="Tailor-made management systems and client portals." />
-              <FeatureCard icon={<Code2 />} title="Script Templates" description="Production-ready codebase templates and automated scripts." />
-              <FeatureCard icon={<GraduationCap />} title="AI Academy" description="High-quality learning paths for digital skills." />
+              <FeatureCard icon={<Building2 />} title="Business Systems" description="Tailor-made management systems, portals, and automation tools." />
+              <FeatureCard icon={<Code2 />} title="Websites & Templates" description="Premium websites plus production-ready code templates." />
+              <FeatureCard icon={<GraduationCap />} title="Academy Courses" description="Paid and free learning paths for practical digital skills." />
               <FeatureCard icon={<Workflow />} title="Workflow Tools" description="Pre-configured project management workflows." />
-              <FeatureCard icon={<Video />} title="Premium Videos" description="High-impact brand storytelling and video editing." />
-              <FeatureCard icon={<BookOpen />} title="Student Support" description="Dedicated technical support and comprehensive documentation." />
+              <FeatureCard icon={<Video />} title="Portfolio Projects" description="Delivered websites, systems, videos, and client-facing products." />
+              <FeatureCard icon={<BookOpen />} title="Monthly Support" description="Maintenance, updates, deployment help, and technical support." />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-8 px-4 md:px-6 bg-slate-50 border-y border-gray-100">
+          <div className="container mx-auto">
+            <SectionHeader title="Packages & Pricing" description="Start with a request now. Finance confirms payment manually before delivery." />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5">
+              {packages.map((item) => (
+                <Card key={item.title} className="flex flex-col border-gray-200 bg-white shadow-sm">
+                  <CardContent className="flex-1 p-5">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">{item.price}</p>
+                    <h3 className="mt-2 text-lg font-bold text-slate-950">{item.title}</h3>
+                    <p className="mt-2 text-sm text-slate-600">{item.description}</p>
+                  </CardContent>
+                  <CardFooter className="p-5 pt-0">
+                    <PaymentRequestDialog
+                      itemType={item.type}
+                      itemName={item.title}
+                      amount={item.price}
+                      triggerLabel="Request Payment"
+                      triggerClassName="w-full bg-blue-600 text-white hover:bg-blue-700"
+                    />
+                  </CardFooter>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
@@ -201,9 +271,14 @@ export default function Home() {
                     <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
                       <Button variant="outline" className="w-full border-slate-200 text-slate-900">Preview</Button>
                     </a>
-                    <Link href="/client/requests" className="w-full">
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
-                    </Link>
+                    <PaymentRequestDialog
+                      itemType="SCRIPT_TEMPLATE"
+                      itemId={script.id}
+                      itemName={script.title}
+                      amount={script.price}
+                      triggerLabel="Buy Now"
+                      triggerClassName="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    />
                   </CardFooter>
                 </Card>
               ))}

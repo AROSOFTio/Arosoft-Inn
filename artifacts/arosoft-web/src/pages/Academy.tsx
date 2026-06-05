@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
-import { Brain, CheckCircle2, Clock, Lock, PlayCircle } from "lucide-react";
+import { Brain, CheckCircle2, Clock, PlayCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SectionHeader } from "@/components/layout/SectionHeader";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PaymentRequestDialog } from "@/components/payments/PaymentRequestDialog";
 
 interface Course {
   id: string;
@@ -59,7 +60,7 @@ export default function Academy() {
               Learn practical digital skills.
             </h1>
             <p className="text-base text-slate-600 mb-5 max-w-2xl mx-auto">
-              Browse free and premium courses, enroll as a student, view lessons, complete quizzes, and track progress.
+              Buy premium training or start free lessons, then track progress through the student dashboard.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="#courses">
@@ -102,12 +103,23 @@ export default function Academy() {
                     </div>
                   </CardContent>
                   <CardFooter className="pt-0">
-                    <Link href={`/academy/${course.slug}`} className="w-full">
-                      <Button className="w-full group font-medium bg-white text-slate-900 border border-slate-200 hover:bg-slate-50">
-                        {course.isPremium && !course.isFree ? <Lock className="mr-2 h-4 w-4 text-slate-500" /> : <PlayCircle className="mr-2 h-4 w-4 text-slate-500" />}
-                        View Course
-                      </Button>
-                    </Link>
+                    {course.isPremium && !course.isFree ? (
+                      <PaymentRequestDialog
+                        itemType="COURSE"
+                        itemId={course.id}
+                        itemName={course.title}
+                        amount={course.price}
+                        triggerLabel="Request Access"
+                        triggerClassName="w-full bg-blue-600 text-white hover:bg-blue-700"
+                      />
+                    ) : (
+                      <Link href={`/academy/${course.slug}`} className="w-full">
+                        <Button className="w-full group font-medium bg-white text-slate-900 border border-slate-200 hover:bg-slate-50">
+                          <PlayCircle className="mr-2 h-4 w-4 text-slate-500" />
+                          View Course
+                        </Button>
+                      </Link>
+                    )}
                   </CardFooter>
                 </Card>
               ))}
@@ -164,7 +176,7 @@ export default function Academy() {
                 </div>
                 <div className="rounded-lg bg-blue-50 border border-blue-100 p-4">
                   <p className="text-sm font-semibold text-blue-700">Premium access</p>
-                  <p className="mt-1 text-sm text-slate-700">Premium courses are visible but locked until payment is added.</p>
+                  <p className="mt-1 text-sm text-slate-700">Premium courses use a payment request first; finance confirms access after payment.</p>
                 </div>
               </div>
             </div>

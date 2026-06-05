@@ -125,7 +125,7 @@ export function DashboardPageShell({
       >
         <div className="flex h-16 items-center justify-between border-b border-slate-200 px-5">
           <Link href={getDashboardPath(user?.role || allowedRoles[0])} className="flex flex-col leading-none">
-            <span className="text-sm font-bold tracking-tight text-slate-950">AROSOFT</span>
+            <span className="text-sm font-bold tracking-tight text-slate-950">AROSOFT Labs</span>
             <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-widest text-blue-600">Internal</span>
           </Link>
           <button

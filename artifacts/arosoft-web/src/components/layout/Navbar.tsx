@@ -28,12 +28,12 @@ export function Navbar() {
       <div className="w-full border-b border-slate-100 bg-[#F8FAFC]">
         <div className="container mx-auto flex h-8 items-center justify-between px-4 md:px-6">
           <a
-            href="mailto:hello@arosoft.com"
+            href="mailto:info@arosoftlabs.com"
             className="hidden md:flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 transition-colors"
             data-testid="utility-email"
           >
             <Mail size={11} />
-            hello@arosoft.com
+            info@arosoftlabs.com
           </a>
           <div className="flex items-center gap-4 ml-auto">
             {utilityLinks.map((link) => (
@@ -99,7 +99,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-2.5 shrink-0" data-testid="nav-logo">
             <div className="flex flex-col leading-none">
               <span className="text-[15px] font-bold tracking-tight text-slate-900">AROSOFT</span>
-              <span className="text-[10px] font-medium tracking-widest text-primary uppercase">Innovations</span>
+              <span className="text-[10px] font-medium tracking-widest text-primary uppercase">Labs</span>
             </div>
           </Link>
 

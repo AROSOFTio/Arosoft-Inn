@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useRoute } from "wouter";
-import { Lock, PlayCircle } from "lucide-react";
+import { PlayCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PaymentRequestDialog } from "@/components/payments/PaymentRequestDialog";
 import { getAuthToken } from "@/lib/auth";
 
 interface Course {
@@ -92,10 +93,14 @@ export default function CourseDetail() {
                 <p className="mt-3 text-sm text-slate-500">{course.duration} / {course.price}</p>
                 <div className="mt-5 flex flex-col sm:flex-row gap-3">
                   {course.isPremium && !course.isFree ? (
-                    <Button disabled className="bg-slate-200 text-slate-500">
-                      <Lock className="mr-2 h-4 w-4" />
-                      Premium Locked
-                    </Button>
+                    <PaymentRequestDialog
+                      itemType="COURSE"
+                      itemId={course.id}
+                      itemName={course.title}
+                      amount={course.price}
+                      triggerLabel="Request Premium Access"
+                      triggerClassName="bg-blue-600 text-white hover:bg-blue-700"
+                    />
                   ) : (
                     <Button onClick={enroll} className="bg-blue-600 hover:bg-blue-700 text-white">
                       <PlayCircle className="mr-2 h-4 w-4" />

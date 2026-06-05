@@ -6,8 +6,8 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { PaymentRequestDialog } from "@/components/payments/PaymentRequestDialog";
 import { Search, CheckCircle2, Code2 } from "lucide-react";
-import { Link } from "wouter";
 import { useEffect, useMemo, useState } from "react";
 
 interface ScriptTemplate {
@@ -70,10 +70,10 @@ export default function Scripts() {
         <section className="py-8 md:py-10 px-4 md:px-6 bg-slate-50 border-b border-gray-100">
           <div className="container mx-auto text-center">
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
-              Premium scripts and templates.
+              Buy premium scripts and templates.
             </h1>
             <p className="text-base text-slate-600 max-w-2xl mx-auto mb-5">
-              Accelerate your development with production-ready code, beautiful UI kits, and automated workflows.
+              Production-ready code, UI kits, and automation packs with manual payment confirmation before delivery.
             </p>
             
             <div className="max-w-xl mx-auto relative">
@@ -130,9 +130,14 @@ export default function Scripts() {
                     <a className="w-full" href={script.previewUrl || "/scripts"} target={script.previewUrl ? "_blank" : undefined} rel="noreferrer">
                       <Button variant="outline" className="w-full border-slate-200 text-slate-900 hover:bg-slate-50 text-sm">Preview</Button>
                     </a>
-                    <Link href="/client/requests" className="w-full">
-                      <Button className="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white">Buy Now</Button>
-                    </Link>
+                    <PaymentRequestDialog
+                      itemType="SCRIPT_TEMPLATE"
+                      itemId={script.id}
+                      itemName={script.title}
+                      amount={script.price}
+                      triggerLabel="Buy Now"
+                      triggerClassName="w-full text-sm bg-blue-600 hover:bg-blue-700 text-white"
+                    />
                   </CardFooter>
                 </Card>
               ))}

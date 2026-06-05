@@ -22,12 +22,12 @@ function smtpConfigured() {
 
 function fromAddress() {
   const email = process.env.SMTP_FROM_EMAIL;
-  const name = process.env.SMTP_FROM_NAME || "AROSOFT Innovations";
+  const name = process.env.SMTP_FROM_NAME || "AROSOFT Labs";
   return name && email ? `${name} <${email}>` : email;
 }
 
 function adminInbox() {
-  return process.env.SMTP_FROM_EMAIL || "hello@arosoft.com";
+  return process.env.SMTP_FROM_EMAIL || "info@arosoftlabs.com";
 }
 
 async function sendEmail(input: SendEmailInput): Promise<EmailResult> {
@@ -77,14 +77,14 @@ function renderEmail(title: string, body: string[]) {
       <div style="max-width:640px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:24px">
         <h1 style="margin:0 0 16px;color:#0f172a;font-size:22px">${title}</h1>
         ${body.map(paragraph).join("")}
-        <p style="margin:20px 0 0;color:#64748b;font-size:12px">AROSOFT Innovations</p>
+        <p style="margin:20px 0 0;color:#64748b;font-size:12px">AROSOFT Labs / Operated by AROSOFT Innovations Ltd</p>
       </div>
     </div>
   `;
 }
 
 export async function sendContactConfirmationEmail(input: { to: string; name: string; subject: string }) {
-  const text = `Hello ${input.name},\n\nWe received your message: ${input.subject}.\nOur team will review it and respond from the support inbox.\n\nAROSOFT Innovations`;
+  const text = `Hello ${input.name},\n\nWe received your message: ${input.subject}.\nOur team will review it and respond from the support inbox.\n\nAROSOFT Labs`;
   return sendEmail({
     to: input.to,
     subject: "We received your message",
@@ -110,7 +110,7 @@ export async function sendClientRequestConfirmationEmail(input: { to: string; na
   return sendEmail({
     to: input.to,
     subject: "Your request was received",
-    text: `Hello ${input.name},\n\nYour request "${input.title}" was received and is ready for admin review.\n\nAROSOFT Innovations`,
+    text: `Hello ${input.name},\n\nYour request "${input.title}" was received and is ready for admin review.\n\nAROSOFT Labs`,
     html: renderEmail("Your request was received", [
       `Hello ${input.name},`,
       `Your request "${input.title}" was received and is ready for admin review.`,

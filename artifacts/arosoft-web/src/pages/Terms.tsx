@@ -11,7 +11,7 @@ export default function Terms() {
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-3">Legal</p>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Terms of Service</h1>
             <p className="mt-3 text-slate-600">
-              These terms explain how AROSOFT Innovations provides websites, systems, scripts, academy support, and related services.
+              These terms explain how AROSOFT Labs provides websites, systems, scripts, academy access, support, and related services. AROSOFT Labs is operated by AROSOFT Innovations Ltd.
             </p>
           </div>
         </section>
@@ -21,13 +21,13 @@ export default function Terms() {
             <div>
               <h2 className="text-xl font-bold text-slate-950 mb-2">Service Requests</h2>
               <p>
-                Requests submitted through the platform are reviewed by AROSOFT staff before work begins. Quotes, timelines, and project scope are confirmed before delivery starts.
+                Requests submitted through the platform are reviewed by AROSOFT Labs staff before work begins. Quotes, timelines, and project scope are confirmed before delivery starts.
               </p>
             </div>
             <div>
               <h2 className="text-xl font-bold text-slate-950 mb-2">Templates and Scripts</h2>
               <p>
-                Published templates and scripts are offered for implementation support, customization, or later payment integration. Download and payment automation will be added in a future sprint.
+                Published templates, scripts, courses, and packages can be requested through manual payment methods. Gateway automation is not active yet.
               </p>
             </div>
             <div>
@@ -39,7 +39,7 @@ export default function Terms() {
             <div>
               <h2 className="text-xl font-bold text-slate-950 mb-2">Contact</h2>
               <p>
-                For questions about these terms, contact AROSOFT Innovations at hello@arosoft.com.
+                For questions about these terms, contact AROSOFT Labs at info@arosoftlabs.com.
               </p>
             </div>
           </div>

@@ -38,6 +38,7 @@ import AdminScripts from "@/pages/admin/AdminScripts";
 import AdminCourses from "@/pages/admin/AdminCourses";
 import AdminPortfolio from "@/pages/admin/AdminPortfolio";
 import AdminStudentProgress from "@/pages/admin/AdminStudentProgress";
+import AdminPaymentRequests from "@/pages/admin/AdminPaymentRequests";
 import AdminComingSoon from "@/pages/admin/AdminComingSoon";
 import StaffTasks from "@/pages/staff/StaffTasks";
 import TaskDetail from "@/pages/tasks/TaskDetail";
@@ -75,7 +76,7 @@ function Router() {
       <Route path="/admin/progress" component={AdminStudentProgress} />
       <Route path="/admin/team" component={AdminComingSoon} />
       <Route path="/admin/portfolio" component={AdminPortfolio} />
-      <Route path="/admin/invoices" component={AdminComingSoon} />
+      <Route path="/admin/invoices" component={AdminPaymentRequests} />
       <Route path="/admin/compliance" component={AdminComingSoon} />
       <Route path="/admin/settings" component={AdminComingSoon} />
       <Route path="/admin" component={AdminDashboard} />

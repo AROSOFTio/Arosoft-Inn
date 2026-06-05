@@ -35,14 +35,14 @@ export default function About() {
       <section className="bg-[#F8FAFC] border-b border-slate-100 py-10 md:py-14 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <span className="inline-block mb-3 text-xs font-semibold tracking-widest text-primary uppercase">
-            About AROSOFT
+            About AROSOFT Labs
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-5">
             We build digital infrastructure for serious teams.
           </h1>
           <p className="text-slate-600 text-lg leading-relaxed">
-            AROSOFT Innovations is a Kampala-based digital product company. We design and deliver systems,
-            templates, learning platforms, and workflow tools — built to last and built to scale.
+            AROSOFT Labs is the public product and service brand operated by AROSOFT Innovations Ltd. We sell and deliver systems,
+            websites, templates, academy courses, portfolio projects, and support packages.
           </p>
         </div>
       </section>
@@ -57,7 +57,7 @@ export default function About() {
                 Equip every team and learner with the tools they need.
               </h2>
               <p className="text-slate-600 leading-relaxed">
-                We started AROSOFT Innovations to bridge the gap between complex enterprise software and the practical
+                We started AROSOFT Labs to bridge the gap between complex enterprise software and the practical
                 needs of growing businesses and students across East Africa and beyond.
               </p>
             </div>

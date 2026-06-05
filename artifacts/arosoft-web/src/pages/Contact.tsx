@@ -81,10 +81,10 @@ export default function Contact() {
               <div className="lg:col-span-2 space-y-6">
                 <div>
                   <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 text-slate-900">
-                    Talk to AROSOFT
+                    Talk to AROSOFT Labs
                   </h1>
                   <p className="text-lg text-slate-600">
-                    Have a project in mind, need technical support, or want to explore our academy? We're here to help.
+                    Need a business system, website, script template, academy course, or monthly support? We're here to help.
                   </p>
                 </div>
 
@@ -96,9 +96,9 @@ export default function Contact() {
                     <div className="pt-1">
                       <h4 className="font-bold text-slate-900 mb-1">Email Us</h4>
                       <div className="space-y-1 text-sm text-slate-600">
-                        <p>hello@arosoft.com (General)</p>
-                        <p>support@arosof.com (Support)</p>
-                        <p>projects@arosof.com (Projects)</p>
+                        <p>info@arosoftlabs.com (General)</p>
+                        <p>support@arosoftlabs.com (Support)</p>
+                        <p>sales@arosoftlabs.com (Sales)</p>
                       </div>
                     </div>
                   </div>
@@ -313,7 +313,7 @@ export default function Contact() {
                               </FormControl>
                               <div className="space-y-1 leading-none">
                                 <FormLabel className="text-sm font-medium text-slate-700">
-                                  I agree that AROSOFT Innovations may contact me about this request and store my details according to their privacy policy.
+                                  I agree that AROSOFT Labs may contact me about this request and store my details according to their privacy policy.
                                 </FormLabel>
                               </div>
                             </FormItem>

@@ -29,7 +29,9 @@ services:
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       SEED_USER_PASSWORD: ${SEED_USER_PASSWORD:?SEED_USER_PASSWORD is required}
       FRONTEND_URL: ${FRONTEND_URL:-https://arosoftlabs.com}
-      CORS_ORIGINS: ${CORS_ORIGINS:-https://arosoftlabs.com,https://www.arosoftlabs.com}
+      API_URL: ${API_URL:-https://arosoftlabs.com/api}
+      VITE_API_URL: ${VITE_API_URL:-/api}
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://arosoftlabs.com}
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_PORT: ${SMTP_PORT:-}
       SMTP_USER: ${SMTP_USER:-}

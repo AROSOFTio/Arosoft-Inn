@@ -1,131 +1,33 @@
-# Docker Deployment for new.arosoft.io
+# Deployment
 
-Use the existing aaPanel website directory:
+This repository is configured for Coolify as a single Dockerfile application.
 
-```sh
-cd /www/wwwroot/new.arosoft.io
-```
+## Coolify
 
-Do not deploy as `root`. Use the normal `arosoft` user with `sudo`.
-
-## Pull Code
-
-First setup in the existing directory:
-
-```sh
-git init
-git remote add origin https://github.com/AROSOFTio/Arosoft-Inn.git
-git pull origin main
-```
-
-Updates:
-
-```sh
-cd /www/wwwroot/new.arosoft.io
-git pull origin main
-```
-
-## Environment
-
-Create `.env` once:
-
-```sh
-cp .env.production.example .env
-nano .env
-```
-
-Important ports:
-
-```env
-API_PORT=5001
-FRONTEND_PORT=4020
-```
-
-Keep secrets private. Never commit `.env`.
-
-## Docker
-
-```sh
-sudo docker compose build
-sudo docker compose up -d
-sudo docker compose ps
-```
-
-Expected ports:
+Create one application from this Git repository:
 
 ```text
-web: 127.0.0.1:4020 -> 80
-api: 127.0.0.1:5001 -> 5000
-postgres: internal only
+Build Pack: Dockerfile
+Dockerfile: ./Dockerfile
+Docker target: coolify, or leave target empty so Docker builds the final stage
+Port: 80
+Health Check Path: /api/healthz
+Domain: https://arosoftlabs.com
 ```
 
-The API container runs:
+Create a PostgreSQL database in Coolify or attach an external PostgreSQL database, then set `DATABASE_URL` on the application.
 
-```sh
-pnpm --filter @workspace/db run push
-pnpm --filter @workspace/api-server run seed:users
-pnpm --filter @workspace/api-server run start
-```
-
-## aaPanel Nginx
-
-This server does not use `/etc/nginx/sites-available`.
-
-Install the vhost config here:
-
-```sh
-cd /www/wwwroot/new.arosoft.io
-sudo ls -l /www/server/panel/vhost/cert/new.arosoft.io/fullchain.pem /www/server/panel/vhost/cert/new.arosoft.io/privkey.pem
-sudo cp nginx/new.arosoft.io.conf /www/server/panel/vhost/nginx/new.arosoft.io.conf
-sudo /etc/init.d/nginx configtest
-sudo /etc/init.d/nginx reload
-```
-
-If the cert files do not exist, issue SSL in aaPanel first, then copy this config.
-
-Proxy targets:
-
-- `/` -> `http://127.0.0.1:4020/`
-- `/api/` -> `http://127.0.0.1:5001/api/`
-- `/uploads/` -> `http://127.0.0.1:5001/uploads/`
-
-The config also serves:
+Use `coolify.env.example` for the required environment variables:
 
 ```text
-/.well-known/acme-challenge/
+FRONTEND_URL=https://arosoftlabs.com
+API_URL=https://arosoftlabs.com/api
+VITE_API_URL=/api
+CORS_ORIGINS=https://arosoftlabs.com
 ```
 
-from:
+The final `coolify` Docker image starts the API server on `127.0.0.1:5000` and nginx on port `80`. nginx serves the frontend and proxies `/api/` plus `/uploads/` to the local API process. There is no `api` upstream or separate API container in the Coolify application.
 
-```text
-/www/wwwroot/new.arosoft.io/.well-known/acme-challenge/
-```
+## Legacy Compose
 
-This is required for aaPanel Let's Encrypt file verification.
-
-## Cloudflare SSL
-
-For aaPanel SSL issuance:
-
-1. Cloudflare DNS record `new.arosoft.io` must point to `95.111.234.34`.
-2. If aaPanel file verification fails, temporarily set Cloudflare proxy to DNS only.
-3. Run aaPanel SSL -> Let's Encrypt -> File Verification.
-4. After SSL is issued, turn Cloudflare proxy back on if desired.
-
-## Checks
-
-```sh
-curl -I http://127.0.0.1:4020
-curl http://127.0.0.1:5001/api/healthz
-curl -I http://new.arosoft.io
-curl http://new.arosoft.io/api/healthz
-```
-
-After SSL:
-
-```sh
-sudo grep -R "ssl_certificate" -n /www/server/panel/vhost/nginx/new.arosoft.io.conf
-echo | openssl s_client -servername new.arosoft.io -connect new.arosoft.io:443 2>/dev/null | openssl x509 -noout -subject -issuer -dates
-curl -I https://new.arosoft.io
-curl https://new.arosoft.io/api/healthz
-```
+`docker-compose.yml` remains available for non-Coolify deployments that intentionally run separate `postgres`, `api`, and `web` services. Coolify single-Dockerfile deployments should not use compose for this app unless you explicitly convert the Coolify project to a compose-based service stack.

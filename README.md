@@ -7,7 +7,7 @@ Production app for the AROSOFT Innovations website, internal dashboards, academy
 - Web: React, TypeScript, Vite
 - API: Express, TypeScript
 - Database: PostgreSQL with Drizzle
-- Deployment: Docker Compose, aaPanel/OpenResty Nginx reverse proxy
+- Deployment: Coolify single Dockerfile app, nginx, Node API, PostgreSQL
 
 ## Environment
 
@@ -49,24 +49,15 @@ pnpm run build
 
 ## Production Deploy
 
-Run from the VPS project directory:
+Deploy on Coolify as a single Dockerfile application. Use port `80`, health check path `/api/healthz`, and domain `https://arosoftlabs.com`.
 
-```sh
-cd /www/wwwroot/new.arosoft.io
-git pull origin main
-sudo docker compose build
-sudo docker compose up -d
-sudo docker compose ps
-sudo docker compose logs api --tail=80
-```
-
-The API container runs database schema push and seed users before startup.
+The single container runs nginx and the API server together. nginx serves the frontend and proxies `/api/` plus `/uploads/` to the local API process on port `5000`.
 
 ## Ports
 
-- Web: `127.0.0.1:4020` to container port `80`
-- API: `127.0.0.1:5001` to container port `5000`
-- PostgreSQL: internal Docker network only
+- Public web/API entrypoint: container port `80`
+- API: internal container port `5000`
+- PostgreSQL: provisioned separately in Coolify or via compose for legacy deployments
 
 ## Security Notes
 
@@ -81,7 +72,6 @@ The API container runs database schema push and seed users before startup.
 ## Health Checks
 
 ```sh
-curl http://127.0.0.1:4020
-curl http://127.0.0.1:5001/api/healthz
-curl https://new.arosoft.io/api/healthz
+curl https://arosoftlabs.com
+curl https://arosoftlabs.com/api/healthz
 ```

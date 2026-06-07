@@ -1,0 +1,15 @@
+.git
+.sixth
+node_modules
+**/node_modules
+**/dist
+*.tsbuildinfo
+**/*.tsbuildinfo
+.env
+.env.*
+!.env.example
+!.env.production.example
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
